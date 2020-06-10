@@ -68,3 +68,52 @@ int BSTIterator::next() {
  * BSTIterator i = BSTIterator(root);
  * while (i.hasNext()) cout << i.next();
  */
+
+//defination for the reverse irerator
+class ReverseBSTIterator
+{
+private:
+    TreeNode* curr;
+    stack<TreeNode*> S;
+public:
+    ReverseBSTIterator(TreeNode *);
+    ~ReverseBSTIterator();
+    int next();
+    bool hasNext();
+};
+//constructor
+ReverseBSTIterator::ReverseBSTIterator(TreeNode *root) {
+    curr=root;
+}
+
+/** return whether we have a next largest number */
+bool ReverseBSTIterator::hasNext() {
+    if(curr==NULL&&S.empty())
+    {
+        return false;
+    }
+    return true;
+}
+
+/** return the next largest number */
+int ReverseBSTIterator::next() {
+    int value;
+    while(1)
+    {
+        if(curr!=NULL)
+        {
+            S.push(curr);
+            curr=curr->right;
+            continue;
+        }
+        if(S.empty())
+        {
+            break;
+        }
+        value=S.top()->val;
+        curr=S.top()->left;
+        S.pop();
+        break;
+    }
+    return value;
+}
