@@ -1,6 +1,11 @@
 //dp solution to maximum length arithmatic subsequence
 //similar to longest incresing subsequencee btt with the diff element for which map is used
 
+#include<iostream>
+#include<vector>
+#include<unordered_map>
+using namespace std;
+
 int solve(const vector<int> &A) {
     int n=A.size();
     if(n==0||n==1||n==2)//base cases
