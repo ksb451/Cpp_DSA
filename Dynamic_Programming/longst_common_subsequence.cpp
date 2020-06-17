@@ -123,11 +123,11 @@ int main() {
         b=B.length();
         //cout<<A<<a<<B<<b<<endl;
         vector<vector<int>>dp(a+1,vector<int>(b+1,-1));
-        //length of longest common substring
+        //length of longest common subsequence
         cout<<recursive(A,B,a,b)<<endl;
         cout<<topdown(A,B,a,b,dp)<<endl;
         cout<<bottomup(A,B,a,b,dp)<<endl;
-        //print the longest common substring;
+        //print the longest common subsequence;
         map<pair<int,int>,pair<int,string>>dps;
         cout<<lcsubstring(A,B,a,b,dps)<<endl;
     }
