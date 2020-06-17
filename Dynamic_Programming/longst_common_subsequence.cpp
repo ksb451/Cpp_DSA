@@ -1,6 +1,7 @@
 #include<string>
 #include<vector>
 #include<iostream>
+#include<map>
 using namespace std;
 //basic recursive function with huge overhead 
 int recursive(string x,string y,int n,int m)
@@ -64,6 +65,48 @@ int bottomup(string &x,string &y,int n,int m,vector<vector<int>>&dp)
     return dp[n][m];
 }
 
+pair<int,string> max(pair<int,string>a1,pair<int,string>a2)
+{
+    if(a1.first>a2.first)
+    {
+        return a1;
+    }
+    else if(a1.first==a2.first)
+    {
+        if(a1.second<a2.second)//to get the lexicographically smallest string
+            return a1;
+    }
+    return a2;
+}
+//function to print the longest common substring
+//same as the previous function called bottom up btt with storing string
+string lcsubstring(string &A,string &B,int a,int b,map<pair<int,int>,pair<int,string>>&dps)//using a map for storing string
+{
+    for(int i=0;i<=a;i++)
+    {
+        for(int j=0;j<=b;j++)
+        {
+            if(i==0||j==0)
+            {
+                dps[make_pair(i,j)]=make_pair(0,"");//empty string for length zero
+            }
+            else
+            {
+                if(A[i-1]==B[j-1])//if a letter matches 
+                {
+                    dps[make_pair(i,j)]=make_pair(dps[make_pair(i-1,j-1)].first+1,
+                                        dps[make_pair(i-1,j-1)].second+A[i-1]);//take care of order while adding or else will get the reverse string
+                }
+                else
+                {
+                    dps[make_pair(i,j)]=max(dps[make_pair(i-1,j)],dps[make_pair(i,j-1)]);//if nott than compare //defined a aompare function for that
+                }
+            }
+        }
+    }
+    return dps[make_pair(a,b)].second;
+}
+
 int main() {
     int t;
     cin>>t;
@@ -80,9 +123,13 @@ int main() {
         b=B.length();
         //cout<<A<<a<<B<<b<<endl;
         vector<vector<int>>dp(a+1,vector<int>(b+1,-1));
+        //length of longest common substring
         cout<<recursive(A,B,a,b)<<endl;
         cout<<topdown(A,B,a,b,dp)<<endl;
         cout<<bottomup(A,B,a,b,dp)<<endl;
+        //print the longest common substring;
+        map<pair<int,int>,pair<int,string>>dps;
+        cout<<lcsubstring(A,B,a,b,dps)<<endl;
     }
 	//code
 	return 0;
