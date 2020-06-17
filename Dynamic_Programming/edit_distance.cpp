@@ -24,7 +24,7 @@ int editdistance(string &A,string &B,int n,int m)
             }
             else
             {
-                dp[i][j]=1+min(dp[i-1][j],min(dp[i][j-1],dp[i-1][j-1]));
+                dp[i][j]=1+min(dp[i-1][j],min(dp[i][j-1],dp[i-1][j-1]));//3 cases insertion deletion ans substitution so if substitution not allowed than remove the substitution part
             }
         }
     }
