@@ -1,3 +1,7 @@
+#include<vector>
+#include<string>
+#include<iostream>
+using namespace std;
 bool issafe(vector<string>&currform,int row,int i,int A)
 {
     for(int j=row;j>=0;j--)
@@ -43,7 +47,7 @@ void backtrack(vector<vector<string>>&ans,vector<string>currform,int row,int A)
 }
 
 
-vector<vector<string> > Solution::solveNQueens(int A) {
+vector<vector<string> > solveNQueens(int A) {
     vector<vector<string>>ans;
     if(A==1)
     {
