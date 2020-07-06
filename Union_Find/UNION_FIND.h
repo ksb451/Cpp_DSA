@@ -1,6 +1,6 @@
 //union find
-#ifndef UNION_FIND.H
-#define UNION_FIND.H
+#ifndef UNION_FIND_H
+#define UNION_FIND_H
 #include<iostream>
 #include<vector>
 using namespace std;
