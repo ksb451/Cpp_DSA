@@ -1,6 +1,6 @@
 #include<iostream>
 #include<vector>
-
+using namespace std;
 class Solution {
 public:
     int find_pivot(vector<int>&nums)
