@@ -1,20 +1,21 @@
-#include<stack>
-#include<iostream>
+#include <stack>
+#include <iostream>
 using namespace std;
 //Definition for binary tree
-struct TreeNode {
+struct TreeNode
+{
     int val;
     TreeNode *left;
     TreeNode *right;
     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
- 
 
 class BSTIterator
 {
 private:
-    TreeNode* curr;
-    stack<TreeNode*> S;
+    TreeNode *curr;
+    stack<TreeNode *> S;
+
 public:
     BSTIterator(TreeNode *);
     ~BSTIterator();
@@ -26,14 +27,15 @@ BSTIterator::~BSTIterator()
 {
 }
 
-
-BSTIterator::BSTIterator(TreeNode *root) {
-    curr=root;
+BSTIterator::BSTIterator(TreeNode *root)
+{
+    curr = root;
 }
 
 /** return whether we have a next smallest number */
-bool BSTIterator::hasNext() {
-    if(curr==NULL&&S.empty())
+bool BSTIterator::hasNext()
+{
+    if (curr == NULL && S.empty())
     {
         return false;
     }
@@ -41,22 +43,23 @@ bool BSTIterator::hasNext() {
 }
 
 /** @return the next smallest number */
-int BSTIterator::next() {
+int BSTIterator::next()
+{
     int value;
-    while(1)
+    while (1)
     {
-        if(curr!=NULL)
+        if (curr != NULL)
         {
             S.push(curr);
-            curr=curr->left;
+            curr = curr->left;
             continue;
         }
-        if(S.empty())
+        if (S.empty())
         {
             break;
         }
-        value=S.top()->val;
-        curr=S.top()->right;
+        value = S.top()->val;
+        curr = S.top()->right;
         S.pop();
         break;
     }
@@ -73,8 +76,9 @@ int BSTIterator::next() {
 class ReverseBSTIterator
 {
 private:
-    TreeNode* curr;
-    stack<TreeNode*> S;
+    TreeNode *curr;
+    stack<TreeNode *> S;
+
 public:
     ReverseBSTIterator(TreeNode *);
     ~ReverseBSTIterator();
@@ -82,13 +86,15 @@ public:
     bool hasNext();
 };
 //constructor
-ReverseBSTIterator::ReverseBSTIterator(TreeNode *root) {
-    curr=root;
+ReverseBSTIterator::ReverseBSTIterator(TreeNode *root)
+{
+    curr = root;
 }
 
 /** return whether we have a next largest number */
-bool ReverseBSTIterator::hasNext() {
-    if(curr==NULL&&S.empty())
+bool ReverseBSTIterator::hasNext()
+{
+    if (curr == NULL && S.empty())
     {
         return false;
     }
@@ -96,22 +102,23 @@ bool ReverseBSTIterator::hasNext() {
 }
 
 /** return the next largest number */
-int ReverseBSTIterator::next() {
+int ReverseBSTIterator::next()
+{
     int value;
-    while(1)
+    while (1)
     {
-        if(curr!=NULL)
+        if (curr != NULL)
         {
             S.push(curr);
-            curr=curr->right;
+            curr = curr->right;
             continue;
         }
-        if(S.empty())
+        if (S.empty())
         {
             break;
         }
-        value=S.top()->val;
-        curr=S.top()->left;
+        value = S.top()->val;
+        curr = S.top()->left;
         S.pop();
         break;
     }

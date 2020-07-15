@@ -1,58 +1,64 @@
-#include<vector>
-#include<iostream>
+#include <vector>
+#include <iostream>
 using namespace std;
 
-bool findunassignedlocation(vector<vector<char>>&A,int &row,int & column,int &N)
+bool findunassignedlocation(vector<vector<char>> &A, int &row, int &column, int &N)
 {
-    for(row=0;row<N;row++)
+    for (row = 0; row < N; row++)
     {
-        for(column=0;column<N;column++)
+        for (column = 0; column < N; column++)
         {
-            if(A[row][column]=='.')
-                return true;;
+            if (A[row][column] == '.')
+                return true;
+            ;
         }
     }
     return false;
 }
-bool UsedInRow(vector<vector<char>>grid,int row,int col,int N,char num){
+bool UsedInRow(vector<vector<char>> grid, int row, int col, int N, char num)
+{
     for (int col = 0; col < N; col++)
-        if(grid[row][col] == num)
+        if (grid[row][col] == num)
             return true;
     return false;
 }
-bool UsedInCol(vector<vector<char>>grid,int row,int col,int N,char num){
+bool UsedInCol(vector<vector<char>> grid, int row, int col, int N, char num)
+{
     for (int row = 0; row < N; row++)
         if (grid[row][col] == num)
             return true;
     return false;
 }
-bool UsedInBox(vector<vector<char>>grid, int boxStartRow,int boxStartCol, char num){
+bool UsedInBox(vector<vector<char>> grid, int boxStartRow, int boxStartCol, char num)
+{
     for (int row = 0; row < 3; row++)
         for (int col = 0; col < 3; col++)
-            if (grid[row + boxStartRow] [col + boxStartCol] == num)
+            if (grid[row + boxStartRow][col + boxStartCol] == num)
                 return true;
     return false;
 }
-bool isSafe(vector<vector<char>>A,int row,int column,int N,char num){
+bool isSafe(vector<vector<char>> A, int row, int column, int N, char num)
+{
     bool t1 = A[row][column] == '.';
-    bool t2 = !UsedInRow(A,row,column,N,num);
-    bool t3 = !UsedInCol(A,row,column,N,num) ;
-    bool t4 = !UsedInBox(A,row - row%3,column-column%3,num);
+    bool t2 = !UsedInRow(A, row, column, N, num);
+    bool t3 = !UsedInCol(A, row, column, N, num);
+    bool t4 = !UsedInBox(A, row - row % 3, column - column % 3, num);
 
     return t1 && t2 && t3 && t4;
 }
 
-
-bool sudokusolve(vector<vector<char>>&A,int N)
+bool sudokusolve(vector<vector<char>> &A, int N)
 {
     int row;
     int column;
-    if(!findunassignedlocation(A,row,column,N))
+    if (!findunassignedlocation(A, row, column, N))
         return true;
-    for(char num='1';num <= '9';num++){
-        if(isSafe(A,row,column,N,num)){
+    for (char num = '1'; num <= '9'; num++)
+    {
+        if (isSafe(A, row, column, N, num))
+        {
             A[row][column] = num;
-            if (sudokusolve(A,N))
+            if (sudokusolve(A, N))
                 return true;
             A[row][column] = '.';
         }
@@ -60,10 +66,11 @@ bool sudokusolve(vector<vector<char>>&A,int N)
     return false;
 }
 
-void solveSudoku(vector<vector<char> > &A) {
-    int N=A.size();
-    if(sudokusolve(A,N))
+void solveSudoku(vector<vector<char>> &A)
+{
+    int N = A.size();
+    if (sudokusolve(A, N))
         return;
-    cout<<"not valid board"<<endl;
+    cout << "not valid board" << endl;
     return;
 }
