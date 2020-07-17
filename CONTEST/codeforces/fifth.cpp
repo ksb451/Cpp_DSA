@@ -1,89 +1,72 @@
 #include <bits/stdc++.h>
 #include <algorithm>
 using namespace std;
-typedef long long int lli;
-
-int topsort(vector<lli> &indegree, lli n, vector<lli> adj[], vector<lli> &ans)
-{
-    queue<lli> Q;
-    for (lli i = 0; i < n; i++)
-    {
-        if (indegree[i] == 0)
-        {
-            Q.push(i);
-        }
-    }
-    lli visited = 0;
-    while (!Q.empty())
-    {
-        lli x = Q.front();
-        Q.pop();
-        ans.push_back(x);
-        visited++;
-        for (auto i : adj[x])
-        {
-            indegree[i]--;
-            if (indegree[i] == 0)
-                Q.push(i);
-        }
-    }
-    return visited;
-}
 int main()
 {
-    int t = 1;
-    cin >> t;
-    while (t--)
+    int ts = 1;
+    cin >> ts;
+    while (ts--)
     {
-        lli n, m;
+        int n, m;
         cin >> n >> m;
-        vector<lli> adj[n];
-        vector<pair<lli, lli>> edges;
-        vector<lli> indegree(n, 0);
-        for (int i = 0; i < m; i++)
+        vector<int> adj[n + 1];
+        vector<pair<int, int>> edges(m + 1);
+        vector<bool> dir(m + 1);
+        vector<int> indegree(n + 1, 0);
+        for (int i = 1; i <= m; i++)
         {
             int t, a, b;
             cin >> t >> a >> b;
             if (t)
             {
-                adj[a - 1].push_back(b - 1);
-                indegree[b - 1]++;
+                adj[a].push_back(b);
+                indegree[b]++;
             }
-            else
+            dir[i] = (t == 0);
+            edges[i] = {a, b};
+        }
+        vector<int> toporder(n + 1, 0);
+        queue<int> Q;
+        for (int i = 1; i <= n; i++)
+        {
+            if (indegree[i] == 0)
             {
-                edges.push_back({a - 1, b - 1});
+                Q.push(i);
             }
         }
-        vector<lli> toporder;
-        lli visited = topsort(indegree, n, adj, toporder);
-        if (visited != n)
+        int timer = 0;
+        while (!Q.empty())
+        {
+            int x = Q.front();
+            Q.pop();
+            timer++;
+            toporder[x] = timer;
+            for (auto i : adj[x])
+            {
+                indegree[i]--;
+                if (indegree[i] == 0)
+                    Q.push(i);
+            }
+        }
+        if (timer != n)
         {
             cout << "NO" << endl;
             return 0;
         }
-        unordered_map<lli, lli> mp;
-        for (int i = 0; i < n; i++)
-        {
-            mp[toporder[i]] = i;
-        }
         cout << "YES" << endl;
-        for (auto r : edges)
+        for (int i = 0; i < edges.size(); i++)
         {
-            if (mp[r.first] > mp[r.second])
+            if (dir[i])
             {
-                cout << r.second + 1 << " " << r.first + 1 << endl;
-            }
-            else
-            {
-                cout << r.first + 1 << " " << r.second + 1 << endl;
+                if (toporder[edges[i].first] > toporder[edges[i].second])
+                {
+                    swap(edges[i].first, edges[i].second);
+                }
             }
         }
-        for (int i = 0; i < n; i++)
+        for (int i = 1; i <= m; i++)
         {
-            for (auto j : adj[i])
-            {
-                cout << i + 1 << " " << j + 1 << endl;
-            }
+            cout << edges[i].first << " " << edges[i].second << endl;
         }
     }
     return 0;

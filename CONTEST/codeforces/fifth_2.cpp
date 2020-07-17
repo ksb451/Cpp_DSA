@@ -1,12 +1,3 @@
-// You are given a graph consisting of n vertices and m edges.It is not guaranteed that the given graph is connected.Some edges are already directed and you can't change their direction. Other edges are undirected and you have to choose some direction for all these edges.
-
-//     You have to direct undirected edges in such a way that the resulting graph is directed and
-//     acyclic(i.e.the graph with all edges directed and having no directed cycles).Note that you have to direct all undirected edges.
-
-//     You have to answer t independent test cases.
-
-//https://codeforces.com/contest/1385/problem/E
-
 #include <iostream>
 #include <vector>
 #include <queue>
