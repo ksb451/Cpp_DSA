@@ -20,7 +20,7 @@ void solve()
         liste[i].second = v;
         if (t)
         {
-            e[u].push_back(i);
+            e[u].push_back(v);
             ++deg[v];
         }
     }
@@ -41,11 +41,11 @@ void solve()
         stt[u] = ++timer;
         for (int i : e[u])
         {
-            int v = liste[i].second;
-            --deg[v];
-            if (deg[v] == 0)
+
+            --deg[i];
+            if (deg[i] == 0)
             {
-                q.push(v);
+                q.push(i);
             }
         }
     }
