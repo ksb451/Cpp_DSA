@@ -1,44 +1,33 @@
 #include <iostream>
+using namespace std;
+// Definition for a binary tree node.
 struct TreeNode
 {
     int val;
     TreeNode *left;
     TreeNode *right;
-    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+    TreeNode() : val(0), left(nullptr), right(nullptr) {}
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
-bool IsSubtreeLesser(TreeNode *root, int value)
+class Solution
 {
-    if (root == NULL)
-        return true;
-    if (root->val > value && IsSubtreeLesser(root->left, value) && IsSubtreeLesser(root->right, value))
-        return true;
-    else
-        return false;
-}
-bool IsSubtreeGreater(TreeNode *root, int value)
-{
-    if (root == NULL)
+public:
+    bool isValidBST(TreeNode *root)
     {
-        return true;
+        TreeNode *prev = NULL;
+        return validate(root, prev);
     }
-    if (root->val <= value && IsSubtreeGreater(root->left, value) && IsSubtreeGreater(root->right, value))
+    bool validate(TreeNode *node, TreeNode *&prev)
     {
-        return true;
+        if (node == NULL)
+            return true;
+        if (!validate(node->left, prev))
+            return false;
+        if (prev != NULL && prev->val >= node->val)
+            return false;
+        prev = node;
+        return validate(node->right, prev);
     }
-    else
-    {
-        return false;
-    }
-}
-bool IsBinarySearchTree(TreeNode *root)
-{
-    if (IsSubtreeLesser(root->left, root->val) && IsSubtreeGreater(root->right, root->val) && IsBinarySearchTree(root->left) && IsBinarySearchTree(root->right))
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
+};

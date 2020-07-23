@@ -1,4 +1,6 @@
 #include <queue>
+#include <iostream>
+using namespace std;
 struct TreeNode
 {
     int val;
@@ -14,9 +16,9 @@ void levelorder(TreeNode *root)
     Q.push(root);
     while (!Q.empty())
     {
-        Node *curent = Q.front();
+        TreeNode *current = Q.front();
         cout << current->val << " ";
-        if (currnet->left != NULL)
+        if (current->left != NULL)
             Q.push(current->left);
         if (current->right != NULL)
         {
