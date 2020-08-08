@@ -15,7 +15,8 @@ using namespace std;
     for (auto x : a)      \
     {                     \
         cout << x << " "; \
-    }                     
+    }                     \
+    cout << nl;
 #define read(a)       \
     for (auto &x : a) \
     {                 \
@@ -29,74 +30,39 @@ using vll = vector<ll>;
 using vi = vector<int>;
 const ll mod = (ll)(1e9) + 7LL;
 const ll M = 988244353LL;
-vector<vector<ll>>edge;
-vector<ll>a;
-vector<ll>b, used;
-vector<ll>order[2];
-ll ans=0;
-
-void dfs(int v)
-{
-    used[v]=1;
-    for (int i:edge[v])
-    {
-        if (!used[i])
-        {
-            dfs(i);
-        }
-    }
-    ans+=a[v];
-    if (b[v]!=-1&&a[v]>0) {
-        a[b[v]]+=a[v];
-    }
-    if (a[v]>0) {
-        order[0].push_back(v+1);
-    }
-    else {
-        order[1].push_back(v+1);
-    }
-}
 
 void solve()
 {
-    ll n;
-    cin>>n;
-    //cout<<"done1";
-    used=b=a=vll(n);
-    read(a);
-    edge=vector<vll>(n);
-    //cout<<"done2";
-    for (int i=0;i<n;i++)
+    ll n, k;
+    cin>>n>>k;
+    ll l1, r1, l2, r2;
+    cin>>l1>>r1>>l2>>r2;
+    ll ans=LLONG_MAX;
+    ll insec=min(r1, r2)-max(l1, l2);
+    //cout<<insec<<endl;
+    if (insec>=0)
     {
-        ll x;
-        cin>>x;
-        if (x!=-1)
-        {
-            --x;
-            edge[x].push_back(i);
-        }
-        b[i]=x;
+        ll rem=max(0LL, k-n*(insec));
+        ll max_pos=n*(abs(l1 - l2) + abs(r1 - r2));
+        ans = min(rem, max_pos) + max(0LL, rem - max_pos) * 2;
     }
-    ans=0;
-    for (int i=0;i<n;i++) {
-        if (!used[i])
+    else {
+        ll invest=abs(insec);
+        for (int i=1;i<=n;i++)
         {
-            dfs(i);
+            ll curr=invest*i;
+            ll max_pos=(max(r1, r2)-min(l1, l2))*i;
+            curr+=min(k, max_pos)+max(0LL, k-max_pos)*2;
+            ans=min(curr, ans);
         }
     }
     cout<<ans<<endl;
-    reverse(all(order[1]));
-    write(order[0]);
-    write(order[1]);
-    cout<<endl;
 }
 
 int main()
 {
-    fast;
-    //
     ll tc = 1;
-    //IN tc;
+    IN tc;
     while (tc--)
     {
         solve();

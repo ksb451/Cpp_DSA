@@ -15,7 +15,8 @@ using namespace std;
     for (auto x : a)      \
     {                     \
         cout << x << " "; \
-    }                     
+    }                     \
+    cout << nl;
 #define read(a)       \
     for (auto &x : a) \
     {                 \
@@ -29,74 +30,56 @@ using vll = vector<ll>;
 using vi = vector<int>;
 const ll mod = (ll)(1e9) + 7LL;
 const ll M = 988244353LL;
-vector<vector<ll>>edge;
-vector<ll>a;
-vector<ll>b, used;
-vector<ll>order[2];
-ll ans=0;
 
-void dfs(int v)
+
+int findzzl(int mxi, int mxj, string &s)
 {
-    used[v]=1;
-    for (int i:edge[v])
+    int tot=mxi+mxj;
+    int i=0;
+    int n=s.length();
+    int ans=0;
+    int curr=mxi;
+    while (i<n)
     {
-        if (!used[i])
+        if (s[i]-'0'==curr)
         {
-            dfs(i);
+            ans++;
+            curr=abs(curr-tot);
         }
+        i++;
     }
-    ans+=a[v];
-    if (b[v]!=-1&&a[v]>0) {
-        a[b[v]]+=a[v];
-    }
-    if (a[v]>0) {
-        order[0].push_back(v+1);
-    }
-    else {
-        order[1].push_back(v+1);
-    }
+    if (mxi!=mxj)
+        if (ans%2==1)
+            ans--;
+    return ans;
 }
 
 void solve()
 {
-    ll n;
-    cin>>n;
-    //cout<<"done1";
-    used=b=a=vll(n);
-    read(a);
-    edge=vector<vll>(n);
-    //cout<<"done2";
+    string s;
+    cin.get();
+    cin>>s;
+    int n =s.length();
+    vector<int>arr(10, 0);
     for (int i=0;i<n;i++)
     {
-        ll x;
-        cin>>x;
-        if (x!=-1)
-        {
-            --x;
-            edge[x].push_back(i);
-        }
-        b[i]=x;
+        arr[s[i]-'0']++;
     }
-    ans=0;
-    for (int i=0;i<n;i++) {
-        if (!used[i])
+    int ans=INT_MAX;
+    for (int i=0;i<10;i++)
+    {
+        for (int j=0;j<10;j++)
         {
-            dfs(i);
+            ans=min(ans, n-findzzl(i, j, s));
         }
     }
     cout<<ans<<endl;
-    reverse(all(order[1]));
-    write(order[0]);
-    write(order[1]);
-    cout<<endl;
 }
 
 int main()
 {
-    fast;
-    //
     ll tc = 1;
-    //IN tc;
+    IN tc;
     while (tc--)
     {
         solve();
