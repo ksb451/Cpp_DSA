@@ -31,41 +31,39 @@ using vi = vector<int>;
 const ll mod = (ll)(1e9) + 7LL;
 const ll M = 988244353LL;
 
-ll power(ll x, ll y, ll p=mod)
-{
-    ll res = 1;
-    x = x % p;
-    if (x == 0) return 0;
-    while (y > 0)
-    {
-        if (y & 1)
-            res = (res*x) % p;
-        y = y>>1;
-        x = (x*x) % p;
-    }
-    return res;
-}
-
 void solve()
 {
-    ll n;
+    int n;
     cin>>n;
-    vector<ll>arr(n);
+    vi arr(n);
+    vi ans(32, 0);
     for (int i=0;i<n;i++)
     {
         cin>>arr[i];
-        //arr[i]=i+1;
+        for (int j=0;j<31;j++)
+        {
+            if (arr[i]&(1<<j))
+            {
+                ans[31-j]++;
+            }
+        }
     }
-    vector<ll>ans(n);
-    for (int i=0;i<n;i++)
+    for (int i=0;i<32;i++)
     {
-        ans[i]=power(2, n-i-1);
+        if (ans[i]&1)
+        {
+            if (ans[i]%4==3&&((n-ans[i])%2==0))
+            {
+                cout<<"LOSE"<<endl;
+                return;
+            }
+            else {
+                cout<<"WIN"<<endl;
+                return;
+            }
+        }
     }
-    for (auto a:ans)
-    {
-        cout<<a<<" ";
-    }
-    cout<<endl;
+    cout<<"DRAW"<<endl;
 }
 
 int main()

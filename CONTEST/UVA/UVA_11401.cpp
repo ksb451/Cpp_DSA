@@ -31,47 +31,58 @@ using vi = vector<int>;
 const ll mod = (ll)(1e9) + 7LL;
 const ll M = 988244353LL;
 
-ll power(ll x, ll y, ll p=mod)
-{
-    ll res = 1;
-    x = x % p;
-    if (x == 0) return 0;
-    while (y > 0)
-    {
-        if (y & 1)
-            res = (res*x) % p;
-        y = y>>1;
-        x = (x*x) % p;
-    }
-    return res;
-}
-
 void solve()
 {
     ll n;
-    cin>>n;
-    vector<ll>arr(n);
-    for (int i=0;i<n;i++)
+    while (cin>>n)
     {
-        cin>>arr[i];
-        //arr[i]=i+1;
+        if (n<3)
+        {
+            return;
+        }
+        vector<ll>dp(n+1);
+        dp[3]=0;
+        dp[4]=1;
+        for (ll i=5;i<=n;i++)
+        {
+            ll x=i-(i/2)-1;
+            if (i&1)
+            {
+                dp[i]=dp[i-1]+(x*(x-1));
+            }
+            else {
+                dp[i]=dp[i-1]+(x*x);
+            }
+        }
+        cout<<dp[n]<<endl;
     }
-    vector<ll>ans(n);
-    for (int i=0;i<n;i++)
+}
+
+
+void solve1() {
+    ll n;
+    while (cin>>n)
     {
-        ans[i]=power(2, n-i-1);
+        if (n<3)
+        {
+            return;
+        }
+        if (n&1)
+        {
+            ll ans=((2*n*n*n)-(9*n*n)+(10*n)-3)/24;
+            cout<<ans<<endl;
+        }
+        else {
+            ll ans=((2*n*n*n)-(9*n*n)+(10*n))/24;
+            cout<<ans<<endl;
+        }
     }
-    for (auto a:ans)
-    {
-        cout<<a<<" ";
-    }
-    cout<<endl;
 }
 
 int main()
 {
     ll tc = 1;
-    IN tc;
+    //IN tc;
     while (tc--)
     {
         solve();

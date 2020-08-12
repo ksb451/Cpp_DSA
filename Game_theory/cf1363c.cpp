@@ -1,3 +1,4 @@
+//https://codeforces.com/problemset/problem/1346/H
 #include <bits/stdc++.h>
 #include <algorithm>
 using namespace std;
@@ -31,41 +32,37 @@ using vi = vector<int>;
 const ll mod = (ll)(1e9) + 7LL;
 const ll M = 988244353LL;
 
-ll power(ll x, ll y, ll p=mod)
-{
-    ll res = 1;
-    x = x % p;
-    if (x == 0) return 0;
-    while (y > 0)
-    {
-        if (y & 1)
-            res = (res*x) % p;
-        y = y>>1;
-        x = (x*x) % p;
-    }
-    return res;
-}
-
 void solve()
 {
-    ll n;
-    cin>>n;
-    vector<ll>arr(n);
-    for (int i=0;i<n;i++)
+    int n, x;
+    cin>>n>>x;
+    if (n==1)
     {
-        cin>>arr[i];
-        //arr[i]=i+1;
+        cout<<"Ayush"<<endl;
+        return;
     }
-    vector<ll>ans(n);
-    for (int i=0;i<n;i++)
+    vector<int>deg(n+1, 0);
+    for (int i=1;i<n;i++)
     {
-        ans[i]=power(2, n-i-1);
+        int a, b;
+        cin>>a>>b;
+        deg[a]++;
+        deg[b]++;
     }
-    for (auto a:ans)
+    if (deg[x]==1)
     {
-        cout<<a<<" ";
+        cout<<"Ayush"<<endl;
     }
-    cout<<endl;
+    else {
+        if (n&1)
+        {
+
+            cout<<"Ashish"<<endl;
+        }
+        else {
+            cout<<"Ayush"<<endl;
+        }
+    }
 }
 
 int main()

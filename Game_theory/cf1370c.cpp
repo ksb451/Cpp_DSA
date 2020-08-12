@@ -31,50 +31,38 @@ using vi = vector<int>;
 const ll mod = (ll)(1e9) + 7LL;
 const ll M = 988244353LL;
 
-ll power(ll x, ll y, ll p=mod)
-{
-    ll res = 1;
-    x = x % p;
-    if (x == 0) return 0;
-    while (y > 0)
-    {
-        if (y & 1)
-            res = (res*x) % p;
-        y = y>>1;
-        x = (x*x) % p;
-    }
-    return res;
+const int N = 50000;
+
+void player_1() {
+    cout << "Ashishgup" << endl;
 }
 
-void solve()
-{
-    ll n;
-    cin>>n;
-    vector<ll>arr(n);
-    for (int i=0;i<n;i++)
-    {
-        cin>>arr[i];
-        //arr[i]=i+1;
-    }
-    vector<ll>ans(n);
-    for (int i=0;i<n;i++)
-    {
-        ans[i]=power(2, n-i-1);
-    }
-    for (auto a:ans)
-    {
-        cout<<a<<" ";
-    }
-    cout<<endl;
+void player_2() {
+    cout << "FastestFinger" << endl;
 }
 
-int main()
-{
-    ll tc = 1;
-    IN tc;
-    while (tc--)
-    {
-        solve();
+bool check_prime(int n) {
+    for (int i = 2; i < min(N, n); i++)
+        if (n % i == 0)
+            return 0;
+    return 1;
+}
+
+int main() {
+    int tc;
+    cin >> tc;
+    while (tc--) {
+        int n;
+        cin >> n;
+        bool lose = (n == 1);
+        if (n > 2 && n % 2 == 0) {
+            if ((n & (n - 1)) == 0)
+                lose = 1;
+            else if (n % 4 != 0 && check_prime(n / 2))
+                lose = 1;
+        }
+        if (lose)
+            player_2();
+        else player_1();
     }
-    return 0;
 }

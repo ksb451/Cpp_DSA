@@ -31,47 +31,46 @@ using vi = vector<int>;
 const ll mod = (ll)(1e9) + 7LL;
 const ll M = 988244353LL;
 
-ll power(ll x, ll y, ll p=mod)
-{
-    ll res = 1;
-    x = x % p;
-    if (x == 0) return 0;
-    while (y > 0)
-    {
-        if (y & 1)
-            res = (res*x) % p;
-        y = y>>1;
-        x = (x*x) % p;
-    }
-    return res;
-}
-
 void solve()
 {
-    ll n;
+    int n;
     cin>>n;
-    vector<ll>arr(n);
+    vector<int>arr(n);
+    for (int i=0;i<n;i++)cin>>arr[i];
+    vector<int>ans;
+    for (int i=0;i<n;i+=2)
+    {
+        ans.push_back(arr[i]);
+    }
+    for (int i=1;i<n;i+=2)
+    {
+        ans.push_back(arr[i]);
+    }
     for (int i=0;i<n;i++)
     {
-        cin>>arr[i];
-        //arr[i]=i+1;
+        ans.push_back(ans[i]);
     }
-    vector<ll>ans(n);
-    for (int i=0;i<n;i++)
+    int l=(n+1)/2;
+    ll curr=0;
+    ll max_sum=LLONG_MIN;
+    for (int i=0;i<l;i++)
     {
-        ans[i]=power(2, n-i-1);
+        curr+=ans[i];
     }
-    for (auto a:ans)
+    max_sum=max(max_sum, curr);
+    for (int j=l;j<ans.size();j++)
     {
-        cout<<a<<" ";
+        curr+=ans[j];
+        curr-=ans[j-l];
+        max_sum=max(max_sum, curr);
     }
-    cout<<endl;
+    cout<<max_sum<<endl;
 }
 
 int main()
 {
     ll tc = 1;
-    IN tc;
+    //IN tc;
     while (tc--)
     {
         solve();

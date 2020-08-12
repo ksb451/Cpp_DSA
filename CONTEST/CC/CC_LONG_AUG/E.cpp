@@ -33,8 +33,82 @@ const ll M = 988244353LL;
 
 void solve()
 {
-    int n,k;
-    
+    int n, k;
+    cin>>n>>k;
+    vector<int>arr(n);
+    for (int i=0;i<n;i++)
+    {
+        cin>>arr[i];
+    }
+    unordered_map<int, int>mp;
+    mp.clear();
+    int unique=0;
+    int cost=0;
+    int curr_q_cost=0;
+    if (k==1)
+    {
+        int cost=1;
+        for (int i=0;i<n;i++)
+        {
+            if (mp[arr[i]])
+            {
+                cost++;
+                mp.clear();
+            }
+            mp[arr[i]]=1;
+        }
+        cout<<cost<<endl;
+        return;
+    }
+    for (int i=0;i<n;i++)
+    {
+        if (unique==k)
+        {
+            if (mp.find(arr[i])==mp.end())
+            {
+                mp[arr[i]]=1;
+                unique++;
+            }
+            else {
+                if (mp[arr[i]]==1)
+                {
+                    cost+=k;
+                    cost+=curr_q_cost;
+                    mp.clear();
+                    unique=0;
+                    curr_q_cost=0;
+                    mp[arr[i]]=1;
+                    unique=1;
+                }
+                else {
+                    mp[arr[i]]++;
+                    curr_q_cost++;
+                }
+            }
+        }
+        else {
+            if (mp.find(arr[i])==mp.end())
+            {
+                mp[arr[i]]=1;
+                unique++;
+            }
+            else {
+                if (mp[arr[i]]==1)
+                {
+                    mp[arr[i]]++;
+                    unique--;
+                    curr_q_cost+=2;
+                }
+                else {
+                    mp[arr[i]]++;
+                    curr_q_cost++;
+                }
+            }
+        }
+    }
+    cost+=k;
+    cost+=curr_q_cost;
+    cout<<cost<<endl;
 }
 
 int main()

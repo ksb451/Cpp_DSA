@@ -31,47 +31,28 @@ using vi = vector<int>;
 const ll mod = (ll)(1e9) + 7LL;
 const ll M = 988244353LL;
 
-ll power(ll x, ll y, ll p=mod)
-{
-    ll res = 1;
-    x = x % p;
-    if (x == 0) return 0;
-    while (y > 0)
-    {
-        if (y & 1)
-            res = (res*x) % p;
-        y = y>>1;
-        x = (x*x) % p;
-    }
-    return res;
-}
-
 void solve()
 {
-    ll n;
-    cin>>n;
-    vector<ll>arr(n);
-    for (int i=0;i<n;i++)
+    string s;
+    cin>>s;
+    char small=s[0];
+    for (int i=0;i<s.length();i++)
     {
-        cin>>arr[i];
-        //arr[i]=i+1;
+        if (small<s[i])
+        {
+            cout<<"Ann"<<endl;
+        }
+        else {
+            small=s[i];
+            cout<<"Mike"<<endl;
+        }
     }
-    vector<ll>ans(n);
-    for (int i=0;i<n;i++)
-    {
-        ans[i]=power(2, n-i-1);
-    }
-    for (auto a:ans)
-    {
-        cout<<a<<" ";
-    }
-    cout<<endl;
 }
 
 int main()
 {
     ll tc = 1;
-    IN tc;
+    //IN tc;
     while (tc--)
     {
         solve();

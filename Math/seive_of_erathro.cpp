@@ -31,41 +31,24 @@ using vi = vector<int>;
 const ll mod = (ll)(1e9) + 7LL;
 const ll M = 988244353LL;
 
-ll power(ll x, ll y, ll p=mod)
-{
-    ll res = 1;
-    x = x % p;
-    if (x == 0) return 0;
-    while (y > 0)
-    {
-        if (y & 1)
-            res = (res*x) % p;
-        y = y>>1;
-        x = (x*x) % p;
-    }
-    return res;
-}
+ll _seive_size;
+bitset<10000001>bs;
+vi primes;
 
-void solve()
+void seive(ll upperbound)
 {
-    ll n;
-    cin>>n;
-    vector<ll>arr(n);
-    for (int i=0;i<n;i++)
+    _seive_size=upperbound+1;
+    bs.set();
+    bs[0]=bs[1]=0;
+    for (ll i =2;i<=_seive_size;i++)
     {
-        cin>>arr[i];
-        //arr[i]=i+1;
+        if (bs[i])
+        {
+            for (ll j =i*i;j<=_seive_size;j+=i)
+                bs[j]=0;
+            primes.push_back(i);
+        }
     }
-    vector<ll>ans(n);
-    for (int i=0;i<n;i++)
-    {
-        ans[i]=power(2, n-i-1);
-    }
-    for (auto a:ans)
-    {
-        cout<<a<<" ";
-    }
-    cout<<endl;
 }
 
 int main()
