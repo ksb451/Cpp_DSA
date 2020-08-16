@@ -33,82 +33,59 @@ const ll M = 988244353LL;
 
 void solve()
 {
-    int n, k;
-    cin>>n>>k;
-    vector<int>arr(n);
-    for (int i=0;i<n;i++)
+    ll n, k;
+    cin >> n >> k;
+    ll a[n + 1];
+    unordered_map<ll, ll> mp;
+    ll ans = 0;
+    for (ll i = 0; i < n; i++)
     {
-        cin>>arr[i];
+        cin >> a[i];
     }
-    unordered_map<int, int>mp;
-    mp.clear();
-    int unique=0;
-    int cost=0;
-    int curr_q_cost=0;
-    if (k==1)
+    ll mat[n + 1][n + 1];
+    memset(mat, 0, sizeof(mat));
+    for (ll i = 0; i < n; i++)
     {
-        int cost=1;
-        for (int i=0;i<n;i++)
+        mp.clear();
+        for (ll j = i; j < n; j++)
         {
-            if (mp[arr[i]])
+            mat[i][j] = (j == 0) ? 0 : mat[i][j - 1];
+            if (mp.count(a[j]))
             {
-                cost++;
-                mp.clear();
+                if (mp[a[j]] == 1)
+                {
+                    mat[i][j]++;
+                }
+                mat[i][j]++;
             }
-            mp[arr[i]]=1;
+            mp[a[j]]++;
         }
-        cout<<cost<<endl;
-        return;
     }
-    for (int i=0;i<n;i++)
+    ans = 1e18;
+    ll table = 100;
+    ll dp[101][1001] = {0};
+    memset(dp, 0, sizeof(dp));
+    for (ll i = 1; i < n + 1; i++)
     {
-        if (unique==k)
+        dp[1][i] = mat[0][i - 1];
+    }
+    for (ll i = 2; i <= table; i++)
+    {
+        for (ll j = 2; j <= n; j++)
         {
-            if (mp.find(arr[i])==mp.end())
+            ll best = 1e18;
+            for (ll p = 1; p < j; p++)
             {
-                mp[arr[i]]=1;
-                unique++;
+                best = min(best, dp[i - 1][p] + mat[p][j - 1]);
             }
-            else {
-                if (mp[arr[i]]==1)
-                {
-                    cost+=k;
-                    cost+=curr_q_cost;
-                    mp.clear();
-                    unique=0;
-                    curr_q_cost=0;
-                    mp[arr[i]]=1;
-                    unique=1;
-                }
-                else {
-                    mp[arr[i]]++;
-                    curr_q_cost++;
-                }
-            }
-        }
-        else {
-            if (mp.find(arr[i])==mp.end())
-            {
-                mp[arr[i]]=1;
-                unique++;
-            }
-            else {
-                if (mp[arr[i]]==1)
-                {
-                    mp[arr[i]]++;
-                    unique--;
-                    curr_q_cost+=2;
-                }
-                else {
-                    mp[arr[i]]++;
-                    curr_q_cost++;
-                }
-            }
+            dp[i][j] = best;
         }
     }
-    cost+=k;
-    cost+=curr_q_cost;
-    cout<<cost<<endl;
+    for (table = 1; table <= 100; table++)
+    {
+        ans = min(table * k + dp[table][n], ans);
+    }
+    cout << ans << endl;
 }
 
 int main()
