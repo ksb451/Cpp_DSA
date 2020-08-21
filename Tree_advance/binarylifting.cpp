@@ -32,11 +32,13 @@ const ll mod = (ll)(1e9) + 7LL;
 const ll M = 988244353LL;
 
 int N, D;
-vector<int> depth;
-vector<vector<int>> adj;
-vector<vector<int>> par;
+int depth[300010];
+vector<int> adj[300010];
+//vector<vector<int>> adj;
+int par[20][300010];
+//vector<vector<int>> par;
 
-int leftMostSetBit(int x)
+int leftMostSetBit(int x) //find the left most set bit
 {
     int res;
     while (x)
@@ -47,7 +49,7 @@ int leftMostSetBit(int x)
     return res;
 }
 
-int walk(int i, int k)
+int walk(int i, int k) //walk k steps up from node i
 {
     for (int d = 0; d < D && i != -1; d++)
     {
@@ -58,7 +60,7 @@ int walk(int i, int k)
     }
     return i;
 }
-int lca(int i, int j)
+int lca(int i, int j) //lowest common encestor of node i and j
 {
     if (depth[i] > depth[j])
     {
@@ -74,13 +76,13 @@ int lca(int i, int j)
     }
     for (int d = D; d >= 0; d--)
     {
-        if (par[d][i] != par[d][j])
+        if (par[d][i] != par[d][j]) //go upto the last node where parent of i and j are diff
         {
             i = par[d][i];
             j = par[d][j];
         }
     }
-    return par[0][i];
+    return par[0][i]; //go up just one more node to get the LCA
 }
 
 int finalDest(int i, int j, int k)
@@ -105,12 +107,13 @@ int finalDest(int i, int j, int k)
     }
 }
 
-void buildParTable()
+void buildParTable() //BUild the binary lifting table
 {
     vector<bool> visited(N, false);
     queue<int> Q;
     Q.push(0);
     visited[0] = true;
+    //BFS on the treee to store depth and store immidiate parent
     while (!Q.empty())
     {
         int i = Q.front();
@@ -119,8 +122,8 @@ void buildParTable()
             if (!visited[j])
             {
                 visited[j] = true;
-                depth[j] = depth[i] + 1;
-                par[0][j] = i;
+                depth[j] = depth[i] + 1; //depth of parent +1
+                par[0][j] = i;           //2^0 steps up that is immidiate parent
                 Q.push(j);
             }
     }
@@ -136,7 +139,7 @@ void buildParTable()
             int mid = par[d - 1][i];
             if (mid != -1)
             {
-                par[d][i] = par[d - 1][mid];
+                par[d][i] = par[d - 1][mid]; //as par[1][a]=par[0][par[0][a]]; and so on
             }
         }
     }
@@ -145,11 +148,19 @@ void buildParTable()
 void solve()
 {
     cin >> N;
-    D = leftMostSetBit(N);
+    D = leftMostSetBit(N); //max jump for any Node in case of a skwed tree
     //cout << D << endl;
-    depth = vector<int>(N, 0);
-    adj = vector<vector<int>>(N);
-    par = vector<vector<int>>(D + 3, vector<int>(N + 2, -1));
+
+    memset(depth, 0, sizeof(depth));
+    for (int i = 0; i < 300010; i++)
+    {
+        adj[i].clear();
+    }
+    memset(par, -1, sizeof(par));
+
+    // depth = vector<int>(N, 0);
+    // adj = vector<vector<int>>(N);
+    // par = vector<vector<int>>(D + 3, vector<int>(N + 2, -1)); //parent of stariting node i.e 0 is -1
     for (int i = 0; i < N; i++)
     {
         adj[i].clear();
