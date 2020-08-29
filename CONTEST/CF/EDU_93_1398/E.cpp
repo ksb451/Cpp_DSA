@@ -49,7 +49,7 @@ void solve()
             }
             else
             {
-                fire.erase(b);
+                fire.erase(a);
             }
         }
         else
@@ -60,10 +60,10 @@ void solve()
             }
             else
             {
-                light.erase(b);
+                light.erase(a);
             }
         }
-    }
+        }
 }
 
 int main()

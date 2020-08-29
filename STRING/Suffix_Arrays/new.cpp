@@ -1,50 +1,79 @@
 #include <bits/stdc++.h>
 #include <algorithm>
 using namespace std;
-#define fast                          \
-    ios_base::sync_with_stdio(false); \
-    cout.tie(NULL);                   \
-    cin.tie(NULL);
+typedef long long int ll;
 
-#define IN cin >>
-#define OUT cout <<
-#define nl "\n"
-#define all(a) (a).begin(), (a).end()
-#define pb push_back
-#define write(a)          \
-    for (auto x : a)      \
-    {                     \
-        cout << x << " "; \
-    }                     \
-    cout << nl;
-#define read(a)       \
-    for (auto &x : a) \
-    {                 \
-        cin >> x;     \
-    }
-using ll = long long int;
-using ld = long double;
-using pll = pair<ll, ll>;
-using pii = pair<int, int>;
-using vll = vector<ll>;
-using vi = vector<int>;
-const ll mod = (ll)(1e9) + 7LL;
-const ll M = 988244353LL;
-
-void solve()
+vector<int> sort_cyclic_shifts(string const &s)
 {
-    int n, x, t;
-    cin >> n >> x >> t;
-    cout << int(ceil(double(n) / double(x)) * t) << endl;
+    int n = s.size();
+    int alphabet = 256;
+    vector<int> p(n), c(n), cnt(max(alphabet, n), 0);
+    for (int i = 0; i < n; i++)
+    {
+        cnt[s[i]]++;
+    }
+    for (int i = 1; i < alphabet; i++)
+    {
+        cnt[i] += cnt[i - 1];
+    }
+    for (int i = 0; i < n; i++)
+    {
+        p[--cnt[s[i]]] = i;
+    }
+    c[p[0]] = 0;
+    int classes = 0;
+    for (int i = 1; i < n; i++)
+    {
+        if (s[p[i]] != s[p[i - 1]])
+            classes++;
+        c[p[i]] = classes;
+    }
+
+    vector<int> pn(n), cn(n);
+    for (int h = 0; (1 << h) < n; ++h)
+    {
+        for (int i = 0; i < n; i++)
+        {
+            pn[i] = p[i] - (1 << h);
+            if (pn[i] < 0)
+                pn[i] += n;
+        }
+        fill(cnt.begin(), cnt.begin() + classes, 0);
+        for (int i = 0; i < n; i++)
+            cnt[c[pn[i]]]++;
+        for (int i = 1; i < classes; i++)
+            cnt[i] += cnt[i - 1];
+        for (int i = n - 1; i >= 0; i--)
+            p[--cnt[c[pn[i]]]] = pn[i];
+        cn[p[0]] = 0;
+        classes = 1;
+        for (int i = 1; i < n; i++)
+        {
+            pair<int, int> cur = {c[p[i]], c[(p[i] + (1 << h)) % n]};
+            pair<int, int> prev = {c[p[i - 1]], c[(p[i - 1] + (1 << h)) % n]};
+            if (cur != prev)
+                ++classes;
+            cn[p[i]] = classes - 1;
+        }
+        c.swap(cn);
+    }
+    return p;
+}
+
+vector<int> suffix_array_construction(string s)
+{
+    s += "$";
+    vector<int> sorted_shifts = sort_cyclic_shifts(s);
+    sorted_shifts.erase(sorted_shifts.begin());
+    return sorted_shifts;
 }
 
 int main()
 {
-    ll tc = 1;
-    //IN tc;
-    while (tc--)
+    int t = 1;
+    cin >> t;
+    while (t--)
     {
-        solve();
     }
     return 0;
 }

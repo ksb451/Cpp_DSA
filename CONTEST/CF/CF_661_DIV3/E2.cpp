@@ -32,7 +32,7 @@ const ll mod = (ll)(1e9) + 7LL;
 const ll M = 988244353LL;
 
 vector<pll> adj[100007];
-vector<ll> cnt, w,type;
+vector<ll> cnt, w, type;
 void dfs(ll curr, ll parent)
 {
     if (adj[curr].size() == 1)
@@ -54,6 +54,11 @@ ll getdiff(ll i)
     return w[i] * 1LL * cnt[i] - (w[i] / 2) * 1LL * cnt[i];
 }
 
+ll getdiff2(ll i)
+{
+    return w[i] * 1LL * cnt[i] - (w[i] / 4) * 1LL * cnt[i];
+}
+
 void solve()
 {
     ll n, s;
@@ -62,32 +67,67 @@ void solve()
     {
         adj[i].clear();
     }
-    w = cnt = vector<ll>(n - 1, 0);
+    w = cnt = type = vector<ll>(n - 1, 0);
     for (ll i = 0; i < n - 1; i++)
     {
         ll a, b;
-        cin >> a >> b >> w[i];
+        cin >> a >> b >> w[i] >> type[i];
         a--, b--;
         adj[a].push_back({b, i});
         adj[b].push_back({a, i});
     }
     dfs(0, -1);
-    set<pll> st;
+    set<pll> st1;
+    set<pll> st2;
     long long curr_sum = 0;
     for (int i = 0; i < n - 1; i++)
     {
-        st.insert({getdiff(i), i});
+        if (type[i] == 1)
+        {
+            st1.insert({getdiff(i), i});
+        }
+        else
+        {
+            st2.insert({getdiff(i), i});
+        }
         curr_sum += w[i] * cnt[i] * 1LL;
     }
-    int ans = 0;
+    cerr << curr_sum << endl;
+    ll ans = 0;
     while (curr_sum > s)
     {
-        int id = st.rbegin()->second;
-        st.erase(prev(st.end()));
-        curr_sum -= getdiff(id);
-        w[id] /= 2;
-        st.insert({getdiff(id), id});
-        ans++;
+        auto id1 = *(st1.rbegin());
+        auto id2 = *(st2.rbegin());
+        cerr << id1.second << " " << id2.second << " sum " << curr_sum << endl;
+        cerr << id1.first << " " << id2.first << endl;
+        if (curr_sum - (id1.first) <= s)
+        {
+            curr_sum -= (id1.first);
+            ans++;
+            st1.erase(prev(st1.end()));
+            w[id1.second] /= 2;
+            st1.insert({getdiff(id1.second), id1.second});
+        }
+        else
+        {
+            if (getdiff2(id1.second) > getdiff(id2.second))
+            {
+                cerr << "1twice" << endl;
+                curr_sum -= getdiff2(id1.second);
+                st1.erase(prev(st1.end()));
+                w[id1.second] /= 4;
+                st1.insert({getdiff(id1.second), id1.second});
+                ans += 2;
+            }
+            else
+            {
+                curr_sum -= getdiff(id2.second);
+                st2.erase(prev(st2.end()));
+                w[id2.second] /= 2;
+                st2.insert({getdiff(id2.second), id2.second});
+                ans += 2;
+            }
+        }
     }
     cout << ans << endl;
 }

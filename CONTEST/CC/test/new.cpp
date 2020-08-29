@@ -22,10 +22,6 @@ using namespace std;
     {                 \
         cin >> x;     \
     }
-//#pragma GCC optimize("Ofast")
-//#pragma GCC target("avx,avx2,fma")
-//#pragma GCC optimization("unroll-loops")
-
 using ll = long long int;
 using ld = long double;
 using pll = pair<ll, ll>;
@@ -35,50 +31,29 @@ using vi = vector<int>;
 const ll mod = (ll)(1e9) + 7LL;
 const ll M = 988244353LL;
 
-int dp[3002][3002];
-int next_count(int a, int i, int n)
-{
-    return dp[a][n - 1] - dp[a][i - 1];
-}
-
-int prev_count(int a, int i)
-{
-    return dp[a][i - 1];
-}
-
 void solve()
 {
     int n;
     cin >> n;
-    vector<int> arr(n);
-    for (int i = 0; i < n; i++)
-        cin >> arr[i];
-    memset(dp, 0, sizeof(dp));
-    for (int i = 0; i < n; i++)
+    vector<int> arr(n + 1, 1);
+    for (int i = 0; i < n - 1; i++)
     {
-        dp[arr[i]][i] = 1;
+        int a;
+        cin >> a;
+        arr[a] = 0;
     }
-    for (int i = 0; i <= n; i++)
+    for (int i = 1; i <= n; i++)
     {
-        for (int j = 1; j <= n; j++)
+        if (arr[i])
         {
-            dp[i][j] += dp[i][j - 1];
+            cout << i << endl;
+            break;
         }
     }
-    long long int ans = 0;
-    for (int i = 1; i < n - 2; i++)
-    {
-        for (int j = i + 1; j < n - 1; j++)
-        {
-            ans += (prev_count(arr[j], i) * next_count(arr[i], j + 1, n));
-        }
-    }
-    cout << ans << endl;
 }
 
 int main()
 {
-    fast;
     ll tc = 1;
     IN tc;
     while (tc--)

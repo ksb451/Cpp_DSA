@@ -119,11 +119,11 @@ void solve()
         {
             if (depth[i] & 1)
             {
-                ans += '1';
+                ans += '0';
             }
             else
             {
-                ans += '0';
+                ans += '1';
             }
         }
     }
