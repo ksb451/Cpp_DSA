@@ -1,3 +1,7 @@
+/******************************************
+* AUTHOR : Keshab Agrawal *
+* NICK : sn0wrus *
+******************************************/
 #include <bits/stdc++.h>
 #include <algorithm>
 using namespace std;
@@ -33,13 +37,7 @@ const ll M = 988244353LL;
 
 void solve()
 {
-    int n;
-    cin>>n;
-    for (int i=0;i<n;i++)
-    {
-        cout<<i+1<<" ";
-    }
-    cout<<endl;
+	
 }
 
 int main()
@@ -52,5 +50,3 @@ int main()
     }
     return 0;
 }
-
-

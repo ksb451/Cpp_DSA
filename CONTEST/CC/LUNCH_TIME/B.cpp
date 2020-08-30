@@ -1,3 +1,7 @@
+/******************************************
+* AUTHOR : Keshab Agrawal *
+* NICK : sn0wrus *
+******************************************/
 #include <bits/stdc++.h>
 #include <algorithm>
 using namespace std;
@@ -33,13 +37,38 @@ const ll M = 988244353LL;
 
 void solve()
 {
-    int n;
-    cin>>n;
-    for (int i=0;i<n;i++)
-    {
-        cout<<i+1<<" ";
-    }
-    cout<<endl;
+	int n,d;
+	cin>>n>>d;
+	cout<<setprecision(6)<<fixed;
+	std::vector<long double> arr(n);
+	for (int i =0; i < n; ++i)
+	{
+		cin>>arr[i];
+	}
+	sort(all(arr));
+	ld l=0,r=1e10,mid,ans=0,time;
+	while(r-l>=1e-7)
+	{
+		mid=(r+l)/2;
+		time=arr[0];
+		int i;
+		for(i=0;i<n-1;i++)
+		{
+			if(time+mid > (arr[i+1]+d))
+			{
+				break;
+			}
+			time=max(arr[i+1],time+mid);
+		}
+		if(i==n-1)
+		{
+			ans=mid;
+			l=mid+1e-7;
+		}
+		else
+			r=mid-1e-7;
+	}
+	cout<<ans<<endl;
 }
 
 int main()
@@ -52,5 +81,3 @@ int main()
     }
     return 0;
 }
-
-
