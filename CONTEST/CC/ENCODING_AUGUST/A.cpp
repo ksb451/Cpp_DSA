@@ -29,7 +29,7 @@ const int dir4[4][2]={{1,0},{0,1},{-1,0},{0,-1}};
 
 /*
 for(int i=0;i<n-1;i++)
-{
+{`
     int a,b;
     cin>>a>>b;
     a--,b--;
@@ -40,15 +40,52 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll n;
-    cin>>n;
-    vector<ll>arr(n);
-    for(int i=0;i<n;i++)cin>>arr[i];
+	ll n,m;
+    cin>>m>>n;
+    vector<pll>A(n);
+    vector<ll>B(n);
+    for(int i=0;i<n;i++)
+    {
+		cin>>A[i].first>>A[i].second;
+    	B[i]=A[i].first;
+    }
+    sort(all(B));
+    // for(int i=0;i<n;i++)
+    // {
+    // 	cout<<B[i]<<" ";
+    // }
+    // cout<<endl;
+    vector<ll>pre=B;
+    for(int i=n-2;i>=0;i--)
+    {
+    	pre[i]+=pre[i+1];
+    }
+    // for(int i=0;i<n;i++)
+    // {
+    // 	cout<<pre[i]<<" ";
+    // }
+    // cout<<endl;
     ll ans=0;
 	for(int i=0;i<n;i++)
 	{
-		if(!(arr[i]&1))
-			ans+=arr[i];
+		ll sum=0;
+		ll pos = B.end()-upper_bound(all(B),A[i].second);
+		//cout<<pos<<" "<<A[i].second<<endl;
+		if(pos>=m && pos)
+			sum=*(pre.end()-m);
+		else{
+			if(pos)
+				sum=*(pre.end()-pos);
+			if(A[i].first>A[i].second)
+			{
+				sum+=(m-pos)*A[i].second;
+			}
+			else{
+				sum+=A[i].first;
+				sum+=(m-pos-1)*A[i].second;
+			}
+		}
+		ans=max(sum,ans);
 	}
 	cout<<ans<<endl;
 }
