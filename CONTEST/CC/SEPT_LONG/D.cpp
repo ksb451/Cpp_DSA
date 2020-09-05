@@ -38,50 +38,13 @@ for(int i=0;i<n-1;i++)
 void solve()
 {
 	ll n;
-	cin>>n;
-	if((n%4)==2||(n%4)==1)
-	{
-		cout<<0<<endl;
-		return;
-	}
-	ll total_sum=(n*(n+1))/2;
-	ll ans=0;
-	ll start=ll(ceil(double(n)*.70710678))-3;
-	start=max(1LL,start);
-	ll sum_1=(start*(start-1)/2);
-	for(ll i=start;i<=n;i++)
-	{
-		sum_1+=i;
-		ll sum_2=total_sum-sum_1;
-		if(sum_1>sum_2)
-		{
-			break;
-		}
-		else{
-			if(sum_1==sum_2)
-			{
-				ans+=(i*(i-1))/2;
-				ans+=((n-i)*(n-i-1))/2;
-			}
-			else{
-				ll diff=sum_2-sum_1;
-				if(!(diff&1))
-				{
-					diff/=2;
-					ll l=max(i+1,1+diff);
-					ll r=min(n,i+diff);
-					if(r>=l)
-						ans+=(r-l+1);
-				}
-			}
-		}
-	}
-	cout<<ans<<endl;
+    cin>>n;
+    vector<ll>arr(n);
+    for(int i=0;i<n;i++)cin>>arr[i];
 }
 
 int main()
 {
-	fast;
     ll tc = 1;
     IN tc;
     while (tc--)

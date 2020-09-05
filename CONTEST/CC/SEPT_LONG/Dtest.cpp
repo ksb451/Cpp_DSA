@@ -35,57 +35,63 @@ for(int i=0;i<n-1;i++)
 }
 */
 
+void decToBinary(ll n) 
+{ 
+    // Size of an integer is assumed to be 32 bits 
+    for (int i = 31; i >= 0; i--) { 
+        ll k = n >> i; 
+        if (k & 1) 
+            cout << "1"; 
+        else
+            cout << "0"; 
+    }
+    cout<<endl; 
+} 
+  
 void solve()
 {
-	ll n;
-	cin>>n;
-	if((n%4)==2||(n%4)==1)
+	srand(time(0));
+	ll n=rand()%10;
+	cout<<n<<endl;
+	vector<ll>arr(n);
+	for(int i=0;i<n;i++)
 	{
-		cout<<0<<endl;
-		return;
+		arr[i]=rand()%1000;
 	}
-	ll total_sum=(n*(n+1))/2;
-	ll ans=0;
-	ll start=ll(ceil(double(n)*.70710678))-3;
-	start=max(1LL,start);
-	ll sum_1=(start*(start-1)/2);
-	for(ll i=start;i<=n;i++)
+	ll sum=0;
+	ll xorsum=0;
+	ll sumxorsum=0;
+	for(int j=0;j<20;j++)
 	{
-		sum_1+=i;
-		ll sum_2=total_sum-sum_1;
-		if(sum_1>sum_2)
+		ll k=(1<<j)-1;
+		decToBinary(k);
+		sum=0;
+		xorsum=0;
+		for(int i=0;i<arr.size();i++)
 		{
-			break;
+			sum^=arr[i];
+			xorsum+=(arr[i]^k);
 		}
-		else{
-			if(sum_1==sum_2)
-			{
-				ans+=(i*(i-1))/2;
-				ans+=((n-i)*(n-i-1))/2;
-			}
-			else{
-				ll diff=sum_2-sum_1;
-				if(!(diff&1))
-				{
-					diff/=2;
-					ll l=max(i+1,1+diff);
-					ll r=min(n,i+diff);
-					if(r>=l)
-						ans+=(r-l+1);
-				}
-			}
-		}
+		//cout<<xorsum<<" "<<sum<<"  "<<(sum^k)<<endl;
+		decToBinary(xorsum);
+		sumxorsum+=xorsum;
+		//decToBinary(xorsum^k);
+		cout<<endl;
 	}
-	cout<<ans<<endl;
+	cout<<endl;
+	decToBinary(sumxorsum);
+	decToBinary(sum);
 }
 
 int main()
 {
-	fast;
-    ll tc = 1;
-    IN tc;
-    while (tc--)
+	ll tc;
+    while (cin>>tc)
     {
+    	if(tc==-1)
+    	{
+    		return 0;
+    	}
         solve();
     }
     return 0;

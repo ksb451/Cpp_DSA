@@ -20,10 +20,10 @@ using vll = vector<ll>;
 using vi = vector<int>;
 const ll mod = (ll)(1e9) + 7LL;
 const ll M = 998244353LL;
-
+using pdi = pair<double,int>;
 const int dir8[8][2]={{1,0},{0,1},{-1,0},{0,-1},{1,1},{1,-1},{-1,1},{-1,-1}};
 const int dir4[4][2]={{1,0},{0,1},{-1,0},{0,-1}};
-using pdi = pair<double,int>;
+
 /*
 for(int i=0;i<n-1;i++)
 {
@@ -34,44 +34,76 @@ for(int i=0;i<n-1;i++)
     adj[b].push_back(a);
 }
 */
+ll n;
+set<int>infected;
+vector<vector<int>>passes;
 
-double timet(double i,double j, double vi, double vj)
+void rec(int curr,int source)
 {
-	return ((i-j)/(vj-vi));
+	int i=0;
+	for(;i<passes[curr].size();i++)
+	{
+		if(passes[curr][i]==source)
+		{
+			i++;
+			break;
+		}
+	}
+	for(;i<passes[curr].size();i++)
+	{
+		if(infected.count(passes[curr][i])==0)
+		{
+			infected.insert(passes[curr][i]);
+			rec(passes[curr][i],curr);
+		}
+	}
 }
 
 void solve()
 {
-	ll n;
     cin>>n;
-    vector<ll>vel(n);
-    vector<pdi>pass[n];
-    for(int i=0;i<n;i++)
-    {	
-    	cin>>vel[i];
-    }
+    vector<ll>speed(n);
+    for(int i=0;i<n;i++)cin>>speed[i];
+    passes=vector<vector<int>>(n);
+	set<pdi>st;
     for(int i=0;i<n;i++)
     {
+    	st.clear();
+    	st.insert({0,i});
     	for(int j=0;j<n;j++)
     	{
-    		if((i!=j)&&((i<j)^(vel[i]<vel[j])))
+    		if(((i<j)^(speed[i]<speed[j]))&&(speed[i]!=speed[j]))
     		{
-    			pass[i].push_back({timet(i+1,j+1,vel[i],vel[j]),j});
+    			double t=double(abs(i-j))/double(abs(speed[i]-speed[j]));
+    			st.insert({t,j});
     		}
-    	}	
-    }
-    for(int i=0;i<n;i++)
-    {
-    	sort(all(pass[i]));
-    }
-    for(int i=0;i<n;i++)
-    {
-    	for(auto j:pass[i])
+    	}
+    	for(auto k:st)
     	{
-    		cout<<i<<" "<<j.second<<" "<<j.first<<endl;
+    		passes[i].push_back(k.second);
     	}
     }
-    return;
+    // cout<<endl;
+    // for(int i=0;i<n;i++)
+    // {
+    // 	cout<<i+1<<": ";
+    // 	for(auto j:passes[i])
+    // 	{
+    // 		cout<<j+1<<" ";
+    // 	}
+    // 	cout<<endl;
+    // }
+    int mn=n+1,mx=0;
+    for(int i=0;i<n;i++)
+    {
+    	infected.clear();
+    	infected.insert(i);
+    	rec(i,i);
+    	int curr=infected.size();
+    	mn=min(mn,curr);
+    	mx=max(mx,curr);
+    }
+    cout<<mn<<" "<<mx<<endl;
 }
 
 int main()
