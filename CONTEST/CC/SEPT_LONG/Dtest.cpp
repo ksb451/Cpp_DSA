@@ -50,20 +50,24 @@ void decToBinary(ll n)
   
 void solve()
 {
+
+	vector<int>k_val={2, 5, 10, 21, 42, 85, 170, 341, 682, 1365, 2730, 5461, 10922, 21845, 43690, 87381, 174762, 349525, 699050, 1398101};
 	srand(time(0));
 	ll n=rand()%10;
 	cout<<n<<endl;
 	vector<ll>arr(n);
 	for(int i=0;i<n;i++)
 	{
-		arr[i]=rand()%1000;
+		arr[i]=rand()%10000;
 	}
+	// ll n=4;
+	// vector<int>arr={1,2,3,4}; 
 	ll sum=0;
 	ll xorsum=0;
-	ll sumxorsum=0;
+	ll sumxorsum=(1<<20)-1;
 	for(int j=0;j<20;j++)
 	{
-		ll k=(1<<j)-1;
+		ll k=k_val[j];
 		decToBinary(k);
 		sum=0;
 		xorsum=0;
@@ -74,7 +78,7 @@ void solve()
 		}
 		//cout<<xorsum<<" "<<sum<<"  "<<(sum^k)<<endl;
 		decToBinary(xorsum);
-		sumxorsum+=xorsum;
+		sumxorsum&=xorsum;
 		//decToBinary(xorsum^k);
 		cout<<endl;
 	}
