@@ -34,61 +34,71 @@ for(int i=0;i<n-1;i++)
     adj[b].push_back(a);
 }
 */
-ll n, k;
-vector<ll>arr;
-vector<ll>dp;
 
-ll rec(int l)
+void solve(ll k)
 {
-    if(l>=n)
-    {
-        return 0;
-    }
-    else if(dp[l]!=-1){
-        return dp[l];
-    }
-    else{
-        dp[l]=INT_MAX;
-        int g =0, tmp = 0;
-        unordered_map<int,int>mp;
-        for(int i=l;i<n;i++)
-        {
-            if(mp[arr[i]]==1)
-            {
-                tmp++;
-            }
-            mp[arr[i]]++;
-            if(mp[arr[i]]>1)
-            {
-                g++;
-            }
-            dp[l]=min(dp[l],g+tmp+((i+1<n) ? k : 0)+rec(i+1));
-        }
-        return dp[l];
-    }
-}
-
-
-void solve()
-{
-    cin>>n>>k;
-    arr.clear();
-    arr=vector<ll>(n);
-    for(int i=0;i<n;i++)cin>>arr[i];
-
-    dp.clear();
-    dp = vector<ll>(n,-1);
-    cout<<k+rec(0)<<endl;
+	ll n;
+	cin>>n;
+	if(k==1)
+	{
+		if(n==1)
+		{
+			cout<<1<<endl<<"1"<<endl;
+			return;
+		}
+		else if(n==2)
+		{
+			cout<<1<<endl<<"10"<<endl;
+		}
+		else if(n==3)
+		{
+			cout<<0<<endl<<"110"<<endl;
+		}
+		else{
+			string ans(n,'0');
+			if(n&1)
+			{
+				for(int i=0;i<n/2;i+=2)
+				{
+					ans[i+1]='1';
+					ans[n-i-1]='1';
+				}
+				if((n/2) & 1)
+				{
+					ans[n/2]='0';
+					cout<<0<<endl<<ans<<endl;
+					return;
+				}
+				cout<<1<<endl<<ans<<endl;
+			}
+			else{
+				for(int i=0;i<n/2;i+=2)
+				{
+					ans[i]='1';
+					ans[n-i-1]='1';
+				}
+				if((n/2) & 1)
+				{
+					ans[n/2]='0';
+					cout<<1<<endl<<ans<<endl;
+					return;
+				}
+				cout<<0<<endl<<ans<<endl;
+			}
+		}
+	}
 }
 
 int main()
 {
     fast;
+    ll k;
     ll tc = 1;
-    IN tc;
+    cin>>k>>tc;
+    //IN tc;
     while (tc--)
     {
-        solve();
+        solve(k);
     }
     return 0;
 }

@@ -35,65 +35,39 @@ for(int i=0;i<n-1;i++)
 }
 */
 
-bool solve()
+void solve()
 {
-    int n;
-    cin>>n;
-    int ans=0,in;
-    vector<int>arr;
-
-    for(int i=1;i<=20;i++)
+	ll n,k;
+    cin>>n>>k;
+    vector<ll>arr(n+1),sum(n+1);
+    arr[0]=0;
+    sum[0]=0;
+    sum[1]=0;
+    for(ll i=1;i<=n;i++)
     {
-        cout<<"1"<<" "<<(1<<i)<<endl;
-        cout.flush();
-        cin>>in;
-        arr.push_back(in);
+    	arr[i]=pow(i,k);
+    	sum[i]=sum[i-1]+arr[i-1];
     }
-    reverse(all(arr));
-    int sz=arr.size();
-    int sum=arr[0]-n*(1<<20);
-    for(int i=1;i<sz;i++)
-    {
-        if(arr[i]<sum)
-        {
-            arr[i]=(n+(sum-arr[i])/(1<<(sz-i)))/2;
-        }
-        else
-        { 
-            arr[i]=(n-(arr[i]-sum)/(1<<(sz-i)))/2;
-        }
+    for(auto i:arr){
+    	cout<<i<<" ";
     }
-    if(sum&1)ans++;
-
-    for(int i=1;i<sz;i++){
-        if(arr[i]&1)
-        {
-            ans+=1<<(arr.size()-i);
-        }
-    }
-    cout<<"2"<<" "<<ans;
     cout<<endl;
-    cout.flush();
-    cin>>in;
-    if(in==1)
-        return true;
-
-    return false;
+    for(auto i:sum)
+    {
+    	cout<<i<<" ";
+    }
+    cout<<endl;
+    return;
 }
 
 int main()
 {
     fast;
-    int tc = 1;
-    IN tc;
+    ll tc = 1;
+    //IN tc;
     while (tc--)
     {
-        if(solve())
-        {}
-        else
-            break;
+        solve();
     }
-    cout<<endl;
-    cout.flush();
     return 0;
 }

@@ -74,13 +74,13 @@ void solve(ll n)
 					{
 						if(flag)
 						{
-							//cout<<i<<"    ";
+							cout<<i<<"    ";
 							flag=false;
 						}
 						cout<<i<<" "<<(r-l+1)<<" ";
 						ans+=(r-l+1);
 					}
-					//cout<<"2"<<ans<<endl;
+					cout<<"2"<<ans<<endl;
 				}
 			}
 		}
