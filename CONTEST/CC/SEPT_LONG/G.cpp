@@ -87,6 +87,25 @@ void solve(ll k)
 			}
 		}
 	}
+	else if(k==2)
+	{
+		ll val = pow(2, n); 
+	    ll sep = n / 2; 
+	    ll grp1 = 0; 
+	    ll grp2 = 0; 
+	    
+	    grp1 = grp1 + val; 
+	      
+	    for(int i = 1; i < sep; i++) 
+	       grp1 = grp1 + pow(2, i); 
+	          
+	   
+	    for(int i = sep; i < n; i++) 
+	       grp2 = grp2 + pow(2, i); 
+	          
+	   
+	    cout << (abs(grp1 - grp2)); 
+	}
 }
 
 int main()
