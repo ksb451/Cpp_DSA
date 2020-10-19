@@ -37,21 +37,37 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll r,n;
-    cin>>r>>n;
-    vector<pair<ll,pll>>arr(n);
-    for(int i=0;i<n;i++)
-    {
-    	cin>>arr[i].first>>arr[i].second.first>>arr[i].second.second;
-    }
-    
+	ll n;
+    cin>>n;
+   	if(n==2)
+   	{
+   		cout<<2<<endl;
+   		cout<<"1 2"<<endl;
+   	}
+   	else if(n==3)
+   	{
+   		cout<<2<<endl;
+   		cout<<"1 3"<<endl<<"2 2"<<endl;
+   	}
+   	else{
+   		cout<<2<<endl;
+   		cout<<n<<" "<<n-2<<endl;
+   		cout<<n-1<<" "<<n-1<<endl;
+   		ll x=n-1;
+   		for(int i=n-3;i>0;i--)
+   		{
+   			cout<<x<<" "<<i<<endl;
+   			x=(x+i)/2;
+   		}
+   	}
+   	return;
 }
 
 int main()
 {
     fast;
     ll tc = 1;
-    //IN tc;
+    IN tc;
     while (tc--)
     {
         solve();

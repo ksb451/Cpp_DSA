@@ -37,21 +37,33 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll r,n;
-    cin>>r>>n;
-    vector<pair<ll,pll>>arr(n);
-    for(int i=0;i<n;i++)
+    string s;
+    cin>>s;
+    stack<char>S;
+    for(int i=0;i<s.length();i++)
     {
-    	cin>>arr[i].first>>arr[i].second.first>>arr[i].second.second;
+    	if(S.empty())
+    	{
+    		S.push(s[i]);
+    	}
+    	else{
+    		if(s[i]=='B')
+    		{
+    			S.pop();
+    		}
+    		else{
+    			S.push(s[i]);
+    		}
+    	}
     }
-    
+    cout<<S.size()<<endl;
 }
 
 int main()
 {
     fast;
     ll tc = 1;
-    //IN tc;
+    IN tc;
     while (tc--)
     {
         solve();

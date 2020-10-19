@@ -37,21 +37,24 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll r,n;
-    cin>>r>>n;
-    vector<pair<ll,pll>>arr(n);
-    for(int i=0;i<n;i++)
-    {
-    	cin>>arr[i].first>>arr[i].second.first>>arr[i].second.second;
-    }
-    
+	ll n,k;
+    cin>>n>>k;
+    vector<ll>arr(n);
+    for(int i=0;i<n;i++)cin>>arr[i];
+    sort(arr.rbegin(), arr.rend());
+	ll sum =0;
+	for(int i=0;i<=k&&i<n;i++)
+	{
+		sum+=arr[i];
+	}
+	cout<<sum<<endl;
 }
 
 int main()
 {
     fast;
     ll tc = 1;
-    //IN tc;
+    IN tc;
     while (tc--)
     {
         solve();

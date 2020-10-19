@@ -35,23 +35,70 @@ for(int i=0;i<n-1;i++)
 }
 */
 
+bool cal(int n, int a,int b,int c)
+{
+	if(n<0)
+	{
+		return false;
+	}
+	if(n%3==0)
+	{
+		cout<<a+n/3<<" "<<b<<" "<<c<<endl;
+		return true;
+	}
+	else if(n%5==0)
+	{
+
+		cout<<a<<" "<<b+n/5<<" "<<c<<endl;
+		return true;
+	}
+	else if(n%7==0)
+	{
+
+		cout<<a<<" "<<b<<" "<<c+n/7<<endl;
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
 void solve()
 {
-	ll r,n;
-    cin>>r>>n;
-    vector<pair<ll,pll>>arr(n);
-    for(int i=0;i<n;i++)
+	ll n;
+    cin>>n;
+    for(int i=0;i<3;i++)
     {
-    	cin>>arr[i].first>>arr[i].second.first>>arr[i].second.second;
+    	if(cal(n-i*3, i,0,0))
+    	{
+    		return;
+    	}
     }
-    
+
+    for(int i=0;i<5;i++)
+    {
+    	if(cal(n-i*5, 0,i,0))
+    	{
+    		return;
+    	}
+    }
+
+    for(int i=0;i<7;i++)
+    {
+    	if(cal(n-i*7, 0,0,i))
+    	{
+    		return;
+    	}
+    }
+    cout<<-1<<endl;
+    return;
 }
 
 int main()
 {
     fast;
     ll tc = 1;
-    //IN tc;
+    IN tc;
     while (tc--)
     {
         solve();

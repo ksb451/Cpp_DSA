@@ -37,21 +37,45 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll r,n;
-    cin>>r>>n;
-    vector<pair<ll,pll>>arr(n);
+	ll n;
+    cin>>n;
+    string s;
+    cin>>s;
+    bool clck=true, anticlck =true;
     for(int i=0;i<n;i++)
     {
-    	cin>>arr[i].first>>arr[i].second.first>>arr[i].second.second;
+    	if(s[i]=='<')
+    	{
+    		clck=false;
+    	}
+    	else if(s[i]=='>')
+    	{
+    		anticlck=false;
+    	}
     }
-    
+    if(clck||anticlck)
+    {
+    	cout<<n<<endl;
+    }
+    else{
+    	ll ans=0;
+    	for(int i=0;i<n;i++)
+    	{
+    		ll prev = (i+n-1)%n;
+    		if(s[i]=='-' || s[prev]=='-')
+    		{
+    			ans++;
+    		}
+    	}
+    	cout<<ans<<endl;
+    }
 }
 
 int main()
 {
     fast;
     ll tc = 1;
-    //IN tc;
+    IN tc;
     while (tc--)
     {
         solve();

@@ -37,14 +37,31 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll r,n;
-    cin>>r>>n;
-    vector<pair<ll,pll>>arr(n);
+	ll n,k;
+    cin>>n>>k;
+   	multiset<ll,greater<ll>>set1;
     for(int i=0;i<n;i++)
+    	{
+    		ll x;
+    		cin>>x;
+    		set1.insert(x);
+    	}
+
+   	ll cnt = k-n;
+    while(cnt--)
     {
-    	cin>>arr[i].first>>arr[i].second.first>>arr[i].second.second;
+    	ll xx = *set1.begin();
+    	//cout<<xx<<endl;
+    	set1.erase(set1.begin());
+    	set1.insert(xx/2);
+    	set1.insert(xx-xx/2);
     }
-    
+    ll ans=0;
+    for(auto i:set1)
+    {
+    	ans+=i*i;
+    }
+    cout<<ans<<endl;
 }
 
 int main()

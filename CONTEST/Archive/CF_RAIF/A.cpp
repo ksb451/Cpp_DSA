@@ -37,21 +37,25 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll r,n;
-    cin>>r>>n;
-    vector<pair<ll,pll>>arr(n);
-    for(int i=0;i<n;i++)
+    ll a,b,c,d;
+    cin>>a>>b>>c>>d;
+    ll xx = abs(a-c);
+    ll yy= abs(b-d);
+    if(xx==0 || yy==0)
     {
-    	cin>>arr[i].first>>arr[i].second.first>>arr[i].second.second;
+    	cout<<max(xx,yy)<<endl;
     }
-    
+    else{
+    	cout<<xx+yy+2<<endl;
+    }
+    return;
 }
 
 int main()
 {
     fast;
     ll tc = 1;
-    //IN tc;
+    IN tc;
     while (tc--)
     {
         solve();
