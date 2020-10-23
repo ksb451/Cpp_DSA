@@ -1,0 +1,318 @@
+<snippet>
+ <content><![CDATA[
+//**sn0wrus**//
+#include <bits/stdc++.h>
+#include <algorithm>
+using namespace std;
+#define fast                          \
+    ios_base::sync_with_stdio(false); \
+    cout.tie(NULL);                   \
+    cin.tie(NULL);
+#define write(a)          \
+    for (auto x : a)      \
+    {                     \
+        cout << x << " "; \
+    }                     \
+    cout << endl;
+#define read(a)       \
+    for (auto &x : a) \
+    {                 \
+        cin >> x;     \
+    }
+#define IN cin >>
+#define OUT cout <<
+#define endl "\n"
+#define all(a) (a).begin(), (a).end()
+#define pb push_back
+using ll = long long int;
+using ld = long double;
+using pll = pair<ll, ll>;
+using pii = pair<int, int>;
+using vll = vector<ll>;
+using vi = vector<int>;
+const ll mod = (ll)(1e9) + 7LL;
+const ll M = 998244353LL;
+
+const int dir8[8][2]={{1,0},{0,1},{-1,0},{0,-1},{1,1},{1,-1},{-1,1},{-1,-1}};
+const int dir4[4][2]={{1,0},{0,1},{-1,0},{0,-1}};
+
+/*
+for(int i=0;i<n-1;i++)
+{
+    int a,b;
+    cin>>a>>b;
+    a--,b--;
+    adj[a].push_back(b);
+    adj[b].push_back(a);
+}
+*/
+
+void solve()
+{
+	ll n;
+    cin>>n;
+    vector<ll>arr(n);
+    for(int i=0;i<n;i++)cin>>arr[i];
+}
+
+int main()
+{
+    fast;
+    ll tc = 1;
+    IN tc;
+    while (tc--)
+    {
+        solve();
+    }
+    return 0;
+}
+]]></content>
+ <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+ <tabTrigger>ccsnpt</tabTrigger>
+ <!-- Optional: Set a scope to limit where the snippet will trigger -->
+ <!-- <scope>source.python</scope> -->
+</snippet>
+
+
+
+
+<snippet>
+	<content><![CDATA[
+#include <bits/stdc++.h>
+#include <algorithm>
+using namespace std;
+#define fast                          \
+    ios_base::sync_with_stdio(false); \
+    cout.tie(NULL);                   \
+    cin.tie(NULL);
+
+#define IN cin >>
+#define OUT cout <<
+#define nl "\n"
+#define all(a) (a).begin(), (a).end()
+#define pb push_back
+#define write(a)          \
+    for (auto x : a)      \
+    {                     \
+        cout << x << " "; \
+    }                     \
+    cout << nl;
+#define read(a)       \
+    for (auto &x : a) \
+    {                 \
+        cin >> x;     \
+    }
+using ll = long long int;
+using ld = long double;
+using pll = pair<ll, ll>;
+using pii = pair<int, int>;
+using vll = vector<ll>;
+using vi = vector<int>;
+const ll mod = (ll)(1e9) + 7LL;
+const ll M = 988244353LL;
+
+void solve()
+{
+    ll n;
+    cin>>n;
+    
+}
+
+int main()
+{
+	ios_base::sync_with_stdio(false); 
+    cout.tie(NULL);
+    cin.tie(NULL);
+    ll tc = 1;
+    IN tc;
+    for (int i = 1; i <= tc; i++)
+    {
+        cout << "Case #" << i << ": ";
+        solve();
+    }
+    return 0;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>codejam</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
+
+
+
+
+
+<snippet>
+	<content><![CDATA[
+struct FenTree {
+    vector<int> bit;  // binary indexed tree
+    int n;
+
+    FenTree(int n) {
+        this->n = n;
+        bit.assign(n, 0);
+    }
+
+    FenTree(vector<int> a) : FenTree(a.size()) {
+        for (size_t i = 0; i < a.size(); i++)
+            add(i, a[i]);
+    }
+
+    int sum(int r) {
+        int ret = 0;
+        for (; r >= 0; r = (r & (r + 1)) - 1)
+            ret += bit[r];
+        return ret;
+    }
+
+    int sum(int l, int r) {
+        return sum(r) - sum(l - 1);
+    }
+
+    void add(int idx, int delta) {
+        for (; idx < n; idx = idx | (idx + 1))
+            bit[idx] += delta;
+    }
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>fenwick</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
+
+
+
+<snippet>
+	<content><![CDATA[
+struct FenTree {
+    vector<int> bit;  // binary indexed tree
+    int n;
+
+    FenTree(int n) {
+        this->n = n;
+        bit.assign(n, 0);
+    }
+
+    FenTree(vector<int> a) : FenTree(a.size()) {
+        for (size_t i = 0; i < a.size(); i++)
+            add(i, a[i]);
+    }
+
+    int sum(int r) {
+        int ret = 0;
+        for (; r >= 0; r = (r & (r + 1)) - 1)
+            ret += bit[r];
+        return ret;
+    }
+
+    int sum(int l, int r) {
+        return sum(r) - sum(l - 1);
+    }
+
+    void add(int idx, int delta) {
+        for (; idx < n; idx = idx | (idx + 1))
+            bit[idx] += delta;
+    }
+};
+
+ll count_inv(vector<int>&per)
+{
+	ll n = per.size();
+	FenTree BIT(n);
+	ll ans=0;
+	for(int i=0;i<n;i++)
+	{
+		BIT.add(per[i],1);
+		ll sum  = BIT.sum(per[i]);
+		ans += (i+1-sum);
+	}
+	return ans;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>inversions</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
+
+
+<snippet>
+	<content><![CDATA[
+class DSU
+{
+    ll N;
+    ll total_components;
+    vector<ll> sz;
+    vector<ll> parent;
+
+public:
+    DSU(ll n)
+    {
+        no_of_elements = n;
+        total_components = n;
+        sz = vector<ll>(n, 1);
+        for (ll i = 0; i < n; i++)
+        {
+            parent.push_back(i);
+        }
+    }
+    ll find(ll x)
+    {
+        ll root = x;
+        while (parent[root] != root)
+        {
+            root = parent[root];
+        }
+        while (x != root)
+        {
+            ll next = parent[x];
+            parent[x] = root;
+            x = next;
+        }
+        return root;
+    }
+
+    ll component_size(int x)
+    {
+        return sz[find(x)];
+    }
+
+    ll size()
+    {
+        return N;
+    }
+
+    ll components()
+    {
+        return total_components;
+    }
+
+    void unify(ll p, ll q)
+    {
+        ll root1 = find(p);
+        ll root2 = find(q);
+        if (root1 == root2)
+            return;
+        if (sz[root1] < sz[root2])
+        {
+            sz[root2] += sz[root1];
+            parent[root1] = root2;
+        }
+        else
+        {
+            sz[root1] += sz[root2];
+            parent[root2] = root1;
+        }
+        total_components--;
+    }
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>dsu</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
+
+
