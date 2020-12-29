@@ -48,39 +48,65 @@ for(int i=0;i<n-1;i++)
     adj[b].push_back(a);
 }
 */
-
+const ll N = 102;
+const ll MAX_C = 10005;
+ll dp[N][MAX_C];
 void solve()
 {
+	for(int i=0;i<N;i++)
+	{
+		for(int j=0;j<MAX_C;j++)
+		{
+			dp[i][j]=-1e2;
+		}
+	}
+	dp[0][0]=0;
 	ll n;
-	cin>>n;
-	vector<ll> a(n), b(n);
-	for (int i=0; i<n; i++){
-		cin>>a[i]>>b[i];
-	}
-	ll total = 0;
-	for (int i=0; i<n; i++) total += a[i];
-	ll sum = 0;
-	for (int i=0; i<n; i++) sum += b[i];
-	vector<vector<ll> > dp(n+1, vector<ll>(total+1, -1e8));
-	dp[0][0] = 0;
-	for (int i=0; i<n; i++){
-		vector<vector<ll> > newdp = dp;
-		for (int k=1; k <= n; k++){
-			for (ll A = total; A>=0; A--){
-				ll curr = A >= a[i] ? dp[k-1][A-a[i]]:-1;
-				if (curr != -1e8) curr += b[i];
-				newdp[k][A] = max(newdp[k][A], curr);
-			}
-		}
-		dp = newdp;
-	}
-	for (int k=1; k<=n; k++){
-		double res = -1;
-		for (int i=0; i<=total; i++){
-			res = max(res, min(dp[k][i]+sum, (ll)2*i)*0.5);
-		}
-		cout<<res<<" ";
-	}
+    cin>>n;
+    ll sum=0;
+    for(int i=0;i<n;i++)
+    {
+    	ll a,b;
+    	cin>>a>>b;
+    	sum+=b;
+    	for(int ii = i;ii>=0;ii--)
+    	{
+    		for(int s=0;s<MAX_C;s++)
+    		{
+    			if(s+a<MAX_C && dp[ii][s]>=0)
+    			{
+    				dp[ii+1][s+a] = max(dp[ii+1][s+a], dp[ii][s]+b);
+    			}
+    		}
+    	}
+    	cout<<endl<<endl;
+    	for(int i=0;i<11;i++)
+    {
+    	for(int j=0;j<25;j++)
+    	{
+    		cout<<dp[i][j]<<"   ";
+    	}
+    	cout<<endl;
+    }
+    }
+    
+    for(int i=1;i<=n;i++)
+    {
+    	ld ans = 0;
+    	for(int s=0;s<MAX_C;s++)
+    	{
+    		if(dp[i][s]<0)
+    		{
+    			continue;
+    		}
+    		else{
+    			ans=max(ans,min((ld)s,(ld)(dp[i][s]+sum)*0.5));
+    		}
+    	}
+    	cout<<ans<<" ";
+    }
+    cout<<endl;
+    return;
 }
 
 int main()

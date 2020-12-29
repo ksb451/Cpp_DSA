@@ -69,6 +69,7 @@ void solve()
     for(int i=0;i<n;i++)cin>>arr[i];
     vector<ll>brr(m);
     for(int i=0;i<m;i++)cin>>brr[i];
+    sort(all(arr));
     if(n==1)
     {
     	for(int i=0;i<m;i++)

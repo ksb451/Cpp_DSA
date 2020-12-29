@@ -93,7 +93,7 @@ void solve()
     }
     unordered_map<ll,ll>um;
     ll cnt=0;
-    for(int i=0;i<m;i++)
+    for(ll i=0;i<m;i++)
     {
     	save[i]-=(cnt*4);
     	for(auto j:mark_l[i])
@@ -105,7 +105,7 @@ void solve()
     }
     cnt=0;
     um.clear();
-    for(int i=m-1;i>=0;i--)
+    for(ll i=m-1;i>=0;i--)
     {
     	save[i]-=(cnt*4);
     	for(auto j:mark_r[i])

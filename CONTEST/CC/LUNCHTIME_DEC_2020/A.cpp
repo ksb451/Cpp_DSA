@@ -51,43 +51,56 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll n;
-	cin>>n;
-	vector<ll> a(n), b(n);
-	for (int i=0; i<n; i++){
-		cin>>a[i]>>b[i];
+	string s;
+	cin>>s;
+	vector<ll>arr(26,0);
+	for(auto i:s)
+	{
+		arr[i-'a']++;
 	}
-	ll total = 0;
-	for (int i=0; i<n; i++) total += a[i];
-	ll sum = 0;
-	for (int i=0; i<n; i++) sum += b[i];
-	vector<vector<ll> > dp(n+1, vector<ll>(total+1, -1e8));
-	dp[0][0] = 0;
-	for (int i=0; i<n; i++){
-		vector<vector<ll> > newdp = dp;
-		for (int k=1; k <= n; k++){
-			for (ll A = total; A>=0; A--){
-				ll curr = A >= a[i] ? dp[k-1][A-a[i]]:-1;
-				if (curr != -1e8) curr += b[i];
-				newdp[k][A] = max(newdp[k][A], curr);
-			}
+	ll ans=0;
+	multiset<ll>M;
+	for(auto i:arr){
+		if(i>0)
+		{
+			M.insert(i);
 		}
-		dp = newdp;
 	}
-	for (int k=1; k<=n; k++){
-		double res = -1;
-		for (int i=0; i<=total; i++){
-			res = max(res, min(dp[k][i]+sum, (ll)2*i)*0.5);
+	while(M.empty()==false)
+	{
+		if(M.size()==1)
+		{
+			break;
 		}
-		cout<<res<<" ";
+		ll mn = *M.begin();
+		ll mx = *(prev(M.end()));
+		M.erase(M.begin());
+		M.erase(prev(M.end()));
+		if(mn<2 && mx<2)
+		{
+			break;
+		}
+		ll x = min(mn,(mx/2));
+		ans+=x;
+		mn-=x;
+		mx-=(x*2);
+		if(mn>0)
+			M.insert(mn);
+		if(mx>0)
+			M.insert(mx);
+
 	}
+	for(auto i:M){
+		ans+= (i/3);
+	}
+	cout<<ans<<endl;
 }
 
 int main()
 {
     fast;
     ll tc = 1;
-    //IN tc;
+    IN tc;
     while (tc--)
     {
         solve();

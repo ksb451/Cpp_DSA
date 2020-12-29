@@ -55,6 +55,7 @@ void solve()
     cin>>n>>k;
     vector<ll>arr(n+1);
     for(int i=0;i<=n;i++)cin>>arr[i];
+    
 }
 
 int main()

@@ -50,79 +50,42 @@ for(int i=0;i<n-1;i++)
 */
 
 
-vector<ll> solve(vector<ll>arr)
+void solve()
 {
-	ll n=arr.size();
- //    cin>>n;
- //    vector<ll>arr(n);
-    ll sum=0;
-    //for(int i=0;i<n;i++)cin>>arr[i];
-    for(int i=0;i<n;i++)
-    {
-    	sum+=arr[i];
-    }
-	//cout<<sum<<endl;
-	ll avg = sum/n;
-	//cout<<avg<<endl;
+	ll n;
+	cin>>n;
+	vector<ll>arr(n);
 	for(int i=0;i<n;i++)
 	{
-		
-		ll rem = arr[i]%avg;
-		//cout<<rem<<" ";
-		if(rem <= avg/2)
-		{
-			//cout<<"less";
-			arr[i]-=rem;
-		}
-		else{
-			//cout<<"more";
-			arr[i]+=(avg-rem);
-		}
-		// cout<<arr[i];
-		if(arr[i]>MAX)
-		{
-			arr[i]-=avg;
-		}
-		if(arr[i]<=0)
-		{
-			arr[i]=1;
-		}
-		// cout<<endl;
+		cin>>arr[i];
 	}
-	return arr;
-	for(auto i:arr)
+	ll even=0,odd=0;
+	for(int i=0;i<n;i+=2)
 	{
-		cout<<i<<" ";
+		odd+=arr[i];
+	}
+	for(int i=1;i<n;i+=2)
+	{
+		even+=arr[i];
+	}
+	ll i;
+	if(even<=odd)
+	{
+		i=1;
+	}
+	else{
+		i=0;
+	}
+	for(;i<n;i+=2)
+	{
+		arr[i]=1;
+	}
+	for(auto j:arr)
+	{
+		cout<<j<<" ";
 	}
 	cout<<endl;
-	
-}
-
-void test()
-{
-	srand(time(0));
-	ll n = rand()/50;
-	vector<ll>arr(n);
-	ll sum=0;
-	for(int i=0;i<n;i++)
-	{
-		arr[i] = rand()%MAX;
-		sum+=arr[i];
-	}
-	vector<ll>ans = solve(arr);
-	ll s=0;
-	for(int i =0;i<n;i++)
-	{
-		s+=abs(arr[i]-ans[i]);
-	}
-	if(s > sum/2)
-	{
-		for(int i=0;i<n;i++)
-		{
-			cout<<arr[i]<<" ";
-		}
-		cout<<endl;
-	}
+	return;
 }
 
 int main()
@@ -132,7 +95,7 @@ int main()
     IN tc;
     while (tc--)
     {
-        test();
+        solve();
     }
     return 0;
 }

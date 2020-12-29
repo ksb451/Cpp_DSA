@@ -49,45 +49,49 @@ for(int i=0;i<n-1;i++)
 }
 */
 
+bool check(ll n)
+{
+	ll x=n;
+	while(x)
+	{
+		ll a=x%10;
+		x/=10;
+		if(a==0)
+		{
+
+		}
+		else{
+			if(n%a==0)
+			{
+
+			}
+			else{
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
 void solve()
 {
 	ll n;
-	cin>>n;
-	vector<ll> a(n), b(n);
-	for (int i=0; i<n; i++){
-		cin>>a[i]>>b[i];
-	}
-	ll total = 0;
-	for (int i=0; i<n; i++) total += a[i];
-	ll sum = 0;
-	for (int i=0; i<n; i++) sum += b[i];
-	vector<vector<ll> > dp(n+1, vector<ll>(total+1, -1e8));
-	dp[0][0] = 0;
-	for (int i=0; i<n; i++){
-		vector<vector<ll> > newdp = dp;
-		for (int k=1; k <= n; k++){
-			for (ll A = total; A>=0; A--){
-				ll curr = A >= a[i] ? dp[k-1][A-a[i]]:-1;
-				if (curr != -1e8) curr += b[i];
-				newdp[k][A] = max(newdp[k][A], curr);
-			}
-		}
-		dp = newdp;
-	}
-	for (int k=1; k<=n; k++){
-		double res = -1;
-		for (int i=0; i<=total; i++){
-			res = max(res, min(dp[k][i]+sum, (ll)2*i)*0.5);
-		}
-		cout<<res<<" ";
-	}
+    cin>>n;
+    for(ll i=n;i<n+10000;i++)
+    {
+    	if(check(i))
+    	{
+    		cout<<i<<endl;
+    		return;
+    	}
+    }
 }
 
 int main()
 {
     fast;
     ll tc = 1;
-    //IN tc;
+    IN tc;
     while (tc--)
     {
         solve();
