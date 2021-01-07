@@ -53,8 +53,80 @@ void solve()
 {
 	ll n;
     cin>>n;
-    vector<ll>arr(n);
-    for(int i=0;i<n;i++)cin>>arr[i];
+    vector<vector<ll>>rem(n,vector<ll>(4,0));
+    unordered_map<ll,vector<ll>>um;
+    set<ll>S;
+    for(int i=0;i<n;i++)
+    {
+    	ll m;
+    	cin>>m;
+    	for(int j=0;j<m;j++)
+    	{
+    		ll x;
+    		cin>>x;
+    		if(x>0)
+    		{
+    			rem[i][0]++;
+    			rem[i][1]++;
+    			
+    		}
+    		else{
+    			rem[i][2]++;
+    		}
+    		S.insert(abs(x));
+    		um[x].push_back(i);
+    	}
+    }
+    ll ans=0;
+    for(auto i:S)
+    {
+    	ll sz=0;
+    	if(um.find(i)!=um.end())
+    	{
+    		sz+=um[i].size();
+    	}
+    	ll neg = (0-i);
+    	if(um.find(neg)!=um.end())
+    	{
+    		sz+=um[neg].size();
+    	}
+
+    	if(sz > 1)
+    	{
+    		ans++;
+    		if(um.find(i)!=um.end())
+	    	{
+	    		for(auto j: um[i])
+	    		{
+	    			rem[j][1]--;
+	    			rem[j][0]--;
+	    			ans+=rem[j][1];
+    			}
+	    	}
+	    	if(um.find(neg)!=um.end())
+	    	{
+	    		for(auto j:um[neg])
+	    		{
+	    			rem[j][2]--;
+	    			ans+=rem[j][2];
+	    			ans+=rem[j][3];
+	    		}
+	    	}
+    	}
+    	else{
+    		if((um.find(i)!=um.end())&& (um[i].size()==1))
+    		{
+    			rem[um[i][0]][1]--;
+    			rem[um[i][0]][3]++;
+    		}
+    		else if((um.find(neg)!=um.end())&&(um[neg].size()==1))
+    		{
+    			ans+=rem[um[i][0]][0];
+    			rem[um[i][0]][2]--;
+    		}
+    	}
+    }
+    cout<<ans<<endl;
 }
 
 int main()

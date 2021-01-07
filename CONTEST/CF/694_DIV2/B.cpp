@@ -51,10 +51,32 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll n;
-    cin>>n;
+	ll n,x;
+    cin>>n>>x;
     vector<ll>arr(n);
-    for(int i=0;i<n;i++)cin>>arr[i];
+    ll sum=0;
+    for(int i=0;i<n;i++){
+    	cin>>arr[i];
+    	sum+=arr[i];
+    }
+	ll xx=x;
+	bool flag=true;
+	while(flag)
+	{
+		for(auto i:arr)
+		{
+			if((i%x)==0)
+			{
+				sum+=i;
+			}
+			else{
+				flag=false;
+				break;
+			}
+		}
+		x*=xx;
+	}
+	cout<<sum<<endl;
 }
 
 int main()

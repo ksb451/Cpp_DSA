@@ -21,6 +21,7 @@ using namespace std;
 #define OUT cout <<
 #define endl "\n"
 #define all(a) (a).begin(), (a).end()
+#define allr(a) (a).rbegin(),(a).rend()
 #define pb push_back
 #define fi first;
 #define se second;
@@ -51,10 +52,46 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll n;
-    cin>>n;
-    vector<ll>arr(n);
-    for(int i=0;i<n;i++)cin>>arr[i];
+	ll n,m;
+    cin>>n>>m;
+    vector<ll>a(n);
+    ll suma=0;
+    ll sumb=0;
+    for(int i=0;i<n;i++){
+    	cin>>a[i];
+    	suma+=a[i];
+    }
+    vector<ll>b(m);
+    for(int i=0;i<m;i++){
+    	cin>>b[i];
+    	sumb+=b[i];
+    }
+    sort(all(a));
+	sort(allr(b));
+	ll ans=0;
+	for(int i=0;i<(min(n,m));i++)
+	{
+		if(suma>sumb){
+			break;
+		}
+		if(a[i]<b[i])
+		{
+			ll diff = abs(b[i]-a[i]);
+			suma+=diff;
+			sumb-=diff;
+			ans++;
+		}
+		else{
+			break;
+		}
+	}
+	if(suma>sumb)
+	{
+		cout<<ans<<endl;
+	}
+	else{
+		cout<<-1<<endl;
+	}
 }
 
 int main()

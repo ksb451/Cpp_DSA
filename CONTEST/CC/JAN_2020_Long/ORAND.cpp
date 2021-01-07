@@ -53,8 +53,40 @@ void solve()
 {
 	ll n;
     cin>>n;
-    vector<ll>arr(n);
-    for(int i=0;i<n;i++)cin>>arr[i];
+    ll m;
+    cin>>m;
+    vector<ll>a(n);
+    for(int i=0;i<n;i++)cin>>a[i];
+    vector<ll>b(m);
+    for(int i=0;i<m;i++)cin>>b[i];
+    bitset<(1<<20)>B;
+	B[0]=1;
+	stack<int>S;
+	S.push(0);
+    while(!S.empty())
+    {
+    	int x = S.top();
+    	S.pop();
+    	for(int i=0;i<n;i++)
+    	{
+    		ll xx = (x|a[i]);
+    		if(B[xx]==0)
+    		{
+    			B[xx]=1;
+    			S.push(xx);
+    		}
+    	}
+    	for(int i=0;i<m;i++)
+    	{
+    		ll xx = (x&b[i]);
+    		if(B[xx]==0)
+    		{
+    			B[xx]=1;
+    			S.push(xx);
+    		}
+    	}
+    }
+    cout<<B.count()<<endl;
 }
 
 int main()

@@ -49,12 +49,42 @@ for(int i=0;i<n-1;i++)
 }
 */
 
+void first_sq(vector<vector<ll>>&org,vector<vector<ll>>&curr, vector<vector<ll>>&change,ll k, ll corner)
+{
+	ll j= corner;
+	ll i= corner;
+	ll curr_k;
+	cout<<1<<" "<<i<<" "<<j<<endl;
+	cout<<flush;
+	change[i][j]++;
+	cin>>curr_k;
+	if(curr_k < k)
+	{
+		curr[i][j]=1;
+		curr[i+1][j]=1;
+		curr[i+1][j+1]=1;
+		curr[i][j+1]=0;
+	}
+	else{
+		for(int i=0;i<n;i++)
+		{
+			for(int )
+		}
+	}
+
+}
+
 void solve()
 {
-	ll n;
-    cin>>n;
-    vector<ll>arr(n);
-    for(int i=0;i<n;i++)cin>>arr[i];
+	ll n,q,k;
+    cin>>n>>q>>k;
+   	vector<vector<ll>>org(n,vector<ll>(n,0));
+   	vector<vector<ll>>curr(n,vector<ll>(n,0));
+   	vector<vector<ll>>change(n,vector<ll>(n,0));
+
+   	ll curr_k;
+
+
 }
 
 int main()

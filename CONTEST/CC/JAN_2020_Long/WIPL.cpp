@@ -21,6 +21,7 @@ using namespace std;
 #define OUT cout <<
 #define endl "\n"
 #define all(a) (a).begin(), (a).end()
+#define allr(a) (a).rbegin(), (a).rend()
 #define pb push_back
 #define fi first;
 #define se second;
@@ -49,12 +50,78 @@ for(int i=0;i<n-1;i++)
 }
 */
 
+ll subsetsum(vector<ll>arr, ll sum)
+{
+	ll n = arr.size();
+	bool dp[n+1][sum+1];
+ 
+    for (int i = 0; i <= n; i++)
+        dp[i][0] = true;
+    for (int i = 1; i <= sum; i++)
+        dp[0][i] = false;
+ 
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= sum; j++) {
+            if (j < arr[i - 1])
+                dp[i][j] = dp[i - 1][j];
+            if (j >= arr[i - 1])
+                dp[i][j] = dp[i - 1][j]
+                               || dp[i - 1][j - arr[i - 1]];
+        }
+    }
+    for(int i=sum;i>=0;i--)
+	{
+		if(dp[n][i]==true)
+		{
+			return i;
+		}
+	}
+	return 0;
+}
+
 void solve()
 {
-	ll n;
-    cin>>n;
+	ll n,k;
+    cin>>n>>k;
     vector<ll>arr(n);
     for(int i=0;i<n;i++)cin>>arr[i];
+    sort(allr(arr));
+    vector<ll>arr2;
+    ll sm=0;
+    for(int i=0;i<n;i++)
+    {
+    	sm+=arr[i];
+    	arr2.push_back(arr[i]);
+    	if(sm>=(2*k))
+    	{
+    		break;
+    	}
+    }
+    if(sm < 2*k)
+    {
+    	cout<<-1<<endl;
+    	return;
+    }
+    ll max = subsetsum(arr2, sm/2);
+    ll ans=arr2.size();
+    if(max >= k)
+    {
+    	cout<<ans<<endl;
+    }
+    else{
+    	for(int i=arr2.size();i<n;i++)
+    	{
+    		max+=arr[i];
+    		ans++;
+    		if(max>=k)
+    		{
+    			cout<<ans<<endl;
+    			return;
+    		}
+    	}
+    	cout<<-1<<endl;
+    }
+    return;
 }
 
 int main()

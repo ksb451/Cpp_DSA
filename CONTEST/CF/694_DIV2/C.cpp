@@ -51,10 +51,40 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll n;
-    cin>>n;
+	ll n,m;
+    cin>>n>>m;
     vector<ll>arr(n);
     for(int i=0;i<n;i++)cin>>arr[i];
+    vector<ll>cost(m);
+	for(int i=0;i<m;i++)cin>>cost[i];
+	vector<ll>price;
+	for(int i=0;i<n;i++)
+	{
+		price.push_back(cost[arr[i]-1]);
+	}
+	sort(price.rbegin(),price.rend());
+	ll j=0;
+	for(int i=0;i<n;i++)
+	{
+		if(j>=m)
+		{
+			break;
+		}
+		if(price[i]>cost[j])
+		{
+			price[i]=cost[j];
+			j++;
+		}
+		else{
+			break;
+		}
+	}
+	ll sum=0;
+	for(auto i:price)
+	{
+		sum+=i;
+	}
+	cout<<sum<<endl;
 }
 
 int main()

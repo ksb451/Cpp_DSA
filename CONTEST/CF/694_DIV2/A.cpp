@@ -51,10 +51,18 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll n;
-    cin>>n;
-    vector<ll>arr(n);
+	ld n,x;
+    cin>>n>>x;
+    vector<ld>arr(n);
     for(int i=0;i<n;i++)cin>>arr[i];
+    ll a=0,b=0;
+	for(auto i:arr)
+	{
+		a+=ceil(i/x);
+		b+=i;
+	}
+	b = ceil(b/x);
+	cout<<b<<" "<<a<<endl;
 }
 
 int main()
