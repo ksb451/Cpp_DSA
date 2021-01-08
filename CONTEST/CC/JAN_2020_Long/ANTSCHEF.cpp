@@ -56,7 +56,7 @@ void solve()
     vector<vector<ll>>rem(n,vector<ll>(4,0));
     unordered_map<ll,vector<ll>>um;
     set<ll>S;
-    for(int i=0;i<n;i++)
+    for(ll i=0;i<n;i++)
     {
     	ll m;
     	cin>>m;
@@ -114,15 +114,18 @@ void solve()
 	    	}
     	}
     	else{
-    		if((um.find(i)!=um.end())&& (um[i].size()==1))
+    		
+    		if(um[i].size()==1)
     		{
-    			rem[um[i][0]][1]--;
-    			rem[um[i][0]][3]++;
+    			ll j=um[i][0];
+    			rem[j][1]--;
+    			rem[j][3]++;
     		}
-    		else if((um.find(neg)!=um.end())&&(um[neg].size()==1))
+    		else if(um[neg].size()==1)
     		{
-    			ans+=rem[um[i][0]][0];
-    			rem[um[i][0]][2]--;
+    			ll j=um[neg][0];
+				ans+=rem[j][0];
+				rem[j][2]--;
     		}
     	}
     }
