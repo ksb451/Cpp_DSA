@@ -50,16 +50,50 @@ for(int i=0;i<n-1;i++)
 }
 */
 
+const ll mxn=1e7;
+vector<ll>prime;
+void pre()
+{
+	vector<bool> is_prime(mxn+1,true);
+	is_prime[0] = is_prime[1] = false;
+	for (ll i = 2; i <= mxn; i++) {
+	    if (is_prime[i] && (long long)i * i <= mxn) {
+	        for (ll j = i * i; j <= mxn; j += i)
+	            is_prime[j] = false;
+	    }
+	}
+	for(ll i=2;i<mxn;i++)
+	{
+		if(is_prime[i])
+		{
+			prime.push_back(i);
+		}
+	}
+}
 
 void solve()
 {
-	ll n,k;
-    cin>>n>>k;
-    for(int i=1;i<k-(n-k);i++)
-    	cout<<i<<" ";
-    for(int i=k;i>=k-(n-k);i--)
-    	cout<<i<<" ";
-    cout<<endl;
+	ll n;
+    cin>>n;
+    ll ans=1;
+    ll curr=1;
+    ll z=1;
+    //cout<<prime.size()<<endl;
+    for(ll i=0;i<prime.size();i++)
+    {
+    	if(prime[i]>= (curr+n))
+    	{
+    		//cout<<prime[i]<<" ";
+    		ans*=prime[i];
+    		curr=prime[i];
+    		z++;
+    	}
+    	if(z==3)
+    	{
+    		break;
+    	}
+    }
+    cout<<ans<<endl;
 }
 
 int main()
@@ -67,6 +101,7 @@ int main()
     fast;
     ll tc = 1;
     IN tc;
+    pre();
     while (tc--)
     {
         solve();

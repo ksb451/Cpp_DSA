@@ -50,16 +50,73 @@ for(int i=0;i<n-1;i++)
 }
 */
 
-
 void solve()
 {
-	ll n,k;
-    cin>>n>>k;
-    for(int i=1;i<k-(n-k);i++)
-    	cout<<i<<" ";
-    for(int i=k;i>=k-(n-k);i--)
-    	cout<<i<<" ";
-    cout<<endl;
+	ll n;
+    cin>>n;
+    vector<ll>arr(n*2);
+    for(int i=0;i<n*2;i++){
+    	cin>>arr[i];
+    }
+    ll x;
+    vector<pll>ans;
+	for(int i=0;i<2*n;i++)
+	{
+		multiset<ll>S;
+		ll ind=0;
+		ll mx = -1;
+		for(int j=0;j<2*n;j++)
+		{
+			S.insert(arr[j]);
+			if(arr[j]>=mx)
+			{
+				mx=arr[j];
+				ind=j;
+			}
+		}
+		ll a = *S.rbegin();
+		auto temp = S.find(a);
+		S.erase(temp);
+		if(i!=ind)
+		{
+			ll b=arr[i];
+			temp = S.find(b);
+			S.erase(temp);
+			x=a+b;
+			ans.push_back({a,b});
+			while(!S.empty())
+	    	{
+	    		ll curr = max(a,b);
+				a = *S.rbegin();
+				temp = S.find(a);
+				S.erase(temp);
+				if(S.find(curr-a)!=S.end())
+				{
+					temp = S.find(curr-a);
+					b  = *temp;
+					ans.push_back({a,b});
+					S.erase(temp);
+				}
+				else{
+					break;
+				}
+	    	}
+	    	if(S.empty())
+	    	{
+	    		cout<<"YES"<<endl;
+	    		cout<<x<<endl;
+	    		for(auto i: ans)
+	    		{
+	    			cout<<i.first<<" "<<i.second<<endl;
+	    		}
+	    		return;
+	    	}
+	    	else{
+	    		ans.clear();
+	    	}
+		}
+	}
+    cout<<"NO"<<endl;
 }
 
 int main()

@@ -50,59 +50,54 @@ for(int i=0;i<n-1;i++)
 }
 */
 
-bool check_div(string a, string b)
-{
-	ll i =0;
-	ll j=0;
-	ll n=a.length();
-	ll m=b.length();
-	for(;i<n;i++)
+	bool check_div(string a, string b)
 	{
-		if(a[i]==b[j])
+		ll i =0;
+		ll j=0;
+		ll n=a.length();
+		ll m=b.length();
+		for(;i<n;i++)
 		{
-			j++;
-			j%=m;
-		}
-		else{
-			return false;
-		}
-	}
-	if(j==0)
-	{
-		return true;
-	}
-	else{
-		return false;
-	}
-}
-
-void solve()
-{
-	string a,b;
-	cin>>a>>b;
-	ll n=a.length();
-	ll m=b.length();
-	for(int i=0;i<n;i++)
-	{
-		string s =a.substr(0,i+1);
-		if(check_div(b,s)&&check_div(a,s))
-		{
-			//cout<<i<<endl;
-			ll aa = n/(i+1);
-			ll bb = m/(i+1);
-			ll x = (aa*bb)/__gcd(aa,bb);
-			for(int z=0;z<x;z++)
+			if(a[i]==b[j])
 			{
-				cout<<s;
+				j++;
+				j%=m;
 			}
-			cout<<endl;
-			return;
-
+			else{
+				return false;
+			}
 		}
+		if(j==0)
+			return true;
+		else
+			return false;
 	}
-	cout<<-1<<endl;
-	return;
-}
+
+	void solve()
+	{
+		string a,b;
+		cin>>a>>b;
+		ll n=a.length();
+		ll m=b.length();
+		for(int i=0;i<n;i++)
+		{
+			string s =a.substr(0,i+1);
+			if(check_div(b,s)&&check_div(a,s))
+			{
+				ll aa = n/(i+1);
+				ll bb = m/(i+1);
+				ll x = (aa*bb)/__gcd(aa,bb);
+				for(int z=0;z<x;z++)
+				{
+					cout<<s;
+				}
+				cout<<endl;
+				return;
+			}
+		}
+		cout<<-1<<endl;
+		return;
+	}
 
 int main()
 {

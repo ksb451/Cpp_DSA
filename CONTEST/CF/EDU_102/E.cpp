@@ -49,17 +49,37 @@ for(int i=0;i<n-1;i++)
     adj[b].push_back(a);
 }
 */
-
+const ll maxn = 2e5+2;
+vector<pll>adj[maxn];
 
 void solve()
 {
-	ll n,k;
-    cin>>n>>k;
-    for(int i=1;i<k-(n-k);i++)
-    	cout<<i<<" ";
-    for(int i=k;i>=k-(n-k);i--)
-    	cout<<i<<" ";
-    cout<<endl;
+	ll n,m;
+    cin>>n>>m;
+    for(int i=0;i<m;i++)
+	{
+	    ll a,b,c;
+	    cin>>a>>b>>c;
+	    a--,b--;
+	    adj[a].push_back({b,c});
+	    adj[b].push_back({a,c});
+	}
+	vector<pll>mxmn(n,{INT_MAX, INT_MIN});
+	vector<ll>dist(n,INT_MAX);
+	dist[0]=0;
+	set<pll>S;
+	S.insert({0,0});
+	while(!S.empty())
+	{
+		ll curr = S.begin()->first;
+		ll to = S.begin()->second;
+		S.erase(S.begin());
+		for(auto edge:adj[curr])
+		{
+			ll mx = max()
+		}
+	}
+
 }
 
 int main()

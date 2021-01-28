@@ -50,16 +50,12 @@ for(int i=0;i<n-1;i++)
 }
 */
 
-
 void solve()
 {
-	ll n,k;
-    cin>>n>>k;
-    for(int i=1;i<k-(n-k);i++)
-    	cout<<i<<" ";
-    for(int i=k;i>=k-(n-k);i--)
-    	cout<<i<<" ";
-    cout<<endl;
+	ll n;
+    cin>>n;
+    vector<ll>arr(n);
+    for(int i=0;i<n;i++)cin>>arr[i];
 }
 
 int main()
