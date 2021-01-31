@@ -49,32 +49,56 @@ for(int i=0;i<n-1;i++)
     adj[b].push_back(a);
 }
 */
-
+ll n,m,k;
+unordered_map<string,ll>pat;
+void fill(set<ll>&S, string str, ll i)
+{
+	if(i==k)
+	{
+		S.insert(pat[str]);
+	}
+	else{
+		string temp = str;
+		fill(S,temp,i+1);
+		temp[i]='_';
+		fill(S,temp,i+1);
+	}
+}
 void solve()
 {
-	ll n;
-    cin>>n;
-    unordered_map<ll,ll>arr;
+    cin>>n>>m>>k;
     for(int i=0;i<n;i++)
-    	{
-    		ll x;
-    		cin>>x;
-    		arr[x]++;
-    	}
-    	ll ans=0;
-    	for(auto i:arr)
-    	{
-    		ans =max(ans,i.second);
-    	}
-   cout<<ans<<endl;
-	return;
+	{
+		string s;
+		cin>>s;
+		pat[s]=i+1;
+	}
+	vector<ll>arr(m,0);
+	vector<string>str;
+	for(int i=0;i<m;i++)
+	{
+		string s;
+		cin>>s;
+		str.push_back(s);
+		cin>>arr[i];
+	}
+	vector<set<ll>>match(n);
+	for(int i=0;i<n;i++)
+	{
+		fill(match[i], str[i], 0);
+		for(auto j:match[i])
+		{
+			cout<<j<<" ";
+		}
+		cout<<endl;
+	}
 }
 
 int main()
 {
     fast;
     ll tc = 1;
-    IN tc;
+    //IN tc;
     while (tc--)
     {
         solve();

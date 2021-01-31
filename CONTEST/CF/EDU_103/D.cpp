@@ -54,20 +54,62 @@ void solve()
 {
 	ll n;
     cin>>n;
-    unordered_map<ll,ll>arr;
-    for(int i=0;i<n;i++)
-    	{
-    		ll x;
-    		cin>>x;
-    		arr[x]++;
-    	}
-    	ll ans=0;
-    	for(auto i:arr)
-    	{
-    		ans =max(ans,i.second);
-    	}
-   cout<<ans<<endl;
-	return;
+   	string s;
+   	cin>>s;
+   	vector<pll>arr(n+1,{0,0});
+   	ll curr=1;
+   	if(s[0]=='L')
+   	{
+   		//cout<<"a"<<endl;
+   		arr[1].first ++;
+   	}
+   	for(int i=1;i<n;i++)
+   	{
+   		if(s[i]!=s[i-1])
+   		{
+   			curr++;
+   		}
+   		else{
+   			curr=1;
+   		}
+   		if(s[i]=='L')
+   		{
+   			arr[i+1].first=curr;
+   		}
+   		else{
+   			arr[i+1].first=0;
+   		}
+   	}
+
+   	curr=1;
+   	if(s[n-1]=='R')
+   	{
+   		arr[n-1].second=1;
+   	}
+   	for(int i=n-2;i>=0;i--)
+   	{
+   		if(s[i]!=s[i+1])
+   		{
+   			curr++;
+   		}
+   		else{
+   			curr=1;
+   		}
+   		if(s[i]=='R')
+   		{
+   			arr[i].second=curr;
+   		}
+   		else{
+   			arr[i].second=0;
+   		}
+   	}
+
+   	for(int i=0;i<=n;i++)
+   	{
+   		cout<<arr[i].first+arr[i].second+1<<" ";
+   	}
+   	cout<<endl;
+   	return;
 }
 
 int main()

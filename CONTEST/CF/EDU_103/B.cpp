@@ -52,22 +52,26 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll n;
-    cin>>n;
-    unordered_map<ll,ll>arr;
-    for(int i=0;i<n;i++)
-    	{
-    		ll x;
-    		cin>>x;
-    		arr[x]++;
-    	}
-    	ll ans=0;
-    	for(auto i:arr)
-    	{
-    		ans =max(ans,i.second);
-    	}
-   cout<<ans<<endl;
-	return;
+	ll n,k;
+    cin>>n>>k;
+    vector<ll>arr(n);
+    for(int i=0;i<n;i++)cin>>arr[i];
+
+    ll curr = arr[0];
+	ll ans=0;
+	for(int i=1;i<n;i++)
+	{
+		ll valid = ceil(((ld)(arr[i])*(ld)(100))/(ld)(k));
+		if(curr >=valid)
+		{
+			curr+=arr[i];
+		}
+		else{
+			ans+=(valid-curr);
+			curr = valid+arr[i];
+		}
+	}
+	cout<<ans<<endl;
 }
 
 int main()

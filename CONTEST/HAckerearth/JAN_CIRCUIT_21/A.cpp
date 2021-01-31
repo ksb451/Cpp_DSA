@@ -50,23 +50,44 @@ for(int i=0;i<n-1;i++)
 }
 */
 
+int check(ll x1,ll x2,ll y1,ll y2)
+{
+	if(x1 <1 || x1 > 8 ||x2 <1 || x2 > 8 || y1 <1 || y1 > 8 ||y2 <1 || y2 > 8 )
+	{
+		return 0;
+	}
+	if(abs(x2-x1)<2 && abs(y2-y1)< 2)
+	{
+		return 1;
+	}
+	else{
+		return 2;
+	}
+}
+
 void solve()
 {
-	ll n;
-    cin>>n;
-    unordered_map<ll,ll>arr;
-    for(int i=0;i<n;i++)
-    	{
-    		ll x;
-    		cin>>x;
-    		arr[x]++;
-    	}
-    	ll ans=0;
-    	for(auto i:arr)
-    	{
-    		ans =max(ans,i.second);
-    	}
-   cout<<ans<<endl;
+	ll x1, x2,y1,y2;
+	cin>>x1>>y1;
+	cin>>x2>>y2;
+	if(check(x1,x2,y1,y2)==1)
+	{
+		cout<<"FIRST"<<endl;
+		return;
+	}
+	else{
+		for(int i=0;i<8;i++)
+		{
+			ll nx= x1+dir8[i][0];
+			ll ny = y1+dir8[i][1];
+			if(check(nx,x2,ny,y2)==2)
+			{
+				cout<<"DRAW"<<endl;
+				return;
+			}
+		}
+		cout<<"SECOND"<<endl;
+	}
 	return;
 }
 

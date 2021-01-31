@@ -49,32 +49,60 @@ for(int i=0;i<n-1;i++)
     adj[b].push_back(a);
 }
 */
+ll n,m;
+ll k;
+ll ans;
+vector<ll>S;
+
+void rec(ll i, vector<pll>&pep, vector<pll>&test)
+{
+	if(i==k)
+	{
+		ll x=0;
+		for(int j=0;j<m;j++)
+		{
+			if((S[test[j].first] > 0) && (S[test[j].second] > 0))
+			{
+				x++;
+			}
+		}
+		ans=max(x,ans);
+	}
+	else{
+		S[pep[i].first]++;
+		rec(i+1, pep, test);
+		S[pep[i].first]--;
+		S[pep[i].second]++;
+		rec(i+1, pep, test);
+	}
+}
 
 void solve()
 {
-	ll n;
-    cin>>n;
-    unordered_map<ll,ll>arr;
-    for(int i=0;i<n;i++)
-    	{
-    		ll x;
-    		cin>>x;
-    		arr[x]++;
-    	}
-    	ll ans=0;
-    	for(auto i:arr)
-    	{
-    		ans =max(ans,i.second);
-    	}
-   cout<<ans<<endl;
-	return;
+    cin>>n>>m;
+    S = vector<ll>(n+1,0);
+    vector<pll>test(m,{0,0});
+    for(int i=0;i<m;i++)
+    {
+    	cin>>test[i].first>>test[i].second;
+    }
+    cin>>k;
+    vector<pll>pep(k,{0,0});
+   	for(int i=0;i<k;i++)
+    {
+    	cin>>pep[i].first>>pep[i].second;
+    }
+    ans=0;
+    rec(0, pep,test);
+    cout<<ans<<endl;
+    return;
 }
 
 int main()
 {
     fast;
     ll tc = 1;
-    IN tc;
+    //IN tc;
     while (tc--)
     {
         solve();

@@ -54,21 +54,74 @@ void solve()
 {
 	ll n;
     cin>>n;
-    unordered_map<ll,ll>arr;
-    for(int i=0;i<n;i++)
+    vector<ll>arr(n*2LL);
+    unordered_map<ll,ll>um;
+    for(ll i=0;i<(2LL*n);i++){
+    	cin>>arr[i];
+    	um[arr[i]]++;
+    }
+    vector<ll>arr2;
+    for(auto i: um)
+    {
+    	if(i.second != 2LL)
     	{
-    		ll x;
-    		cin>>x;
-    		arr[x]++;
+    		cout<<"NO"<<endl;
+    		return;
     	}
-    	ll ans=0;
-    	for(auto i:arr)
+    	if(i.first==0)
     	{
-    		ans =max(ans,i.second);
+    		cout<<"NO"<<endl;
+    		return;
     	}
-   cout<<ans<<endl;
-	return;
+    	if((i.first % 2LL) == 1)
+		{
+			cout<<"NO"<<endl;
+			return;
+		}
+		arr2.push_back(i.first);
+    }
+    sort(all(arr2));
+    //write(arr2);
+    ll nn  = arr2.size();
+    vector<ll>rem;
+    if(nn==1)
+    {
+    	cout<<"YES"<<endl;
+    	return;
+    }
+    else{
+    	for(ll i=1LL;i<nn;i++)
+    	{
+    		ll curr = arr2[i]-arr2[i-1];
+    		if((curr % (i*2LL))!=0)
+    		{
+    			cout<<"NO"<<endl;
+    			return;
+    		}
+    		ll qq = curr/(i*2LL);
+    		rem.push_back(qq);
+    		//cout<< curr/(i*2)<<" ";
+    	}
+    	ll xx = 0LL;
+    	ll z = rem.size();
+    	for(ll j  =0 ;j<z;j++)
+    	{
+    		xx += (rem[j]*(z-j));
+    	}
+    	ll first = arr2[0]/2LL;
+    	if((((first - xx) % nn )== 0LL) && ((first-xx)!=0LL))
+    	{
+    		cout<<"YES"<<endl;
+    		return;
+    	}
+    	else{
+    		cout<<"NO"<<endl;
+    		return;
+    	}
+    }
+    return;
 }
+
 
 int main()
 {

@@ -54,20 +54,41 @@ void solve()
 {
 	ll n;
     cin>>n;
-    unordered_map<ll,ll>arr;
-    for(int i=0;i<n;i++)
-    	{
-    		ll x;
-    		cin>>x;
-    		arr[x]++;
-    	}
-    	ll ans=0;
-    	for(auto i:arr)
-    	{
-    		ans =max(ans,i.second);
-    	}
-   cout<<ans<<endl;
-	return;
+   	string s;
+   	cin>>s;
+   	vector<ll>before(n,0);
+   	vector<ll>after(n,0);
+   	ll cnt=0;
+   	for(int i=0;i<n;i++)
+   	{
+   		if(s[i]=='1')
+   		{
+   			before[i]=cnt;
+   			cnt++;
+   		}
+   	}
+   	cnt=0;
+   	ll cn=0;
+   	for(int i=n-1;i>=0;i--)
+   	{
+   		if(s[i]=='0'){
+   			cnt++;
+   		}
+   		else{
+   			cn++;
+   			after[i]=cnt;
+   		}
+   	}
+   	ll ans=n;
+   	for(int i=0;i<n;i++)
+   	{
+   		if(s[i]=='1')
+   			ans = min(ans, before[i]+after[i]);
+   	}
+   	ans = min(ans, n-cn);
+   	ans = min(ans, cn);
+   	cout<<ans<<endl;
+   	return;
 }
 
 int main()

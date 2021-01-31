@@ -54,19 +54,20 @@ void solve()
 {
 	ll n;
     cin>>n;
-    unordered_map<ll,ll>arr;
-    for(int i=0;i<n;i++)
-    	{
-    		ll x;
-    		cin>>x;
-    		arr[x]++;
-    	}
-    	ll ans=0;
-    	for(auto i:arr)
-    	{
-    		ans =max(ans,i.second);
-    	}
-   cout<<ans<<endl;
+    vector<ll>arr(n);
+    for(int i=0;i<n;i++)cin>>arr[i];
+    ll e =0,o=0;
+	for(int i=0;i<n;i++)
+	{
+		if(arr[i]&1)
+		{
+			o++;
+		}
+		else{
+			e++;
+		}
+	}
+	cout<<min(o,e)<<endl;
 	return;
 }
 

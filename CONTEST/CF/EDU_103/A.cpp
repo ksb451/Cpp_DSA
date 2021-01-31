@@ -52,22 +52,20 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll n;
-    cin>>n;
-    unordered_map<ll,ll>arr;
-    for(int i=0;i<n;i++)
-    	{
-    		ll x;
-    		cin>>x;
-    		arr[x]++;
-    	}
-    	ll ans=0;
-    	for(auto i:arr)
-    	{
-    		ans =max(ans,i.second);
-    	}
-   cout<<ans<<endl;
-	return;
+	ll n,k;
+	cin>>n>>k;
+    ll x=k;
+    while(k<n){
+        k+=x;
+    }
+    ll ans;
+    if(k%n==0) {
+        ans=k/n;
+    }
+    else
+        ans=(k/n)+1;
+    
+    cout<<ans<<endl;
 }
 
 int main()

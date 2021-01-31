@@ -50,24 +50,54 @@ for(int i=0;i<n-1;i++)
 }
 */
 
+bool knap(ll sum, vector<ll>&arr)
+{
+    vector<bool>dp(sum+1,false);
+    ll n = arr.size();
+    dp[0]=true;
+    for (int i=0; i<=sum; i++)
+      for (int j=0; j<n; j++)
+         if (arr[j] <= i)
+            dp[i] = (dp[i] || dp[i-arr[j]]);
+    return dp[sum];
+}
+
 void solve()
 {
-	ll n;
-    cin>>n;
-    unordered_map<ll,ll>arr;
+	ll n,d;
+    cin>>n>>d;
+    vector<ll>arr(n);
+    for(int i=0;i<n;i++)cin>>arr[i];
+
+    vector<ll>S;
+	for(int j=0;j<d;j++)
+	{
+		ll x = j*10+d;
+		S.push_back(x);
+	}
     for(int i=0;i<n;i++)
+    {
+    	if(d==1)
     	{
-    		ll x;
-    		cin>>x;
-    		arr[x]++;
-    	}
-    	ll ans=0;
-    	for(auto i:arr)
-    	{
-    		ans =max(ans,i.second);
-    	}
-   cout<<ans<<endl;
-	return;
+    		cout<<"YES"<<endl;
+    		continue;
+   		}
+   		if(arr[i]<(d*10))
+   		{
+   			if(knap(arr[i], S))
+   			{
+   				cout<<"YES"<<endl;
+   			}
+   			else
+   			{
+   				cout<<"NO"<<endl;
+   			}
+   		}
+   		else{
+   			cout<<"YES"<<endl;
+   		}
+    }
+    return;
 }
 
 int main()

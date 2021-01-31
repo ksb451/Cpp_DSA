@@ -52,29 +52,36 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll n;
-    cin>>n;
-    unordered_map<ll,ll>arr;
-    for(int i=0;i<n;i++)
+	ll a,b,c;
+    cin>>a>>b>>c;
+    if(c==0)
+    {
+    	if(a>b)
     	{
-    		ll x;
-    		cin>>x;
-    		arr[x]++;
+    		cout<<"Takahashi"<<endl;
     	}
-    	ll ans=0;
-    	for(auto i:arr)
+    	else{
+    		cout<<"Aoki"<<endl;
+    	}
+    }
+    if(c==1)
+    {
+    	if(a<b)
     	{
-    		ans =max(ans,i.second);
+    		cout<<"Aoki"<<endl;
     	}
-   cout<<ans<<endl;
-	return;
+    	else{
+    		cout<<"Takahashi"<<endl;
+    	}
+    }
+    return;
 }
 
 int main()
 {
     fast;
     ll tc = 1;
-    IN tc;
+    //IN tc;
     while (tc--)
     {
         solve();

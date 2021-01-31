@@ -52,22 +52,26 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll n;
-    cin>>n;
-    unordered_map<ll,ll>arr;
+	ll n,a,b;
+    cin>>n>>a>>b;
+    bool ans=false;
     for(int i=0;i<n;i++)
+    {
+    	ll x,y;
+    	cin>>x>>y;
+    	if(x<a && y>b)
     	{
-    		ll x;
-    		cin>>x;
-    		arr[x]++;
+    		ans=true;
     	}
-    	ll ans=0;
-    	for(auto i:arr)
-    	{
-    		ans =max(ans,i.second);
-    	}
-   cout<<ans<<endl;
-	return;
+    }
+    if(ans)
+    {
+    	cout<<"Yes"<<endl;
+    }
+    else{
+    	cout<<"No"<<endl;
+    }
+    return;
 }
 
 int main()
