@@ -52,33 +52,35 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll n,a,b;
-    cin>>n>>a>>b;
-    bool ans=false;
-    for(int i=0;i<n;i++)
+	ll n;
+    cin>>n;
+    set<ll>fact;
+    n*=2;
+    ll ans=0;
+    for(int i=1;i<=sqrt(n);i++)
     {
-    	ll x,y;
-    	cin>>x>>y;
-    	if(x<a && y>b)
+    	if(n%i==0)
     	{
-    		ans=true;
+    		fact.insert(i);
+    		fact.insert(n/i);
     	}
     }
-    if(ans)
+    for(auto i:fact)
     {
-    	cout<<"Yes"<<endl;
+    	//cout<<i<<" ";
+    	ll x = (n/i)-(i-1);
+    	//cout<<x<<endl;
+    	if(((x&1)==0) && (x>0)){
+    		ans+=2;
+    	}
     }
-    else{
-    	cout<<"No"<<endl;
-    }
-    return;
+    cout<<ans<<endl;
 }
 
 int main()
 {
     fast;
     ll tc = 1;
-    //IN tc;
     while (tc--)
     {
         solve();

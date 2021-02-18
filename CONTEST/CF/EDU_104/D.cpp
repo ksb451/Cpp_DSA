@@ -52,25 +52,33 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll n,a,b;
-    cin>>n>>a>>b;
-    bool ans=false;
-    for(int i=0;i<n;i++)
+	ll n;
+    cin>>n;
+    ll prev=1, curr;
+    ll m=2;
+    ll ans=0;
+    ll i=5;
+    while(i<=n)
     {
-    	ll x,y;
-    	cin>>x>>y;
-    	if(x<a && y>b)
-    	{
-    		ans=true;
-    	}
+    	ans++;
+    	i+=(m*4);
+    	m++;
     }
-    if(ans)
-    {
-    	cout<<"Yes"<<endl;
-    }
-    else{
-    	cout<<"No"<<endl;
-    }
+    cout<<ans<<endl;
+    // for(int i=4;i<n;i++)
+    // {
+    // 	ll x = i;
+    // 	ll y = i+1;
+    // 	ll diff = (y*y)-(x*x);
+    // 	ll q = sqrt(diff);
+    // 	if((q*q)==diff)
+    // 	{
+    // 		curr=i+1;
+    // 		cout<<i+1<<" ";
+    // 		cout<<curr-prev<<endl;
+    // 		prev = curr;
+    // 	}
+    // }
     return;
 }
 
@@ -78,7 +86,7 @@ int main()
 {
     fast;
     ll tc = 1;
-    //IN tc;
+    IN tc;
     while (tc--)
     {
         solve();

@@ -52,33 +52,42 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll n,a,b;
-    cin>>n>>a>>b;
-    bool ans=false;
-    for(int i=0;i<n;i++)
-    {
-    	ll x,y;
-    	cin>>x>>y;
-    	if(x<a && y>b)
-    	{
-    		ans=true;
-    	}
-    }
-    if(ans)
-    {
-    	cout<<"Yes"<<endl;
-    }
-    else{
-    	cout<<"No"<<endl;
-    }
-    return;
+	ll A,B,n;
+    cin>>A>>B>>n;
+    vector<ll>arr(n);
+    vector<ll>brr(n);
+    for(int i=0;i<n;i++)cin>>arr[i];
+
+    for(int i=0;i<n;i++)cin>>brr[i];
+
+    ll sum=0;
+	ll mx=0;
+	for(int i=0;i<n;i++)
+	{
+		ll x=0;
+		x = brr[i]/A;
+		if((brr[i]%A)!=0)
+		{
+			x++;
+		}
+		sum += (arr[i]*x);
+		mx = max(mx, arr[i]);
+	}
+	if(sum < B+mx)
+	{
+		cout<<"YES"<<endl;
+	}
+	else{
+		cout<<"NO"<<endl;
+	}
+	return;
 }
 
 int main()
 {
     fast;
     ll tc = 1;
-    //IN tc;
+    IN tc;
     while (tc--)
     {
         solve();

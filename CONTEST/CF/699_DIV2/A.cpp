@@ -52,24 +52,48 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll n,a,b;
-    cin>>n>>a>>b;
-    bool ans=false;
-    for(int i=0;i<n;i++)
+	ll x,y;
+    cin>>x>>y;
+    string s;
+    cin>>s;
+    unordered_map<char,int>um;
+    for(auto i :s)
     {
-    	ll x,y;
-    	cin>>x>>y;
-    	if(x<a && y>b)
+    	um[i]++;
+    }
+    bool ans=true;
+    if(x>0)
+    {
+    	if(um['R'] < x)
     	{
-    		ans=true;
+    		ans=false;
+    	}
+    }
+    else{
+    	if(um['L'] < x)
+    	{
+    		ans=false;
+    	}
+    }
+    if(y>0)
+    {
+    	if(um['U'] < x)
+    	{
+    		ans=false;
+    	}
+    }
+    else{
+    	if(um['D'] < x)
+    	{
+    		ans=false;
     	}
     }
     if(ans)
     {
-    	cout<<"Yes"<<endl;
+    	cout<<"YES"<<endl;
     }
     else{
-    	cout<<"No"<<endl;
+    	cout<<"NO"<<endl;
     }
     return;
 }
@@ -78,7 +102,7 @@ int main()
 {
     fast;
     ll tc = 1;
-    //IN tc;
+    IN tc;
     while (tc--)
     {
         solve();

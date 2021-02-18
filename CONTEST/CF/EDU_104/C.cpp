@@ -52,33 +52,81 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll n,a,b;
-    cin>>n>>a>>b;
-    bool ans=false;
-    for(int i=0;i<n;i++)
-    {
-    	ll x,y;
-    	cin>>x>>y;
-    	if(x<a && y>b)
-    	{
-    		ans=true;
-    	}
-    }
-    if(ans)
-    {
-    	cout<<"Yes"<<endl;
-    }
-    else{
-    	cout<<"No"<<endl;
-    }
-    return;
+	ll n;
+    cin>>n;
+   	ll cnt = (n*(n-1))/2;
+	ll x = cnt/n;
+	vector<ll>q(n,0);
+	ll i =0; ll j=1;
+	if(n%2)
+	{
+		while(cnt--)
+		{
+			if(q[i]<x){
+				cout<<1<<" ";
+				// cout<<1<<endl;
+				q[i]++;
+			}
+			else if(q[j]<x){
+				cout<<-1<<" ";
+				// cout<<-1<<endl;
+				q[j]++;
+			}
+			else{
+				cout<<0<<" ";
+				// cout<<0<<endl;
+			}
+			j++;
+			if(j==n)
+			{
+				j=i+2;
+				i++;
+			}
+		}
+	}
+	else{
+		while(cnt--)
+		{
+			// cout<<i<<" "<<j<<" ";
+			if(((j-i)==(n/2)))
+			{
+				cout<<0<<" ";
+				// cout<<0<<endl;
+			}
+			else{
+				if(q[i]<x){
+					cout<<1<<" ";
+					// cout<<1<<endl;
+					q[i]++;
+				}
+				else if(q[j]<x){
+					cout<<-1<<" ";
+					// cout<<-1<<endl;
+					q[j]++;
+				}
+				else{
+					cout<<0<<" ";
+					// cout<<0<<endl;
+				}
+			}
+			j++;
+			if(j==n)
+			{
+				j=i+2;
+				i++;
+			}
+		}
+	}
+	cout<<endl;
+	//write(q);
+	return;
 }
 
 int main()
 {
     fast;
     ll tc = 1;
-    //IN tc;
+    IN tc;
     while (tc--)
     {
         solve();

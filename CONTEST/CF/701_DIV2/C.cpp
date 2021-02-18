@@ -52,33 +52,28 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll n,a,b;
-    cin>>n>>a>>b;
-    bool ans=false;
-    for(int i=0;i<n;i++)
+	ll x,y;
+    cin>>x>>y;
+    if(x<3)
     {
-    	ll x,y;
-    	cin>>x>>y;
-    	if(x<a && y>b)
-    	{
-    		ans=true;
-    	}
+    	cout<<0<<endl;
+    	return;
     }
-    if(ans)
+    ll ans =0;
+    ans += min(y-1, x-2);
+    for(int i=2;i*i<=x;i++)
     {
-    	cout<<"Yes"<<endl;
+    	ll beg = (x-i)/i;
+    	ans += max(0LL,min(beg-i, y-i));
     }
-    else{
-    	cout<<"No"<<endl;
-    }
-    return;
+    cout<<ans<<endl;
 }
 
 int main()
 {
     fast;
     ll tc = 1;
-    //IN tc;
+    IN tc;
     while (tc--)
     {
         solve();

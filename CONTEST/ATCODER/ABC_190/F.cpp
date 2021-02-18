@@ -50,28 +50,58 @@ for(int i=0;i<n-1;i++)
 }
 */
 
+struct FenTree {
+    vector<int> bit;  // binary indexed tree
+    int n;
+
+    FenTree(int n) {
+        this->n = n;
+        bit.assign(n, 0);
+    }
+
+    FenTree(vector<int> a) : FenTree(a.size()) {
+        for (size_t i = 0; i < a.size(); i++)
+            add(i, a[i]);
+    }
+
+    int sum(int r) {
+        int ret = 0;
+        for (; r >= 0; r = (r & (r + 1)) - 1)
+            ret += bit[r];
+        return ret;
+    }
+
+    int sum(int l, int r) {
+        return sum(r) - sum(l - 1);
+    }
+
+    void add(int idx, int delta) {
+        for (; idx < n; idx = idx | (idx + 1))
+            bit[idx] += delta;
+    }
+};
+
 void solve()
 {
-	ll n,a,b;
-    cin>>n>>a>>b;
-    bool ans=false;
-    for(int i=0;i<n;i++)
-    {
-    	ll x,y;
-    	cin>>x>>y;
-    	if(x<a && y>b)
-    	{
-    		ans=true;
-    	}
-    }
-    if(ans)
-    {
-    	cout<<"Yes"<<endl;
-    }
-    else{
-    	cout<<"No"<<endl;
-    }
-    return;
+	ll n;
+    cin>>n;
+    vector<ll>arr(n);
+    for(int i=0;i<n;i++)cin>>arr[i];
+    FenTree f(n);
+	ll ans=0;
+	for(int i=0;i<n;i++)
+	{
+		ans+=(i-f.sum(arr[i]));
+		f.add(arr[i], 1);
+	}
+	cout<<ans<<endl;
+	for(int i=1;i<n;i++)
+	{
+		ans+=(n-arr[i-1]-arr[i-1]-1);
+		cout<<ans<<endl;
+	}
+	return;
+
 }
 
 int main()

@@ -67,6 +67,7 @@ void rec(ll i, vector<pll>&pep, vector<pll>&test)
 			}
 		}
 		ans=max(x,ans);
+		return;
 	}
 	else{
 		S[pep[i].first]++;

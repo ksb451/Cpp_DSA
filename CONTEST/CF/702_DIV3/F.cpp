@@ -52,33 +52,50 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll n,a,b;
-    cin>>n>>a>>b;
-    bool ans=false;
-    for(int i=0;i<n;i++)
-    {
-    	ll x,y;
-    	cin>>x>>y;
-    	if(x<a && y>b)
-    	{
-    		ans=true;
-    	}
-    }
-    if(ans)
-    {
-    	cout<<"Yes"<<endl;
-    }
-    else{
-    	cout<<"No"<<endl;
-    }
-    return;
+	ll n;
+    cin>>n;
+    vector<ll>arr(n);
+    for(int i=0;i<n;i++)cin>>arr[i];
+
+    unordered_map<ll, ll>um;
+	for(auto i:arr)
+	{
+		um[i]++;
+	}
+	map<ll, ll>mm;
+	for(auto i:um)
+	{
+		mm[i.second]++;
+	}
+	vector<pii>vv;
+	for(auto i:mm)
+	{
+		vv.push_back({i.first,i.second});
+	}
+	sort(allr(vv));
+	ll ans=INT_MAX;
+	ll pr1,pr2;
+	ll c1 = vv[0].first*vv[0].second;
+	ans = (n-c1);
+	pr1 = vv[0].first;
+	pr2 = vv[0].second;
+	for(int i=1;i<vv.size();i++)
+	{
+		c1+=vv[i].first*vv[i].second;
+		ll curr = pr2*( pr1 - vv[i].first);
+		curr+= (n-c1);
+		ans = min(ans,curr);
+		pr2 += vv[i].second;
+		pr1 = vv[i].first;
+	}
+	cout<<ans<<endl;
 }
 
 int main()
 {
     fast;
     ll tc = 1;
-    //IN tc;
+    IN tc;
     while (tc--)
     {
         solve();

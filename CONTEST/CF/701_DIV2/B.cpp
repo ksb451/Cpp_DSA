@@ -52,24 +52,64 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll n,a,b;
-    cin>>n>>a>>b;
-    bool ans=false;
-    for(int i=0;i<n;i++)
+	ll n,q,k;
+    cin>>n>>q>>k;
+    vector<ll>arr(n);
+    for(int i=0;i<n;i++)cin>>arr[i];
+
+    vector<ll>beg(n,0);
+	vector<ll>end(n,0);
+	vector<ll>mid(n,0);
+
+	for(int i=0;i<n;i++)
+	{
+		if(i==(n-1))
+		{
+			beg[i]=k-1;
+		}
+		else{
+			ll x = arr[i+1];
+			beg[i]=x-2;
+		}
+	}
+	//write(beg);
+	for(int i=1;i<n-1;i++)
+	{
+		ll x=arr[i-1];
+		ll y = arr[i+1];
+		mid[i]=y-x-2;
+		mid[i]+=mid[i-1];
+	}
+	//write(mid);
+	mid[n-1]+=mid[n-2];
+	for(int i=0;i<n;i++)
+	{
+		if(i==0)
+		{
+			end[i]=k-1;
+		}
+		else{
+			ll x = arr[i-1];
+			end[i]=k-x-1;
+		}
+	}
+	//write(end);
+    while(q--)
     {
-    	ll x,y;
-    	cin>>x>>y;
-    	if(x<a && y>b)
+    	ll l,r;
+    	
+    	cin>>l>>r;
+    	l--;r--;
+    	if(l==r)
     	{
-    		ans=true;
+    		cout<<k-1<<endl;
+    		continue;
     	}
-    }
-    if(ans)
-    {
-    	cout<<"Yes"<<endl;
-    }
-    else{
-    	cout<<"No"<<endl;
+    	ll ans=0;
+    	ans+=beg[l];
+    	ans+=end[r];
+    	ans+=(mid[r-1]-mid[l]);
+    	cout<<ans<<endl;
     }
     return;
 }

@@ -52,26 +52,24 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll n,a,b;
-    cin>>n>>a>>b;
-    bool ans=false;
+	ll n,m;
+    cin>>n>>m;
+    vector<vector<ll>>arr(n,vector<ll>(m));
     for(int i=0;i<n;i++)
     {
-    	ll x,y;
-    	cin>>x>>y;
-    	if(x<a && y>b)
+    	for(int j=0;j<m;j++)
     	{
-    		ans=true;
+    		cin>>arr[i][j];
     	}
     }
-    if(ans)
+    vector<vector<ll>>ans(n,vector<ll>(m,0));
+    set<ll>util;
+    for(int i=0;i<40;i++)
     {
-    	cout<<"Yes"<<endl;
+    	util.insert(pow(i,4));
     }
-    else{
-    	cout<<"No"<<endl;
-    }
-    return;
+    
+
 }
 
 int main()

@@ -53,6 +53,16 @@ ll n;
 vector<ll>t1;
 vector<ll>t2;
 
+struct dd{
+	ll cost;
+	ll t11;
+	ll t22;
+};
+dd min(dd a,dd b)
+{
+	if(a.cost<b.cost)
+}
+
 void solve()
 {
     cin>>n;
@@ -69,7 +79,7 @@ void solve()
     }
     sort(all(t1));
     sort(all(t2));
-    
+
 }
 
 int main()

@@ -52,33 +52,71 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll n,a,b;
-    cin>>n>>a>>b;
-    bool ans=false;
-    for(int i=0;i<n;i++)
-    {
-    	ll x,y;
-    	cin>>x>>y;
-    	if(x<a && y>b)
-    	{
-    		ans=true;
-    	}
-    }
-    if(ans)
-    {
-    	cout<<"Yes"<<endl;
-    }
-    else{
-    	cout<<"No"<<endl;
-    }
-    return;
+	ll n;
+    cin>>n;
+    vector<ll>arr(n);
+    for(int i=0;i<n;i++)cin>>arr[i];
+    ll a1=0,a2=0,a3=0;
+	for(int i=0;i<n;i++)
+	{
+		if((arr[i]%3)==0)
+		{
+			a1++;
+		}
+		else if((arr[i]%3)==1)
+		{
+			a2++;
+		}
+		else{
+			a3++;
+		}
+	}
+	ll ans=0;
+	ll x = n/3;
+	if((a1>=a2)&&(a1>=a3))
+	{
+		ans+= (a1-x);
+		a2+= (a1-x);
+		if(a2<a3)
+		{
+			ans+= (a3-a2);
+		}
+		else{
+			ans+=(a2-a3)/2;
+		}
+	}
+	else if((a1<=a2)&&(a2>=a3))
+	{
+		ans+= (a2-x);
+		a3+= (a2-x);
+		if(a3<a1)
+		{
+			ans+= (a1-a3);
+		}
+		else{
+			ans+=(a3-a1)/2;
+		}
+	}
+	else if((a3>=a2)&&(a3>=a1))
+	{
+		ans+= (a3-x);
+		a1+= (a3-x);
+		if(a1<a2)
+		{
+			ans+= (a2-a1);
+		}
+		else{
+			ans+=(a1-a2)/2;
+		}
+	}
+	cout<<ans<<endl;
 }
 
 int main()
 {
     fast;
     ll tc = 1;
-    //IN tc;
+    IN tc;
     while (tc--)
     {
         solve();

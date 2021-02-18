@@ -19,7 +19,7 @@ using namespace std;
     }
 #define IN cin >>
 #define OUT cout <<
-#define endl "\n"
+//#define endl "\n"
 #define all(a) (a).begin(), (a).end()
 #define allr(a) (a).rbegin(), (a).rend()
 #define pb push_back
@@ -49,36 +49,54 @@ for(int i=0;i<n-1;i++)
     adj[b].push_back(a);
 }
 */
+vector<ll>ans;
+
+void rec(vector<ll>&arr, ll dep, ll st, ll nd)
+{
+	if(st>nd)
+	{
+		return;
+	}
+	ll ind;
+	ll mx= 0;
+	for(int i = st;i<=nd;i++)
+	{
+		if(arr[i]>mx)
+		{
+			mx = arr[i];
+			ind = i;
+		}
+	}
+	// cout<<dep<<" "<<mx<<endl;
+	// cout<<st<<" "<<nd<<endl;
+	ans[mx-1]=dep;
+	rec(arr, dep+1, ind+1, nd);
+	rec(arr, dep+1, st, ind-1);
+}
 
 void solve()
 {
-	ll n,a,b;
-    cin>>n>>a>>b;
-    bool ans=false;
-    for(int i=0;i<n;i++)
-    {
-    	ll x,y;
-    	cin>>x>>y;
-    	if(x<a && y>b)
-    	{
-    		ans=true;
-    	}
-    }
-    if(ans)
-    {
-    	cout<<"Yes"<<endl;
-    }
-    else{
-    	cout<<"No"<<endl;
-    }
-    return;
+	ll n;
+    cin>>n;
+    vector<ll>arr(n);
+    for(int i=0;i<n;i++)cin>>arr[i];
+    
+    ans = vector<ll>(n,0);
+	// cout<<"1"<<endl;
+	rec(arr,0 ,0 ,n-1);
+	for(auto i:arr)
+	{
+		cout<<ans[i-1]<<" ";
+	}
+	cout<<endl;
+	return;
 }
 
 int main()
 {
     fast;
     ll tc = 1;
-    //IN tc;
+    IN tc;
     while (tc--)
     {
         solve();
