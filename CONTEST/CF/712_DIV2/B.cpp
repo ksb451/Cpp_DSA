@@ -54,42 +54,77 @@ void solve()
 {
 	ll n;
     cin>>n;
-    vector<pll>arr(n);
-    ll sum=0;
-    for(int i=0;i<n;i++){
-        cin>>arr[i].first;
-        arr[i].second = i;
-        sum+=arr[i].first;
-    }
-    sort(all(arr));
-	set<ll>ans;
-    ans.insert(arr[n-1].second);
-    
-	for(ll j=n-1;j>0;)
+    string a,b;
+    cin>>a>>b;
+	vector<vector<int>>cnt(n,{0,0});
+	for(int i=0;i<n;i++)
 	{
-		sum-=arr[j].first;
-        if(sum >= arr[j].first)
-        {
-            sum+=arr[j].first;
-            ll curr = arr[j-1].first;
-            while((j>0) && (arr[j-1].first == curr))
-            {
-                sum-=arr[j].first;
-                ans.insert(arr[j-1].second);
-                j--;
-            }
-        }
-        else{
-            break;
-        }
+		if(a[i]=='0')
+		{
+			cnt[i][0]++;
+		}
+		else{
+			cnt[i][1]++;
+		}
+		if(i>0)
+		{
+			cnt[i][0]+=cnt[i-1][0];
+			cnt[i][1]+=cnt[i-1][1];
+		}
 	}
-	cout<<ans.size()<<endl;;
-    for(auto i:ans)
-    {
-        cout<<i+1<<" ";
-    }
-    cout<<endl;
-	return;
+	if(n&1)
+	{
+		if(a[n-1]!=b[n-1])
+		{
+			cout<<"NO"<<endl;
+			return;
+		}
+		n--;
+	}
+	int chk=1;
+	for(int i=n-1;i>=0;i-=2)
+	{
+		if((a[i] != b[i]) && (a[i-1]!=b[i-1]))
+		{
+			if(chk==1)
+			{
+    			//cout<<i<<"  1"<<endl;
+    			if(cnt[i][0]!=cnt[i][1])
+    			{
+    				cout<<"NO"<<endl;
+    				return;
+    			}
+    			chk=0;
+			}
+			else{
+				continue;
+			}
+		}
+		else if((a[i]==b[i]) && (a[i-1]==b[i-1]))
+		{
+			if(chk==0)
+			{
+    			//cout<<i<<"  1"<<endl;
+    			if(cnt[i][0]!=cnt[i][1])
+    			{
+    				cout<<"NO"<<endl;
+    				return;
+    			}
+    			chk=1;
+			}
+			else{
+				continue;
+			}
+		}
+		else if((a[i]!=b[i]) ^ (a[i-1]!=b[i-1]))
+		{
+			//cout<<i<<" 2"<<endl;
+			cout<<"NO"<<endl;
+			return;
+		}
+	}
+	cout<<"YES"<<endl;
+    return;
 }
 
 int main()

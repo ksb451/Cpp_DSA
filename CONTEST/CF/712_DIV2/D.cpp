@@ -54,49 +54,20 @@ void solve()
 {
 	ll n;
     cin>>n;
-    vector<pll>arr(n);
-    ll sum=0;
-    for(int i=0;i<n;i++){
-        cin>>arr[i].first;
-        arr[i].second = i;
-        sum+=arr[i].first;
-    }
-    sort(all(arr));
-	set<ll>ans;
-    ans.insert(arr[n-1].second);
-    
-	for(ll j=n-1;j>0;)
-	{
-		sum-=arr[j].first;
-        if(sum >= arr[j].first)
-        {
-            sum+=arr[j].first;
-            ll curr = arr[j-1].first;
-            while((j>0) && (arr[j-1].first == curr))
-            {
-                sum-=arr[j].first;
-                ans.insert(arr[j-1].second);
-                j--;
-            }
-        }
-        else{
-            break;
-        }
-	}
-	cout<<ans.size()<<endl;;
-    for(auto i:ans)
+    vector<vector<ll>>(n,vector<ll>(n,0));
+    for(int t=0;t<n*n;t++)
     {
-        cout<<i+1<<" ";
+    	ll a;
+    	cin>>a;
+    	
     }
-    cout<<endl;
-	return;
 }
 
 int main()
 {
     fast;
     ll tc = 1;
-    IN tc;
+    //IN tc;
     while (tc--)
     {
         solve();

@@ -49,46 +49,22 @@ for(int i=0;i<n-1;i++)
     adj[b].push_back(a);
 }
 */
-
 void solve()
 {
-	ll n;
-    cin>>n;
-    vector<pll>arr(n);
-    ll sum=0;
-    for(int i=0;i<n;i++){
-        cin>>arr[i].first;
-        arr[i].second = i;
-        sum+=arr[i].first;
-    }
-    sort(all(arr));
-	set<ll>ans;
-    ans.insert(arr[n-1].second);
-    
-	for(ll j=n-1;j>0;)
+	string s;
+	cin>>s;
+	ll n = s.length();
+	for(int i=0;i<n;i++)
 	{
-		sum-=arr[j].first;
-        if(sum >= arr[j].first)
-        {
-            sum+=arr[j].first;
-            ll curr = arr[j-1].first;
-            while((j>0) && (arr[j-1].first == curr))
-            {
-                sum-=arr[j].first;
-                ans.insert(arr[j-1].second);
-                j--;
-            }
-        }
-        else{
-            break;
-        }
+		if(s[i] != 'a')
+		{
+			cout<<"YES"<<endl;
+			ll x = n-i;
+			cout<<s.substr(0,x)<<'a'<<s.substr(x)<<endl;
+			return;
+		}
 	}
-	cout<<ans.size()<<endl;;
-    for(auto i:ans)
-    {
-        cout<<i+1<<" ";
-    }
-    cout<<endl;
+	cout<<"NO"<<endl;
 	return;
 }
 

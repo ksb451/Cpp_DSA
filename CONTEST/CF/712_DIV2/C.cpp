@@ -54,42 +54,60 @@ void solve()
 {
 	ll n;
     cin>>n;
-    vector<pll>arr(n);
-    ll sum=0;
-    for(int i=0;i<n;i++){
-        cin>>arr[i].first;
-        arr[i].second = i;
-        sum+=arr[i].first;
-    }
-    sort(all(arr));
-	set<ll>ans;
-    ans.insert(arr[n-1].second);
-    
-	for(ll j=n-1;j>0;)
-	{
-		sum-=arr[j].first;
-        if(sum >= arr[j].first)
-        {
-            sum+=arr[j].first;
-            ll curr = arr[j-1].first;
-            while((j>0) && (arr[j-1].first == curr))
-            {
-                sum-=arr[j].first;
-                ans.insert(arr[j-1].second);
-                j--;
-            }
-        }
-        else{
-            break;
-        }
-	}
-	cout<<ans.size()<<endl;;
-    for(auto i:ans)
+    string s;
+    cin>>s;
+    if((s[0]=='0') || (s[n-1]=='0'))
     {
-        cout<<i+1<<" ";
+    	cout<<"NO"<<endl;
+    	return;
     }
-    cout<<endl;
-	return;
+    ll cnt0 = count(all(s),'0');
+    if(cnt0 & 1)
+    {
+    	cout<<"NO"<<endl;
+    	return;
+    }
+    string a(n,'-');
+    string b=a;
+    ll x=1;
+    for(int i=0;i<n;i++)
+    {
+    	if(s[i]=='0')
+    	{
+    		if(x&1)
+    		{
+    			a[i]='(';
+    			b[i]=')';
+    		}
+    		else{
+    			a[i]=')';
+    			b[i]='(';
+    		}
+    		x++;
+    	}
+    }
+    ll cnt1 = n-cnt0;
+    x=0;
+    for(int i=0;i<n;i++)
+    {
+    	if(s[i]=='1')
+    	{
+    		if(x<(cnt1/2))
+    		{
+    			a[i]='(';
+    			b[i]='(';
+    		}
+    		else{
+    			a[i]=')';
+    			b[i]=')';
+    		}
+    		x++;
+    	}
+    }
+    cout<<"YES"<<endl;
+    cout<<a<<endl<<b<<endl;
+    return;
+
 }
 
 int main()
