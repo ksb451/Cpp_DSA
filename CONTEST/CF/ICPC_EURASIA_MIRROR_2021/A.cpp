@@ -207,3 +207,14 @@ int main()
     }
     return 0;
 }
+
+for(auto p:m)
+{
+    if(s.count(p.second))
+    {
+        return false;
+    }
+    else{
+        s.insert(p.second);
+    }
+}
