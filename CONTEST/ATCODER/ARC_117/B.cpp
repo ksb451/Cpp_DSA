@@ -56,39 +56,23 @@ void solve()
     cin>>n;
     vector<ll>arr(n);
     for(int i=0;i<n;i++)cin>>arr[i];
-
-    vector<pair<ll,ll>>len;
-	ll xx =n ;
-	ll x=1;
-	while(xx)
+    arr.push_back(0);
+    sort(all(arr));
+    ll ans=1;
+	for(int i=1;i<=n;i++)
 	{
-		len.push_back({xx,x*n});
-		x++;
-		xx/=2;
+		ans*= (arr[i]-arr[i-1]+1);
+		ans%=mod;
 	}
-	ll q;
-	cin>>q;
-	while(q--)
-	{
-		ll x;
-		cin>>x;
-		ll curr=0;
-		for(int i=0;i<len.size();i++)
-		{
-			curr+= (len[i].first*len[i].second);
-			if(x<=curr)
-			{
-
-			}
-		}
-	}
+	cout<<ans<<endl;
+	return;	
 }
 
 int main()
 {
     fast;
     ll tc = 1;
-    IN tc;
+    //IN tc;
     while (tc--)
     {
         solve();
