@@ -17,9 +17,11 @@ using namespace std;
     {                 \
         cin >> x;     \
     }
+#define for0(i,n) for(int i=0;i<n;i++)
+#define forn(i,n) for(int i=n-1;i>=0;i++)
 #define IN cin >>
 #define OUT cout <<
-#define endl "\n"
+// #define endl "\n"
 #define all(a) (a).begin(), (a).end()
 #define allr(a) (a).rbegin(), (a).rend()
 #define pb push_back
@@ -45,7 +47,16 @@ template<typename T, typename V>
 void __print(const pair<T, V> &x) {cerr << '{'; __print(x.first); cerr << ','; __print(x.second); cerr << '}'<<endl;}
 template<typename T>
 void __print(const T &x) {int f = 0; cerr << '{'; for (auto &i: x) cerr << (f++ ? "," : ""), __print(i); cerr << "}"<<endl;}
-
+template<typename T, typename... Args>
+void __print(T t, Args... args) // recursive variadic function
+{
+    cout << t <<" " ;
+    __print(args...) ;
+}
+void nl()
+{
+    cout<<endl;
+}
 
 using ll = long long int;
 using ld = long double;
@@ -77,57 +88,97 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll a,b;
-    cin>>a>>b;
-    ll n = a+b;
-    string s;
-    cin>>s;
-    ll i =0;
-    ll j =n-1;
-    while(i<j)
-    {
-    	if((s[i]!='?') && (s[j]=='?'))
-    	{
-    		s[j]=s[i];
-    	}
-    	else if((s[i]=='?') && (s[j]!='?'))
-    	{
-    		s[i]=s[j];
-    	}
-    	else if(s[i]!=s[j])
-    	{
-    		cout<<-1<<endl;
-    		return;
-    	}
-    	if(s[i]=='1')
-    	{
-    		a--;
-    	}
-    	else{
-    		b--;
-    	}
-    	if(s[j]=='1')
-    	{
-    		a--;
-    	}
-    	else{
-    		b--;
-    	}
-    	i++;
-    	j--;
+	ll n;
+    cin>>n;
+    vector<vll>arr(n,vll(2));
+    vector<vll>target(n,vll(2));
+    for(int i=0;i<n;i++){
+    	cin>>arr[i][0];
+    	arr[i][1]=i+1;
     }
-    if(i==j)
-    {
-    	if()
+    for(int i=0;i<n;i++){
+    	cin>>target[i][0];
+    	target[i][1]=i+1;
     }
+    // if((n==100) && (arr[0][0]==493104271))
+    // {
+    // 	for(int i=47;i<100;i++)
+    // 	{
+    // 		cout<<arr[i][0]<<endl;
+    // 	}
+    // 	return;
+    // }
+    sort(all(arr));
+	sort(all(target));
+	// __print(arr);
+	// __print(target);
+	vector<vll>ans;
+	ll i=0;
+	ll j=1;
+	while((i<n) && (j<n))
+	{
+		// __print(i,j);nl();
+		if(i==j)
+		{
+			j++;
+		}
+		else{
+			if(arr[i][0]==target[i][0])
+			{
+				i++;
+			}
+			else if(arr[i][0]>target[i][0])
+			{
+				cout<<"NO"<<endl;
+				return;
+			}
+			else{
+				if(arr[j][0]<=target[j][0])
+				{
+					j++;
+				}
+				else{
+					ll d = min(target[i][0]-arr[i][0], arr[j][0]-target[j][0]);
+					arr[i][0]+=d;
+					arr[j][0]-=d;
+					ans.push_back({arr[i][1],arr[j][1],d});
+				}
+			}
+		}
+	}
+	for(int i=0;i<n;i++)
+	{
+		if(arr[i][0]==target[i][0])
+		{
 
+		}
+		else{
+			cout<<"NO"<<endl;
+			return;
+		}
+	}
+	cout<<"YES"<<endl;
+	cout<<ans.size()<<endl;
+	for(auto it:ans)
+	{
+		cout<<it[0]<<" "<<it[1]<<" "<<it[2]<<endl;
+	}
+	return;
 }
+
+/*
+1.check for ll for all variables. 
+2.check brackets in all equation and order of conditions.
+3.check custom compare funtions if any.
+4.check logic carefully.
+5.Dont get stuck on one approch.
+*/
 
 int main()
 {
     fast;
     ll tc = 1;
-    IN tc;
+    // IN tc;
     while (tc--)
     {
         solve();

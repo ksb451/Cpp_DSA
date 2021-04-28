@@ -35,14 +35,41 @@ void solve()
 {
     ll n,a,b;
     cin>>n>>a>>b;
-    map<ll,ll>mp;
+    vector<ll>given(1000,0);
+    vector<ll>current(1000,0);	
     for(int i=1;i<=n;i++)
     {
     	ll x;
     	cin>>x;
-    	mp[i]=x;
+    	given[i]=x;
     }
-    
+    for(int i=n+a; i<1000;i++)
+    {
+    	current = vector<ll>(1000,0);
+    	current[i]=1;
+    	bool flag=true;
+    	for(int j =i;j>=0;j--)
+    	{
+    		if(current[j]>=given[j])
+    		{
+    			ll extra = current[j]-given[j];
+    			current[j]-=extra;
+    			current[max(0LL,j-a)]+=extra;
+    			current[max(0LL,j-b)]+=extra;
+    		}
+    		else{
+    			flag = false;
+    			break;
+    		}
+    	}
+    	if(flag)
+    	{
+    		cout<<i<<endl;
+    		return;
+    	}
+    }
+    cout<<"IMPOSSIBLE"<<endl;
+    return;
 }
 
 int main()

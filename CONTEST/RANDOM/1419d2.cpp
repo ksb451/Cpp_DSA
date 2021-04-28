@@ -17,6 +17,8 @@ using namespace std;
     {                 \
         cin >> x;     \
     }
+#define for0(i,n) for(int i=0;i<n;i++)
+#define forn(i,n) for(int i=n-1;i>=0;i++)
 #define IN cin >>
 #define OUT cout <<
 #define endl "\n"
@@ -77,57 +79,63 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll a,b;
-    cin>>a>>b;
-    ll n = a+b;
-    string s;
-    cin>>s;
-    ll i =0;
-    ll j =n-1;
-    while(i<j)
-    {
-    	if((s[i]!='?') && (s[j]=='?'))
-    	{
-    		s[j]=s[i];
-    	}
-    	else if((s[i]=='?') && (s[j]!='?'))
-    	{
-    		s[i]=s[j];
-    	}
-    	else if(s[i]!=s[j])
-    	{
-    		cout<<-1<<endl;
-    		return;
-    	}
-    	if(s[i]=='1')
-    	{
-    		a--;
-    	}
-    	else{
-    		b--;
-    	}
-    	if(s[j]=='1')
-    	{
-    		a--;
-    	}
-    	else{
-    		b--;
-    	}
-    	i++;
-    	j--;
-    }
-    if(i==j)
-    {
-    	if()
-    }
+	ll n;
+    cin>>n;
+    vector<ll>arr(n);
+    for(int i=0;i<n;i++)cin>>arr[i];
+    sort(all(arr));
+	ll l= 0;
+	ll r = n;
+	ll ans;
+	while(l<r)
+	{
+		ll m = (l+r)/2;
+		if(2*m+1 > n)
+		{
+			r=m;
+		}
+		else{
+			ll flag=true;
+			for(int i=0;i<m;i++)
+			{
+				ll x = n-(m+1)+i;
+				if((arr[x]>arr[i]) && (arr[x+1]>arr[i]))
+				{
 
+				}
+				else{
+					flag=false;
+					break;
+				}
+			}
+			if(flag)
+			{
+				ans=m;
+				l = m+1;
+			}
+			else{
+				r=m;
+			}
+		}
+	}
+	cout<<ans<<endl;
+	cout<<arr[n-ans-1]<<" ";
+	for(int i=0;i<ans;i++)
+	{
+		cout<<arr[i]<<" "<<arr[n-ans+i]<<" ";
+	}
+	for(int i=ans;i<(n-ans-1);i++)
+	{
+		cout<<arr[i]<<" ";
+	}
+	cout<<endl;
+	return;
 }
 
 int main()
 {
     fast;
     ll tc = 1;
-    IN tc;
     while (tc--)
     {
         solve();

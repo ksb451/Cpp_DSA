@@ -17,6 +17,8 @@ using namespace std;
     {                 \
         cin >> x;     \
     }
+#define for0(i,n) for(int i=0;i<n;i++)
+#define forn(i,n) for(int i=n-1;i>=0;i++)
 #define IN cin >>
 #define OUT cout <<
 #define endl "\n"
@@ -45,7 +47,16 @@ template<typename T, typename V>
 void __print(const pair<T, V> &x) {cerr << '{'; __print(x.first); cerr << ','; __print(x.second); cerr << '}'<<endl;}
 template<typename T>
 void __print(const T &x) {int f = 0; cerr << '{'; for (auto &i: x) cerr << (f++ ? "," : ""), __print(i); cerr << "}"<<endl;}
-
+template<typename T, typename... Args>
+void __print(T t, Args... args) // recursive variadic function
+{
+    cout << t <<" " ;
+    __print(args...) ;
+}
+void nl()
+{
+	cout<<endl;
+}
 
 using ll = long long int;
 using ld = long double;
@@ -77,57 +88,82 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll a,b;
-    cin>>a>>b;
-    ll n = a+b;
-    string s;
-    cin>>s;
-    ll i =0;
-    ll j =n-1;
-    while(i<j)
-    {
-    	if((s[i]!='?') && (s[j]=='?'))
-    	{
-    		s[j]=s[i];
-    	}
-    	else if((s[i]=='?') && (s[j]!='?'))
-    	{
-    		s[i]=s[j];
-    	}
-    	else if(s[i]!=s[j])
-    	{
-    		cout<<-1<<endl;
-    		return;
-    	}
-    	if(s[i]=='1')
-    	{
-    		a--;
-    	}
-    	else{
-    		b--;
-    	}
-    	if(s[j]=='1')
-    	{
-    		a--;
-    	}
-    	else{
-    		b--;
-    	}
-    	i++;
-    	j--;
-    }
-    if(i==j)
-    {
-    	if()
-    }
+	ll n;
+    cin>>n;
+    vector<ll>arr(n);
+    for(int i=0;i<n;i++)cin>>arr[i];
 
+    vector<pll>ans;
+	for(ll i=0;i<n;)
+	{
+		// cout<<i<<" "<<arr[i]<<endl;
+		// cout<<"------------------"<<endl;
+		// cout<<ans.size()<<endl;
+		// for(auto j:ans)
+		// {
+		// 	cout<<j.first<<" "<<j.second<<endl;
+		// }
+		// cout<<"------------------"<<endl;
+		if(arr[i]==i+1)
+		{
+			i++;
+			continue;
+		}
+		else{
+			if(abs(arr[i] - (i+1)) >= (n/2))
+			{
+				// cout<<1<<endl;
+				// __print(arr[i], i+1);nl();
+				ans.push_back({arr[i],i+1});
+			}
+			else{
+				// cout<<2<<endl;
+				if(((i+1)<=(n/2))&&(arr[i]<=(n/2)))
+				{
+					ans.push_back({i+1, n});
+					ans.push_back({arr[i], n});
+					ans.push_back({i+1, n});
+				}
+				else if(((i+1)>(n/2))&&(arr[i]>(n/2)))
+				{
+					ans.push_back({i+1, 1});
+					ans.push_back({arr[i], 1});
+					ans.push_back({i+1, 1});
+				}
+				else
+				{
+					ans.push_back({min(i+1, arr[i]), n});
+					ans.push_back({1, n});
+					ans.push_back({max(i+1, arr[i]), 1});
+					ans.push_back({1, n});
+					ans.push_back({min(i+1, arr[i]), n});
+				}
+			}
+			swap(arr[i], arr[arr[i]-1]);
+		}
+		// __print(arr);
+	}
+	cout<<ans.size()<<endl;
+	for(auto i:ans)
+	{
+		cout<<i.first<<" "<<i.second<<endl;
+	}
+	return;
 }
+
+/*
+1.check for ll for all variables. 
+2.check brackets in all equation and order of conditions.
+3.check custom compare funtions if any.
+4.check logic carefully.
+5.Dont get stuck on one approch.
+*/
 
 int main()
 {
     fast;
     ll tc = 1;
-    IN tc;
+    // IN tc;
     while (tc--)
     {
         solve();

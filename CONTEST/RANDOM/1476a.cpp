@@ -17,6 +17,8 @@ using namespace std;
     {                 \
         cin >> x;     \
     }
+#define for0(i,n) for(int i=0;i<n;i++)
+#define forn(i,n) for(int i=n-1;i>=0;i++)
 #define IN cin >>
 #define OUT cout <<
 #define endl "\n"
@@ -77,50 +79,30 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll a,b;
-    cin>>a>>b;
-    ll n = a+b;
-    string s;
-    cin>>s;
-    ll i =0;
-    ll j =n-1;
-    while(i<j)
-    {
-    	if((s[i]!='?') && (s[j]=='?'))
-    	{
-    		s[j]=s[i];
-    	}
-    	else if((s[i]=='?') && (s[j]!='?'))
-    	{
-    		s[i]=s[j];
-    	}
-    	else if(s[i]!=s[j])
-    	{
-    		cout<<-1<<endl;
-    		return;
-    	}
-    	if(s[i]=='1')
-    	{
-    		a--;
-    	}
-    	else{
-    		b--;
-    	}
-    	if(s[j]=='1')
-    	{
-    		a--;
-    	}
-    	else{
-    		b--;
-    	}
-    	i++;
-    	j--;
-    }
-    if(i==j)
-    {
-    	if()
-    }
-
+	ll n,k;
+    cin>>n>>k;
+	if(n<=k)
+	{
+		if(k%n==0)
+		{
+			cout<<(k/n)<<endl;
+		}
+		else{
+			cout<<(k/n)+1<<endl;
+		}
+	}
+	else
+	{
+		if(n%k == 0)
+		{
+			cout<<1<<endl;
+		}
+		else{
+			cout<<2<<endl;
+		}
+	}
+	return;
+    
 }
 
 int main()

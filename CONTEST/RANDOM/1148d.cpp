@@ -17,6 +17,8 @@ using namespace std;
     {                 \
         cin >> x;     \
     }
+#define for0(i,n) for(int i=0;i<n;i++)
+#define forn(i,n) for(int i=n-1;i>=0;i++)
 #define IN cin >>
 #define OUT cout <<
 #define endl "\n"
@@ -45,7 +47,16 @@ template<typename T, typename V>
 void __print(const pair<T, V> &x) {cerr << '{'; __print(x.first); cerr << ','; __print(x.second); cerr << '}'<<endl;}
 template<typename T>
 void __print(const T &x) {int f = 0; cerr << '{'; for (auto &i: x) cerr << (f++ ? "," : ""), __print(i); cerr << "}"<<endl;}
-
+template<typename T, typename... Args>
+void __print(T t, Args... args) // recursive variadic function
+{
+    cout << t <<" " ;
+    __print(args...) ;
+}
+void nl()
+{
+    cout<<endl;
+}
 
 using ll = long long int;
 using ld = long double;
@@ -75,59 +86,77 @@ for(int i=0;i<n-1;i++)
 }
 */
 
+bool cmpi(pair<pll,ll>a, pair<pll,ll>b)
+{
+	if(a.first.first > b.first.first)
+	{
+		return true;
+	}
+	return false;
+}
+bool cmpd(pair<pll,ll>a, pair<pll,ll>b)
+{
+	if(a.first.first < b.first.first)
+	{
+		return true;
+	}
+	return false;
+}
+
 void solve()
 {
-	ll a,b;
-    cin>>a>>b;
-    ll n = a+b;
-    string s;
-    cin>>s;
-    ll i =0;
-    ll j =n-1;
-    while(i<j)
-    {
-    	if((s[i]!='?') && (s[j]=='?'))
-    	{
-    		s[j]=s[i];
-    	}
-    	else if((s[i]=='?') && (s[j]!='?'))
-    	{
-    		s[i]=s[j];
-    	}
-    	else if(s[i]!=s[j])
-    	{
-    		cout<<-1<<endl;
-    		return;
-    	}
-    	if(s[i]=='1')
-    	{
-    		a--;
-    	}
-    	else{
-    		b--;
-    	}
-    	if(s[j]=='1')
-    	{
-    		a--;
-    	}
-    	else{
-    		b--;
-    	}
-    	i++;
-    	j--;
-    }
-    if(i==j)
-    {
-    	if()
-    }
-
+	ll n;
+    cin>>n;
+    vector<pair<pll,ll>>inc;
+    vector<pair<pll,ll>>dec;
+    for(int i=0;i<n;i++)
+	{
+		ll a,b;
+		cin>>a>>b;
+		if(a<b)
+		{
+			inc.push_back({{a,b},i});
+		}
+		else{
+			dec.push_back({{a,b},i});
+		}
+	}
+	if(inc.size()>dec.size())
+	{
+		cout<<inc.size()<<endl;
+		sort(all(inc),cmpi);
+		for(auto i:inc)
+		{
+			cout<<i.second+1<<" ";
+		}
+		cout<<endl;
+		return;
+	}
+	else{
+		cout<<dec.size()<<endl;
+		sort(all(dec),cmpd);
+		for(auto i:dec)
+		{
+			cout<<i.second+1<<" ";
+		}
+		cout<<endl;
+		return;
+	}
 }
+
+/*
+1.check for ll for all variables. 
+2.check brackets in all equation and order of conditions.
+3.check custom compare funtions if any.
+4.check logic carefully.
+5.Dont get stuck on one approch.
+*/
 
 int main()
 {
     fast;
     ll tc = 1;
-    IN tc;
+    // IN tc;
     while (tc--)
     {
         solve();

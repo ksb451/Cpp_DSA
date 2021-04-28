@@ -46,7 +46,6 @@ void __print(const pair<T, V> &x) {cerr << '{'; __print(x.first); cerr << ','; _
 template<typename T>
 void __print(const T &x) {int f = 0; cerr << '{'; for (auto &i: x) cerr << (f++ ? "," : ""), __print(i); cerr << "}"<<endl;}
 
-using ll = long long int;
 
 using ld = long double;
 using pll = pair<ll, ll>;   
@@ -73,6 +72,8 @@ for(int i=0;i<n-1;i++)
     adj[b].push_back(a);
 }
 */
+using ll = long long int;
+
 ll n, m;
 const int dir4[4][2]={{1,0},{0,1},{-1,0},{0,-1}};
 

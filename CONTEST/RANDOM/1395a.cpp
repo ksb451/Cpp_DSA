@@ -17,6 +17,8 @@ using namespace std;
     {                 \
         cin >> x;     \
     }
+#define for0(i,n) for(int i=0;i<n;i++)
+#define forn(i,n) for(int i=n-1;i>=0;i++)
 #define IN cin >>
 #define OUT cout <<
 #define endl "\n"
@@ -77,49 +79,50 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll a,b;
-    cin>>a>>b;
-    ll n = a+b;
-    string s;
-    cin>>s;
-    ll i =0;
-    ll j =n-1;
-    while(i<j)
+	ll n[4];
+    for(int i=0;i<4;i++)
     {
-    	if((s[i]!='?') && (s[j]=='?'))
+    	cin>>n[i];
+    }
+    ll cnt=0;
+    for(int i=0;i<4;i++)
+    {
+    	if(n[i]&1)
     	{
-    		s[j]=s[i];
+    		cnt++;
     	}
-    	else if((s[i]=='?') && (s[j]!='?'))
+    }
+    if(cnt<=1)
+    {
+    	cout<<"YES"<<endl;
+    	return;
+    }
+    for(int i=0;i<3;i++)
+    {
+    	if(n[i]==0)
     	{
-    		s[i]=s[j];
-    	}
-    	else if(s[i]!=s[j])
-    	{
-    		cout<<-1<<endl;
+    		cout<<"NO"<<endl;
     		return;
     	}
-    	if(s[i]=='1')
-    	{
-    		a--;
-    	}
-    	else{
-    		b--;
-    	}
-    	if(s[j]=='1')
-    	{
-    		a--;
-    	}
-    	else{
-    		b--;
-    	}
-    	i++;
-    	j--;
+    	n[3]+=1;
+    	n[i]--;
     }
-    if(i==j)
+    cnt=0;
+    for(int i=0;i<4;i++)
     {
-    	if()
+    	if(n[i]&1)
+    	{
+    		cnt++;
+    	}
     }
+    if(cnt<=1)
+    {
+    	cout<<"YES"<<endl;
+    }
+    else{
+    	cout<<"NO"<<endl;
+    }
+    return;
 
 }
 
