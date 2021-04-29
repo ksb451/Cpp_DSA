@@ -55,21 +55,31 @@ void solve()
 	ll n,m;
     cin>>n>>m;
     vector<vector<ll>>arr(n,vector<ll>(m));
+    ll lcm=1;
     for(int i=0;i<n;i++)
     {
     	for(int j=0;j<m;j++)
     	{
     		cin>>arr[i][j];
+            lcm = (lcm*arr[i][j])/__gcd(lcm,arr[i][j]);
     	}
     }
-    vector<vector<ll>>ans(n,vector<ll>(m,0));
-    set<ll>util;
-    for(int i=0;i<40;i++)
+    for(int i=0;i<n;i++)
     {
-    	util.insert(pow(i,4));
+        for(int j=0;j<m;j++)
+        {
+            if((i+j)&1)
+            {
+                cout<<lcm + pow(arr[i][j],4)<<" ";
+            }
+            else
+            {
+                cout<<lcm<<" ";
+            }
+        }
+        cout<<endl;
     }
-    
-
+    return;
 }
 
 int main()
