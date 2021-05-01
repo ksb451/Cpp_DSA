@@ -93,66 +93,36 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll n;
-    cin>>n;
-    vector<ll>arr(n);
-    for(int i=0;i<n;i++){
-    	cin>>arr[i];
-    }
-    vector<vll>str(n);
-    for(int i=0;i<n;i++)
+	ll n,k;
+    cin>>n>>k;
+    string s;
+    cin>>s;
+    if(n%k)
     {
-    	ll x;
-    	cin>>x;
-    	str[arr[i]-1].push_back(x);
+    	cout<<-1<<endl;
+    	return;
     }
-   
-    for(int i=0;i<n;i++)
+    vector<ll>cnt(26,0);
+    for(auto i:s)
     {
-    	sort(allr(str[i]));
-    	for(int j=1;j<str[i].size();j++)
+    	cnt[i-'a']++;
+    }
+    ll flag =1;
+    for(auto i:cnt)
+    {
+    	if(i%k)
     	{
-    		str[i][j]+=str[i][j-1];
-    	}
-    }
-    
-    vector<pll>sz;
-    for(int i=0;i<n;i++)
-    {
-    	sz.push_back({str[i].size(),i});
-    }
-    sort(allr(sz));
-
-    int k=1;
-    for(;k<=n;k++)
-    {
-    	ll ans=0;
-    	for(auto i:sz)
-    	{
-    		if(i.first < k)
-    		{
-    			break;
-    		}
-    		ll q = (i.first%k);
-    		ll qq = i.first - 1-q;
-    		ans+=str[i.second][qq];
-    	}
-    	if(ans==0)
-    	{
+    		flag=0;
     		break;
     	}
-    	cout<<ans<<" ";
-
     }
-    while(k<=n)
+    if(flag)
     {
-    	cout<<"0"<<" ";
-    	k++;
+    	cout<<s<<endl;
+    	return;
     }
-    nl();
-    return;
-}
 
+}
 
 /*
 1.check for ll for all variables. 

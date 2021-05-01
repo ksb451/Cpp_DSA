@@ -91,68 +91,60 @@ for(int i=0;i<n-1;i++)
 }
 */
 
+string add(string s)
+{
+	ll car =1;
+	ll n = s.length();
+	for(int i=n-1;i>=0;i--)
+	{
+		ll curr = s[i];
+		if(car==1)
+		{
+			if(s[i]=='0')
+			{
+				s[i]='1';
+				car=0;
+			}
+			else{
+				s[i]='0';
+				car=1;
+			}
+		}
+		else{
+			break;
+		}
+	}
+	if(car==1)
+	{
+		s = '1'+s;
+	}
+	return s;
+}
+
 void solve()
 {
 	ll n;
     cin>>n;
-    vector<ll>arr(n);
-    for(int i=0;i<n;i++){
-    	cin>>arr[i];
-    }
-    vector<vll>str(n);
-    for(int i=0;i<n;i++)
+    string a,b;
+    cin>>a>>b;
+    if(a[0]!=b[0])
     {
-    	ll x;
-    	cin>>x;
-    	str[arr[i]-1].push_back(x);
+    	cout<<string(n,'1')<<endl;
+    	return;
     }
-   
-    for(int i=0;i<n;i++)
+    if(a==b)
     {
-    	sort(allr(str[i]));
-    	for(int j=1;j<str[i].size();j++)
-    	{
-    		str[i][j]+=str[i][j-1];
-    	}
+    	cout<<a<<endl;
+    	return;
     }
-    
-    vector<pll>sz;
-    for(int i=0;i<n;i++)
+    if((add(a) == b) || (b[n-1]=='1'))
     {
-    	sz.push_back({str[i].size(),i});
+    	cout<<b<<endl;
+    	return;
     }
-    sort(allr(sz));
-
-    int k=1;
-    for(;k<=n;k++)
-    {
-    	ll ans=0;
-    	for(auto i:sz)
-    	{
-    		if(i.first < k)
-    		{
-    			break;
-    		}
-    		ll q = (i.first%k);
-    		ll qq = i.first - 1-q;
-    		ans+=str[i.second][qq];
-    	}
-    	if(ans==0)
-    	{
-    		break;
-    	}
-    	cout<<ans<<" ";
-
-    }
-    while(k<=n)
-    {
-    	cout<<"0"<<" ";
-    	k++;
-    }
-    nl();
+    cout<<add(b)<<endl;
     return;
 }
-
 
 /*
 1.check for ll for all variables. 
@@ -166,7 +158,7 @@ int main()
 {
     fast;
     ll tc = 1;
-    IN tc;
+    // IN tc;
     while (tc--)
     {
         solve();

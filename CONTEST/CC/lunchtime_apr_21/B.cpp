@@ -96,63 +96,26 @@ void solve()
 	ll n;
     cin>>n;
     vector<ll>arr(n);
-    for(int i=0;i<n;i++){
-    	cin>>arr[i];
-    }
-    vector<vll>str(n);
-    for(int i=0;i<n;i++)
-    {
-    	ll x;
-    	cin>>x;
-    	str[arr[i]-1].push_back(x);
-    }
-   
-    for(int i=0;i<n;i++)
-    {
-    	sort(allr(str[i]));
-    	for(int j=1;j<str[i].size();j++)
-    	{
-    		str[i][j]+=str[i][j-1];
-    	}
-    }
-    
-    vector<pll>sz;
-    for(int i=0;i<n;i++)
-    {
-    	sz.push_back({str[i].size(),i});
-    }
-    sort(allr(sz));
-
-    int k=1;
-    for(;k<=n;k++)
-    {
-    	ll ans=0;
-    	for(auto i:sz)
-    	{
-    		if(i.first < k)
-    		{
-    			break;
-    		}
-    		ll q = (i.first%k);
-    		ll qq = i.first - 1-q;
-    		ans+=str[i.second][qq];
-    	}
-    	if(ans==0)
-    	{
-    		break;
-    	}
-    	cout<<ans<<" ";
-
-    }
-    while(k<=n)
-    {
-    	cout<<"0"<<" ";
-    	k++;
-    }
-    nl();
-    return;
+    for(int i=0;i<n;i++)cin>>arr[i];
+    ll sum=0;
+	for(int i=0;i<n;i++)
+	{
+		sum+=arr[i];
+		sum=(sum+MOD)%MOD;
+	}
+    ll q ;
+	cin>>q;
+	sum%=MOD;
+	while(q--)
+	{
+		ll x;
+		cin>>x;
+		sum+=sum;
+		sum=(sum+MOD)%MOD;
+		cout<<sum<<endl;
+	}
+	return;
 }
-
 
 /*
 1.check for ll for all variables. 
@@ -166,7 +129,7 @@ int main()
 {
     fast;
     ll tc = 1;
-    IN tc;
+    // IN tc;
     while (tc--)
     {
         solve();

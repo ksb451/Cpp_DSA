@@ -93,66 +93,41 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll n;
-    cin>>n;
-    vector<ll>arr(n);
-    for(int i=0;i<n;i++){
-    	cin>>arr[i];
-    }
-    vector<vll>str(n);
-    for(int i=0;i<n;i++)
+	ll n,u,r,d,l;
+    cin>>n>>u>>r>>d>>l;
+    for(int i=0;i<(1<<4);i++)
     {
-    	ll x;
-    	cin>>x;
-    	str[arr[i]-1].push_back(x);
-    }
-   
-    for(int i=0;i<n;i++)
-    {
-    	sort(allr(str[i]));
-    	for(int j=1;j<str[i].size();j++)
+    	ll uu=u, rr=r, dd= d, lf = l;
+    	if(i&(1<<3))
     	{
-    		str[i][j]+=str[i][j-1];
+    		lf--;
+    		uu--;
     	}
-    }
-    
-    vector<pll>sz;
-    for(int i=0;i<n;i++)
-    {
-    	sz.push_back({str[i].size(),i});
-    }
-    sort(allr(sz));
+    	if(i&(1<<2))
+    	{
+    		uu--;
+    		rr--;
 
-    int k=1;
-    for(;k<=n;k++)
-    {
-    	ll ans=0;
-    	for(auto i:sz)
-    	{
-    		if(i.first < k)
-    		{
-    			break;
-    		}
-    		ll q = (i.first%k);
-    		ll qq = i.first - 1-q;
-    		ans+=str[i.second][qq];
     	}
-    	if(ans==0)
+    	if(i&(1<<1))
     	{
-    		break;
+    		rr--;
+    		dd--;
     	}
-    	cout<<ans<<" ";
-
+    	if(i&(1<<0))
+    	{
+    		dd--;
+    		lf--;
+    	}
+    	if(((uu>=0) && (uu<=n-2))&&((dd>=0) && (dd<=n-2))&&((lf>=0) && (lf<=n-2))&&((rr>=0) && (rr<=n-2)))
+    	{
+    		cout<<"YES"<<endl;
+    		return;
+    	}
     }
-    while(k<=n)
-    {
-    	cout<<"0"<<" ";
-    	k++;
-    }
-    nl();
+    cout<<"NO"<<endl;
     return;
 }
-
 
 /*
 1.check for ll for all variables. 

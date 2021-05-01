@@ -91,68 +91,137 @@ for(int i=0;i<n-1;i++)
 }
 */
 
-void solve()
+ll n,k,A;
+vector<ll> adj[MAXN];
+vector<ll>spec;
+vector<ll>dist;
+vector<pll>ans;
+vector<ll>d_down;
+pll maxx(pll a, pll b)
 {
-	ll n;
-    cin>>n;
-    vector<ll>arr(n);
-    for(int i=0;i<n;i++){
-    	cin>>arr[i];
-    }
-    vector<vll>str(n);
-    for(int i=0;i<n;i++)
-    {
-    	ll x;
-    	cin>>x;
-    	str[arr[i]-1].push_back(x);
-    }
-   
-    for(int i=0;i<n;i++)
-    {
-    	sort(allr(str[i]));
-    	for(int j=1;j<str[i].size();j++)
-    	{
-    		str[i][j]+=str[i][j-1];
-    	}
-    }
-    
-    vector<pll>sz;
-    for(int i=0;i<n;i++)
-    {
-    	sz.push_back({str[i].size(),i});
-    }
-    sort(allr(sz));
-
-    int k=1;
-    for(;k<=n;k++)
-    {
-    	ll ans=0;
-    	for(auto i:sz)
-    	{
-    		if(i.first < k)
-    		{
-    			break;
-    		}
-    		ll q = (i.first%k);
-    		ll qq = i.first - 1-q;
-    		ans+=str[i.second][qq];
-    	}
-    	if(ans==0)
-    	{
-    		break;
-    	}
-    	cout<<ans<<" ";
-
-    }
-    while(k<=n)
-    {
-    	cout<<"0"<<" ";
-    	k++;
-    }
-    nl();
-    return;
+	if(a.first > b.first)
+	{
+		return a;
+	}
+	return b;
 }
 
+void ddfs(ll u, ll par, ll dst,ll q, ll down)
+{
+	ans[u] = maxx(ans[u],{q-dst, down});
+	for(auto v :adj[u])
+	{
+		if(v!=par)
+		{
+			if(d_down[u]==-1)
+				ddfs(v,u,dst+1,q,down);
+			else{
+				ddfs(v,u,1,dist[u],d_down[u]);
+			}
+		}
+	}
+}
+
+ll dfs(ll u, ll par, ll up)
+{
+	// __print(u, par, up);nl();
+	if(par == -1)
+	{
+	}
+	else{
+		dist[u] = dist[par]+1;
+	}
+	ll down=-1;
+	if(up!=-1)
+	{
+		ll a = dist[up] - (dist[u]-dist[up]);
+		ll b = up;
+		ans[u] = max(ans[u],{a,b});
+		// cout<<u<<" "<<ans[u].first<<" "<<ans[u].second<<endl;
+	}
+	if(spec[u])
+	{
+		up=u;
+	}
+	for(auto v :adj[u])
+	{
+		if(v!=par)
+		{
+			down = max(down,dfs(v,u,up));
+		}
+	}
+	if(down !=-1)
+	{
+		
+		ll a = dist[u];
+		ll b = down;
+		ans[u] = max(ans[u],{a,b});
+	}
+	d_down[u]=down;
+	if(spec[u])
+	{
+		ans[u] = max(ans[u],{dist[u], u});
+		return u;
+	}
+	else{
+		return down;
+	}
+}
+
+
+
+void solve()
+{
+    cin>>n>>k>>A;
+    A--;
+    for(int i=0;i<=n;i++)
+    {
+    	adj[i].clear();
+    }
+    spec = vector<ll>(n,0);
+   	for(int i=0;i<k;i++){
+   		ll a;
+   		cin>>a;
+   		a--;
+   		spec[a]=1;
+   	}
+
+    for(int i=0;i<n-1;i++)
+	{
+	    ll a,b;
+	    cin>>a>>b;
+	    a--,b--;
+	    adj[a].push_back(b);
+	    adj[b].push_back(a);
+	}
+	ans= vector<pll>(n,{INT_MIN,-1});
+	dist = vector<ll>(n,-1);
+	dist[A]=0;
+	d_down = vector<ll>(n,-1);
+	ll x = dfs(A,-1,-1);
+	ddfs(A,-1,0,0,x);
+	for(int i=0;i<n;i++)
+	{
+		if(ans[i].first <= (INT_MIN+10))
+		{
+			cout<<(-1*dist[i])<<" ";
+			continue;
+		}
+		cout<<ans[i].first<<" ";
+	}
+	nl();
+	for(auto i:ans)
+	{
+		if(i.first <= (INT_MIN+10))
+		{
+			cout<<x+1<<" ";
+			continue;
+		}
+		cout<<i.second+1<<" ";
+	}
+	nl();
+	return;
+}
 
 /*
 1.check for ll for all variables. 
@@ -172,4 +241,4 @@ int main()
         solve();
     }
     return 0;
-}
+}	

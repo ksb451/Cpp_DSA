@@ -26,7 +26,7 @@ using namespace std;
 #define forn(i,n) for(int i=n-1;i>=0;i++)
 #define IN cin >>
 #define OUT cout <<
-#define endl "\n"
+// #define endl "\n"
 #define all(a) (a).begin(), (a).end()
 #define allr(a) (a).rbegin(), (a).rend()
 #define pb push_back
@@ -90,69 +90,77 @@ for(int i=0;i<n-1;i++)
     adj[b].push_back(a);
 }
 */
+vector<char>refl = {'0', '1', '5', 'q','q','2','q','q','8','q'};
+ll h,m;
+string add(string s)
+{
+	ll car=1;
+	ll hr = (s[0]-'0')*10 + s[1]-'0';
+	ll min = (s[3]-'0')*10 + s[4]-'0';
+	min+=1;
+	car = min/m;
+	min%=m;
+	hr+=car;
+	hr%=h;
+	string hh = to_string(hr);
+	string mm = to_string(min);
+	if(hh.length()<2)
+	{
+		hh = '0'+hh;
+	}
+	if(mm.length()<2)
+	{
+		mm = '0'+mm;
+	}
+	return hh+':'+mm;
+}
+
+bool refl_check(string s)
+{
+	string rev;
+	for(int i=4;i>=0;i--)
+	{
+		if(s[i]==':')
+		{
+			rev+=':';
+		}
+		else{
+			if(refl[s[i]-'0'] == 'q')
+			{
+				return false;
+			}
+			else{
+				rev+= refl[s[i]-'0'];
+			}
+		}
+	}
+	ll hr = (rev[0]-'0')*10 + rev[1]-'0';
+	ll min = (rev[3]-'0')*10 + rev[4]-'0';
+	if((min < m) && (hr< h))
+	{
+		return true;
+	}
+	return false;
+}
 
 void solve()
 {
-	ll n;
-    cin>>n;
-    vector<ll>arr(n);
-    for(int i=0;i<n;i++){
-    	cin>>arr[i];
-    }
-    vector<vll>str(n);
-    for(int i=0;i<n;i++)
-    {
-    	ll x;
-    	cin>>x;
-    	str[arr[i]-1].push_back(x);
-    }
-   
-    for(int i=0;i<n;i++)
-    {
-    	sort(allr(str[i]));
-    	for(int j=1;j<str[i].size();j++)
-    	{
-    		str[i][j]+=str[i][j-1];
-    	}
-    }
-    
-    vector<pll>sz;
-    for(int i=0;i<n;i++)
-    {
-    	sz.push_back({str[i].size(),i});
-    }
-    sort(allr(sz));
-
-    int k=1;
-    for(;k<=n;k++)
-    {
-    	ll ans=0;
-    	for(auto i:sz)
-    	{
-    		if(i.first < k)
-    		{
-    			break;
-    		}
-    		ll q = (i.first%k);
-    		ll qq = i.first - 1-q;
-    		ans+=str[i.second][qq];
-    	}
-    	if(ans==0)
-    	{
-    		break;
-    	}
-    	cout<<ans<<" ";
-
-    }
-    while(k<=n)
-    {
-    	cout<<"0"<<" ";
-    	k++;
-    }
-    nl();
-    return;
+    cin>>h>>m;
+   	string s;
+   	cin>>s;
+   	for(int i=0;i<=(h*m);i++)
+   	{
+   		// cout<<s<<endl;
+   		if(refl_check(s))
+   		{
+   			cout<<s<<endl;
+   			return;
+   		}
+   		s = add(s);
+   	}
+   	cout<<endl;
+   	return;
 }
-
 
 /*
 1.check for ll for all variables. 

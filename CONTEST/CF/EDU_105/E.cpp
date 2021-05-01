@@ -93,67 +93,66 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll n;
-    cin>>n;
-    vector<ll>arr(n);
-    for(int i=0;i<n;i++){
-    	cin>>arr[i];
-    }
-    vector<vll>str(n);
-    for(int i=0;i<n;i++)
+	ll n,m;
+    cin>>n>>m;
+    map<pll,char>mp;
+    set<pll>S1;
+    set<pll>S2;
+    while(m--)
     {
-    	ll x;
-    	cin>>x;
-    	str[arr[i]-1].push_back(x);
-    }
-   
-    for(int i=0;i<n;i++)
-    {
-    	sort(allr(str[i]));
-    	for(int j=1;j<str[i].size();j++)
+    	char op;
+    	cin>>op;
+    	if(op == '+')
     	{
-    		str[i][j]+=str[i][j-1];
-    	}
-    }
-    
-    vector<pll>sz;
-    for(int i=0;i<n;i++)
-    {
-    	sz.push_back({str[i].size(),i});
-    }
-    sort(allr(sz));
-
-    int k=1;
-    for(;k<=n;k++)
-    {
-    	ll ans=0;
-    	for(auto i:sz)
-    	{
-    		if(i.first < k)
+    		ll a,b;
+    		char ch;
+    		cin>>a>>b>>ch;
+    		mp[{a,b}] = ch;
+    		if( mp.find({b,a}) != mp.end())
     		{
-    			break;
+    			char q = mp[{b,a}];
+    			S1.insert({a,b});
+    			if(q==ch)
+    			{
+    				S2.insert({a,b});
+    			}
     		}
-    		ll q = (i.first%k);
-    		ll qq = i.first - 1-q;
-    		ans+=str[i.second][qq];
     	}
-    	if(ans==0)
-    	{
-    		break;
+    	else if(op=='-'){
+    		ll a,b;
+    		cin>>a>>b;
+    		mp.erase({a,b});
+    		S1.erase({b,a});
+    		S1.erase({a,b});
+    		S2.erase({a,b});
+    		S2.erase({b,a});
     	}
-    	cout<<ans<<" ";
-
+    	else{
+    		ll k;
+    		cin>>k;
+    		if(k&1)
+    		{
+    			if(S1.empty() && S2.empty())
+    			{
+    				cout<<"NO"<<endl;
+    			}
+    			else{
+    				cout<<"YES"<<endl;
+    			}
+    		}
+    		else{
+    			if(S2.empty())
+    			{
+    				cout<<"NO"<<endl;
+    			}
+    			else{
+    				cout<<"YES"<<endl;
+    			}
+    		}
+    	}
     }
-    while(k<=n)
-    {
-    	cout<<"0"<<" ";
-    	k++;
-    }
-    nl();
     return;
 }
-
-
 /*
 1.check for ll for all variables. 
 2.check brackets in all equation and order of conditions.
@@ -166,7 +165,7 @@ int main()
 {
     fast;
     ll tc = 1;
-    IN tc;
+    //IN tc;
     while (tc--)
     {
         solve();

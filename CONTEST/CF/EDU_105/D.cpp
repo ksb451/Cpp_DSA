@@ -26,7 +26,7 @@ using namespace std;
 #define forn(i,n) for(int i=n-1;i>=0;i++)
 #define IN cin >>
 #define OUT cout <<
-#define endl "\n"
+// #define endl "\n"
 #define all(a) (a).begin(), (a).end()
 #define allr(a) (a).rbegin(), (a).rend()
 #define pb push_back
@@ -78,7 +78,7 @@ const ll INF  = INT_MAX;
 const int dir8[8][2]={{1,0},{0,1},{-1,0},{0,-1},{1,1},{1,-1},{-1,1},{-1,-1}};
 const int dir4[4][2]={{1,0},{0,1},{-1,0},{0,-1}};
 
-const ll MAXN = 200005;
+const ll MAXN = 505;
 
 /*
 for(int i=0;i<n-1;i++)
@@ -90,69 +90,93 @@ for(int i=0;i<n-1;i++)
     adj[b].push_back(a);
 }
 */
+ll n;
+ll arr[MAXN][MAXN];
+ll node[2*MAXN];
+ll nxt;
+vector<pll>edge;
+
+ll rec(vector<ll>curr)
+{
+	if(curr.size() == 1)
+	{
+		return curr[0];
+	}
+	ll res = -1;
+	for(int i= 0;i<curr.size();i++)
+	{
+		for(int j=0;j<curr.size();j++)
+		{
+			if(i!=j)
+			{
+				res = max(res, arr[curr[i]][curr[j]]);
+			}
+		}
+	}
+	vector<vll>ch;
+	ch.push_back({curr[0]});
+	for(int i=1;i<curr.size();i++)
+	{
+		ll v = curr[i];
+		ll grp = -1;
+		for(int j=0;j<ch.size();j++)
+		{
+			if(arr[v][ch[j][0]]!=res)
+			{
+				grp = j;
+				break;
+			}
+		}
+		if(grp==-1)
+		{
+			grp = ch.size();
+			ch.push_back({});
+		}
+		ch[grp].push_back(v);
+	}
+	ll curr_n = nxt;
+	nxt++;
+	node[curr_n] = res;
+	for(int i=0;i<ch.size();i++)
+	{
+		ll u  = rec(ch[i]);
+		edge.push_back({u,curr_n});
+	}
+	return curr_n;
+}
 
 void solve()
 {
-	ll n;
     cin>>n;
-    vector<ll>arr(n);
-    for(int i=0;i<n;i++){
-    	cin>>arr[i];
-    }
-    vector<vll>str(n);
     for(int i=0;i<n;i++)
     {
-    	ll x;
-    	cin>>x;
-    	str[arr[i]-1].push_back(x);
+    	for(int j=0;j<n;j++)
+    	{
+    		cin>>arr[i][j];
+    	}
     }
-   
     for(int i=0;i<n;i++)
     {
-    	sort(allr(str[i]));
-    	for(int j=1;j<str[i].size();j++)
-    	{
-    		str[i][j]+=str[i][j-1];
-    	}
+    	node[i]= arr[i][i];
     }
-    
-    vector<pll>sz;
-    for(int i=0;i<n;i++)
+    nxt=n;
+    // __print("done");nl();
+    vector<ll>curr(n);
+    iota(all(curr),0);
+    ll k = rec(curr);
+    cout<<nxt<<endl;
+    for(int i=0;i<nxt;i++)
     {
-    	sz.push_back({str[i].size(),i});
+    	cout<<node[i]<<" ";
     }
-    sort(allr(sz));
-
-    int k=1;
-    for(;k<=n;k++)
+    cout<<endl;
+    cout<<k+1<<endl;
+    for(auto i:edge)
     {
-    	ll ans=0;
-    	for(auto i:sz)
-    	{
-    		if(i.first < k)
-    		{
-    			break;
-    		}
-    		ll q = (i.first%k);
-    		ll qq = i.first - 1-q;
-    		ans+=str[i.second][qq];
-    	}
-    	if(ans==0)
-    	{
-    		break;
-    	}
-    	cout<<ans<<" ";
-
+    	cout<<i.first+1<<" "<<i.second+1<<endl;
     }
-    while(k<=n)
-    {
-    	cout<<"0"<<" ";
-    	k++;
-    }
-    nl();
     return;
 }
-
 
 /*
 1.check for ll for all variables. 
@@ -166,7 +190,7 @@ int main()
 {
     fast;
     ll tc = 1;
-    IN tc;
+    // IN tc;
     while (tc--)
     {
         solve();

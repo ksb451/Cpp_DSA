@@ -93,66 +93,38 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll n;
-    cin>>n;
-    vector<ll>arr(n);
+	ll n,w,wr;
+    cin>>n>>w>>wr;
+    map<ll,ll>um;
     for(int i=0;i<n;i++){
-    	cin>>arr[i];
-    }
-    vector<vll>str(n);
-    for(int i=0;i<n;i++)
-    {
     	ll x;
     	cin>>x;
-    	str[arr[i]-1].push_back(x);
+    	um[x]++;
     }
-   
-    for(int i=0;i<n;i++)
+    ll curr = wr;
+    if(curr >=w)
     {
-    	sort(allr(str[i]));
-    	for(int j=1;j<str[i].size();j++)
+    	cout<<"YES"<<endl;
+    	return;
+    }
+    while(!um.empty())
+    {
+    	auto i = *um.begin();
+    	ll a = i.first;
+    	ll b = i.second;
+    	// cout<<a<<" "<<b<<endl;
+    	b/=2;
+    	curr+=(a*b*2);
+    	um.erase(um.begin());
+    	if(curr >= w)
     	{
-    		str[i][j]+=str[i][j-1];
+    		cout<<"YES"<<endl;
+    		return;
     	}
     }
-    
-    vector<pll>sz;
-    for(int i=0;i<n;i++)
-    {
-    	sz.push_back({str[i].size(),i});
-    }
-    sort(allr(sz));
-
-    int k=1;
-    for(;k<=n;k++)
-    {
-    	ll ans=0;
-    	for(auto i:sz)
-    	{
-    		if(i.first < k)
-    		{
-    			break;
-    		}
-    		ll q = (i.first%k);
-    		ll qq = i.first - 1-q;
-    		ans+=str[i.second][qq];
-    	}
-    	if(ans==0)
-    	{
-    		break;
-    	}
-    	cout<<ans<<" ";
-
-    }
-    while(k<=n)
-    {
-    	cout<<"0"<<" ";
-    	k++;
-    }
-    nl();
+    cout<<"NO"<<endl;
     return;
 }
-
 
 /*
 1.check for ll for all variables. 
