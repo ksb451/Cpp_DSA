@@ -201,6 +201,40 @@ public:
 
 ## Segment Tree DP
 
+## MATH
+
+### SIEVE OF ERATOSTHENES
+
+#### for prime factors
+
+```c++
+ll mind[MAXN];
+ll val[MAXN];
+void sieve()
+{
+    mind[1] = 1;//minimum prime divisor
+    for (ll i=2; i<MAXN; i++)
+        mind[i] = i;
+    for (ll i=2; i*i<MAXN; i++)
+    {
+        if (mind[i] == i)
+        {
+            for (ll j=i*i; j<MAXN; j+=i)
+                if (mind[j]==j)
+                    mind[j] = i;
+        }
+    }
+    val[1]=0;//no of unique prime divisor
+    for(int i=2;i<MAXN;i++)
+    {
+    	int j = i/mind[i];
+    	val[i] = val[j]+(mind[i]!=mind[j]);//for no of unique prime divisors 
+    	//val[i] = val[j]+1; // for no of toal prime divisors
+    }
+
+}
+```
+
 
 
 ## RANDOM TECHNIQUES
@@ -250,6 +284,44 @@ struct VeniceSet {
 
 
 
+## SYNTAX C++
+
+### Custom Comparator for set , multi set , PQ
+
+```c++
+class ComparisonClass {
+    bool operator() (Node, Node) {
+        //comparison code here
+    }
+};
+```
+
+And then you will use this class as the third template parameter like this:
+
+```cpp
+priority_queue<Node, vector<Node>, ComparisonClass> q;
+```
+
+Also  We can pass the function type  using `decltype`.
+
+This is very useful if the comparator is a lambda. You cannot specify the type of a lambda in any other way than using `decltype`. For example:
+
+```cpp
+class Node;
+bool Compare(Node a, Node b);
+
+std::priority_queue<Node, std::vector<Node>, decltype(&Compare)> openSet(Compare);
+```
+
+```cpp
+auto compare = [](Node a, Node b) { return a.foo < b.foo; }
+std::priority_queue<Node, std::vector<Node>, decltype(compare)> openSet(compare);
+```
+
+
+
+
+
 ## PROBLEMS()
 
 https://codeforces.com/contest/1396/problem/D
@@ -259,6 +331,14 @@ https://codeforces.com/problemset/problem/1508/C
 https://codeforces.com/contest/1485/problem/F //Venice technique
 
 https://codeforces.com/contest/842/problem/D // Venice trie
+
+https://discuss.codechef.com/t/imat-editorial/88802
+
+https://codeforces.com/contest/1497/problem/E2 // creating mask and pre-calculation for fast dp.
+
+https://codeforces.com/contest/1497/problem/D // DP
+
+
 
 
 
