@@ -93,35 +93,43 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll n;
-    cin>>n;
-    vector<ll>arr(n);
-    for(int i=0;i<n;i++)cin>>arr[i];
-
-    ll a = count(all(arr),1);
-	ll b=  count(all(arr),2);
-	if(a&1)
+	string s;
+	cin>>s;
+	ll n = s.length();
+	vector<ll>dp(n+1,0);
+	stack<pair<char,ll>>S;
+	for(int i=0;i<n;i++)
 	{
-		cout<<"NO"<<endl;
-		return;
-	}
-	if(b&1)
-	{
-		if(a>0)
+		if(s[i]=='(')
 		{
-			cout<<"YES"<<endl;
-			return;
+			S.push({'(',i});
 		}
 		else{
-			cout<<"NO"<<endl;
-			return;
+			if(!S.empty())
+			{
+				ll x = S.top().second;
+				dp[i]=dp[i-1]+2;
+				if(x-1>=0)
+					dp[i]+=dp[x-1];
+				S.pop();
+			}
+			else{
+				continue;
+			}
 		}
 	}
-	else{
-		cout<<"YES"<<endl;
-		return;
+	ll x = *max_element(all(dp));
+	ll y = count(all(dp),x);
+	if(x==0)
+	{
+		cout<<x<<" "<<1<<endl;
 	}
+	else{
+		cout<<x<<" "<<y<<endl;
+	}
+	return;
 }
+
 
 /*
 1.check for ll for all variables. 
@@ -135,7 +143,7 @@ int main()
 {
     fast;
     ll tc = 1;
-    IN tc;
+    // IN tc;
     while (tc--)
     {
         solve();

@@ -97,15 +97,7 @@ void solve()
     cin>>n;
     vector<ll>arr(n);
     for(int i=0;i<n;i++)cin>>arr[i];
-    unordered_map<ll,ll>um;
-	ll ans=0;
-	for(auto i:arr)
-	{
-		ll x = i%200;
-		ans+=um[x];
-		um[x]++;
-	}
-	cout<<ans<<endl;
+    
 }
 
 /*

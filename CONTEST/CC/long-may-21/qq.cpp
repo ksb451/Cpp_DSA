@@ -26,7 +26,7 @@ using namespace std;
 #define forn(i,n) for(int i=n-1;i>=0;i++)
 #define IN cin >>
 #define OUT cout <<
-#define endl "\n"
+// #define endl "\n"
 #define all(a) (a).begin(), (a).end()
 #define allr(a) (a).rbegin(), (a).rend()
 #define pb push_back
@@ -90,37 +90,131 @@ for(int i=0;i<n-1;i++)
     adj[b].push_back(a);
 }
 */
+vector<double> medianSlidingWindow(vector<int>& nums, int k) {
+    vector<double>ans;
+    if(k==1)
+    {
+        vector<double>ans(nums.begin(), nums.end());
+        return ans;
+    }
+    multiset<int>left,right;
+    for(int i=0;i<k;i++)
+    {
+        left.insert(nums[i]);
+    }
+    for(int i=0;i<k/2;i++)
+    {
+        int x = *left.rbegin();
+        right.insert(x);
+        left.erase(left.find(x));
+    }
+    if(k&1)
+    {
+        ans.push_back(*left.rbegin());
+    }
+    else{
+        double x = *left.rbegin();
+        double y = *right.begin();
+        ans.push_back( (x+y)/2.0 );
+    }
+    cout<<"check"<<endl;
+    for(int i=k;i<nums.size();i++)
+    {
+        for(auto i:left)
+        {
+            cout<<i<<" ";
+        }
+        cout<<endl;
 
+        for(auto i:right)
+        {
+            cout<<i<<" ";
+        }
+        cout<<endl;
+        cout<<i<<endl;
+        if(left.find(nums[i-k])==left.end())
+        {
+            right.erase(right.find(nums[i-k]));
+        }
+        else{
+            left.erase(left.find(nums[i-k]));
+        }
+        cout<<"dlt"<<endl;
+        for(auto i:left)
+        {
+            cout<<i<<" ";
+        }
+        cout<<endl;
+        for(auto i:right)
+        {
+            cout<<i<<" ";
+        }
+        cout<<"done"<<endl;
+        int curr = nums[i];
+        if(left.empty())
+        {
+            int x = *right.begin();   
+            if(curr<x)
+            {
+                left.insert(curr);
+            }
+            else{
+                right.insert(curr);
+            }
+        }
+        else
+        {
+            int x = *left.rbegin();   
+            if(curr>x)
+            {
+                right.insert(curr);
+            }
+            else{
+                left.insert(curr);
+            }
+        }
+        for(auto i:left)
+        {
+            cout<<i<<" ";
+        }
+        cout<<endl;
+
+        for(auto i:right)
+        {
+            cout<<i<<" ";
+        }
+        cout<<endl;
+        while(right.size()>left.size())
+        {
+            int x = *right.begin();
+            left.insert(x);
+            right.erase(right.find(x));
+        }
+        while(left.size()-right.size()>1)
+        {
+            int x = *left.rbegin();
+            right.insert(x);
+            left.erase(left.find(x));
+        }
+        if(k&1)
+        {
+            ans.push_back(*left.rbegin());
+        }
+        else{
+            double x = *left.rbegin();
+            double y = *right.begin();
+            ans.push_back( (x+y)/2.0 );
+        }   
+    }
+    return ans;
+}
 void solve()
 {
-	ll n;
+    int n;
     cin>>n;
-    vector<ll>arr(n);
+    vector<int>arr(n);
     for(int i=0;i<n;i++)cin>>arr[i];
-
-    ll a = count(all(arr),1);
-	ll b=  count(all(arr),2);
-	if(a&1)
-	{
-		cout<<"NO"<<endl;
-		return;
-	}
-	if(b&1)
-	{
-		if(a>0)
-		{
-			cout<<"YES"<<endl;
-			return;
-		}
-		else{
-			cout<<"NO"<<endl;
-			return;
-		}
-	}
-	else{
-		cout<<"YES"<<endl;
-		return;
-	}
+    __print(medianSlidingWindow(arr,3));
 }
 
 /*
@@ -139,6 +233,7 @@ int main()
     while (tc--)
     {
         solve();
+        cout.flush();
     }
     return 0;
 }

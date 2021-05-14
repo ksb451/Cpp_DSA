@@ -91,36 +91,17 @@ for(int i=0;i<n-1;i++)
 }
 */
 
-void solve()
+void solve(ll n)
 {
-	ll n;
-    cin>>n;
-    vector<ll>arr(n);
-    for(int i=0;i<n;i++)cin>>arr[i];
-
-    ll a = count(all(arr),1);
-	ll b=  count(all(arr),2);
-	if(a&1)
+	cout<<n<<endl;
+	ll ii=1;
+	for(int i=2;i<=n;i++)
 	{
-		cout<<"NO"<<endl;
-		return;
+		ll j = (rand()%ii)+1;
+		cout<<i<<" "<<j<<endl;
+		ii++;
 	}
-	if(b&1)
-	{
-		if(a>0)
-		{
-			cout<<"YES"<<endl;
-			return;
-		}
-		else{
-			cout<<"NO"<<endl;
-			return;
-		}
-	}
-	else{
-		cout<<"YES"<<endl;
-		return;
-	}
+	return;
 }
 
 /*
@@ -136,9 +117,11 @@ int main()
     fast;
     ll tc = 1;
     IN tc;
+    ll n;
+    cin>>n;
     while (tc--)
     {
-        solve();
+        solve(n);
     }
     return 0;
 }

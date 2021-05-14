@@ -95,32 +95,59 @@ void solve()
 {
 	ll n;
     cin>>n;
-    vector<ll>arr(n);
-    for(int i=0;i<n;i++)cin>>arr[i];
-
-    ll a = count(all(arr),1);
-	ll b=  count(all(arr),2);
-	if(a&1)
+    vector<vll>arr(n,vll(n));
+    for(int i=0;i<n;i++)
 	{
-		cout<<"NO"<<endl;
-		return;
+		for(int j=0;j<n;j++){
+			char a;
+			cin>>a;
+			arr[i][j]=a-'0';
+		}
 	}
-	if(b&1)
+    for(int i=0;i<n;i++)
 	{
-		if(a>0)
+		for(int j=0;j<n;j++){
+			char a;
+			cin>>a;
+			arr[i][j]^=(a-'0');
+		}
+	}
+	bool flg1=true;
+	for(int i=1;i<n;i++)
+	{
+		ll x = arr[0][0]^arr[i][0];
+		for(int j=0;j<n;j++)
 		{
-			cout<<"YES"<<endl;
-			return;
+			ll y = arr[0][j]^arr[i][j];
+			if(x!=y)
+			{
+				flg1=false;
+				break;
+			}
 		}
-		else{
-			cout<<"NO"<<endl;
-			return;
+	}
+	bool flg2=true;
+	for(int j=1;j<n;j++)
+	{
+		ll x = arr[0][0]^arr[0][j];
+		for(int i=0;i<n;i++)
+		{
+			ll y = arr[i][0]^arr[i][j];
+			if(x!=y)
+			{
+				flg2=false;
+				break;
+			}
 		}
+	}
+	if(flg1 || flg2)
+	{
+		cout<<"YES"<<endl;
 	}
 	else{
-		cout<<"YES"<<endl;
-		return;
+		cout<<"NO"<<endl;
 	}
+	return;
 }
 
 /*

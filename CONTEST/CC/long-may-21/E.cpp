@@ -78,7 +78,7 @@ const ll INF  = INT_MAX;
 const int dir8[8][2]={{1,0},{0,1},{-1,0},{0,-1},{1,1},{1,-1},{-1,1},{-1,-1}};
 const int dir4[4][2]={{1,0},{0,1},{-1,0},{0,-1}};
 
-const ll MAXN = 200005;
+const ll MAXN = 100005;
 
 /*
 for(int i=0;i<n-1;i++)
@@ -91,36 +91,81 @@ for(int i=0;i<n-1;i++)
 }
 */
 
+vll adj[MAXN];
+ll ans;
+
+vll dist;
+
+ll dfs(ll u, ll par=-1)
+{
+	ll curr = 1;
+	ans++;
+	ans%=MOD;
+	ll wocurr=0;
+	for(auto v:adj[u])
+	{
+		if(v!=par)
+		{
+			ll x = dfs(v,u);
+			ans+=(x*wocurr);
+			ans%=MOD;
+			if(wocurr>0)
+			{
+				ans+=(x*wocurr);
+				ans%=MOD;
+			}
+			ans+=x;
+			ans%=MOD;
+			wocurr+=x;
+			curr+= (x*2);
+		}
+	}
+	return curr;
+}
+
+void dfs1(ll u,ll par)
+{
+	if(dist[u]==-1)
+	{
+		dist[u] = dist[par] + 1;
+	}
+	for(auto v:adj[u])
+	{
+		if(v!=par)
+		{
+			dfs1(v,u);
+		}
+	}
+}
+
+
 void solve()
 {
-	ll n;
-    cin>>n;
-    vector<ll>arr(n);
-    for(int i=0;i<n;i++)cin>>arr[i];
+	
+	ans=0;
+	dfs(0);
+	cout<<ans%MOD<<endl;
+}
 
-    ll a = count(all(arr),1);
-	ll b=  count(all(arr),2);
-	if(a&1)
+void solve2(ll n)
+{
+	ans = n;
+	for(int i=0;i<n;i++)
 	{
-		cout<<"NO"<<endl;
-		return;
-	}
-	if(b&1)
-	{
-		if(a>0)
+		dist = vll(n,-1);
+		// __print(dist);
+		dist[i]=0;
+		dfs1(i,-1);
+		// __print(dist);
+		for(int j=i+1;j<n;j++)
 		{
-			cout<<"YES"<<endl;
-			return;
-		}
-		else{
-			cout<<"NO"<<endl;
-			return;
-		}
+			ll x = dist[j] -1;
+			// __print(i,j,x);nl();
+			ans+= pow(2,x);
+			ans%=MOD;
+		}	
 	}
-	else{
-		cout<<"YES"<<endl;
-		return;
-	}
+	cout<<ans%MOD<<endl;
 }
 
 /*
@@ -138,7 +183,23 @@ int main()
     IN tc;
     while (tc--)
     {
+    	ll n;
+	    cin>>n;
+	    for0(i,n+3)
+	    {
+	    	adj[i].clear();
+	    }
+	    for(int i=0;i<n-1;i++)
+		{
+		    int a,b;
+		    cin>>a>>b;
+		    a--,b--;
+		    adj[a].push_back(b);
+		    adj[b].push_back(a);
+		}
         solve();
+        solve2(n);
+        //cout.flush();
     }
     return 0;
 }

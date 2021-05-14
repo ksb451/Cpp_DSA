@@ -78,7 +78,7 @@ const ll INF  = INT_MAX;
 const int dir8[8][2]={{1,0},{0,1},{-1,0},{0,-1},{1,1},{1,-1},{-1,1},{-1,-1}};
 const int dir4[4][2]={{1,0},{0,1},{-1,0},{0,-1}};
 
-const ll MAXN = 200005;
+const ll MAXN = 5005;
 
 /*
 for(int i=0;i<n-1;i++)
@@ -91,36 +91,61 @@ for(int i=0;i<n-1;i++)
 }
 */
 
-void solve()
-{
-	ll n;
-    cin>>n;
-    vector<ll>arr(n);
-    for(int i=0;i<n;i++)cin>>arr[i];
+ll n;
+string s;
+ll dp[MAXN][MAXN];
+bool is_pal[MAXN][MAXN];
 
-    ll a = count(all(arr),1);
-	ll b=  count(all(arr),2);
-	if(a&1)
+void rec(ll i,ll j)
+{
+	if(i>=j)
 	{
-		cout<<"NO"<<endl;
+		is_pal[i][j]=1;
+		dp[i][j]=0;
 		return;
 	}
-	if(b&1)
-	{
-		if(a>0)
-		{
-			cout<<"YES"<<endl;
-			return;
-		}
-		else{
-			cout<<"NO"<<endl;
-			return;
-		}
+	else if(dp[i][j]!=-1){
+		return;
 	}
 	else{
-		cout<<"YES"<<endl;
+		is_pal[i][j]=0;
+		ll ans=0;
+		rec(i,j-1);
+		rec(i+1,j);
+		rec(i+1, j-1);
+		if(s[i]==s[j])
+		{
+			if(is_pal[i+1][j-1]==1)
+			{
+				ans++;
+				is_pal[i][j]=1;
+			}
+		}
+		ans+=dp[i][j-1];
+		ans+=dp[i+1][j];
+		ans-=dp[i+1][j-1];
+		dp[i][j]=ans;
 		return;
 	}
+}
+
+void solve()
+{
+    cin>>s;
+    n = s.length();
+    memset(dp, -1,sizeof(dp));
+    memset(is_pal, -1,sizeof(is_pal));
+    rec(0,n-1);
+    ll q;
+    cin>>q;
+    while(q--)
+    {
+    	ll l,r;
+    	cin>>l>>r;
+    	l--,r--;
+    	cout<<dp[l][r]+(r-l+1)<<endl;
+    }
+    return;
 }
 
 /*
@@ -135,7 +160,7 @@ int main()
 {
     fast;
     ll tc = 1;
-    IN tc;
+    // IN tc;
     while (tc--)
     {
         solve();

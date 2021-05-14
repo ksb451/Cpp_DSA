@@ -98,29 +98,7 @@ void solve()
     vector<ll>arr(n);
     for(int i=0;i<n;i++)cin>>arr[i];
 
-    ll a = count(all(arr),1);
-	ll b=  count(all(arr),2);
-	if(a&1)
-	{
-		cout<<"NO"<<endl;
-		return;
-	}
-	if(b&1)
-	{
-		if(a>0)
-		{
-			cout<<"YES"<<endl;
-			return;
-		}
-		else{
-			cout<<"NO"<<endl;
-			return;
-		}
-	}
-	else{
-		cout<<"YES"<<endl;
-		return;
-	}
+    
 }
 
 /*
@@ -139,6 +117,7 @@ int main()
     while (tc--)
     {
         solve();
+        cout.flush();
     }
     return 0;
 }

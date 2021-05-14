@@ -93,34 +93,82 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll n;
-    cin>>n;
-    vector<ll>arr(n);
-    for(int i=0;i<n;i++)cin>>arr[i];
-
-    ll a = count(all(arr),1);
-	ll b=  count(all(arr),2);
-	if(a&1)
-	{
-		cout<<"NO"<<endl;
-		return;
-	}
-	if(b&1)
-	{
-		if(a>0)
-		{
-			cout<<"YES"<<endl;
-			return;
-		}
-		else{
-			cout<<"NO"<<endl;
-			return;
-		}
-	}
-	else{
-		cout<<"YES"<<endl;
-		return;
-	}
+	ll n,m;
+    cin>>n>>m;
+    vector<pll>adj[n];
+    for(int i=0;i<m;i++){
+    	ll a,b,c;
+    	cin>>a>>b>>c;
+    	a--,b--;
+    	adj[a].push_back({b,c});
+    	adj[b].push_back({a,c});
+    }
+    ll dist[n][2][2];
+    for(int i=0;i<n;i++)
+    {
+    	for(int j=0;j<2;j++)
+    	{
+    		for(int k=0;k<2;k++)
+    		{
+    			dist[i][j][k]=(ll)1e18;
+    		}
+    	}
+    }
+    multiset <pair<ll,tuple<ll,ll,ll>>>S;
+    dist[0][0][0]=0;
+    S.insert({0,{0,0,0}});
+    while(!S.empty()){
+    	auto curr = *S.begin();\
+    	S.erase(S.begin());
+    	ll d = curr.first;
+    	ll u = get<0>(curr.second);
+    	ll f1 = get<1>(curr.second);
+    	ll f2 = get<2>(curr.second);
+    	for(auto edge : adj[u])
+    	{
+    		ll v = edge.first;
+    		ll cost = edge.second;
+    		if(dist[v][f1][f2] > d+cost)
+    		{
+    			S.erase({dist[v][f1][f2],{v,f1,f2}});
+    			dist[v][f1][f2] = d+cost;
+    			S.insert({dist[v][f1][f2],{v,f1,f2}});
+    		}
+    		if(f1==0)
+    		{
+    			if(dist[v][1][f2] > d+cost+cost)
+    			{
+    				S.erase({dist[v][1][f2],{v,1,f2}});
+					dist[v][1][f2] = d+cost+cost;
+					S.insert({dist[v][1][f2],{v,1,f2}});
+    			}
+    		}
+    		if(f2==0)
+    		{
+    			if(dist[v][f1][1] > d+cost-cost)
+    			{
+    				S.erase({dist[v][f1][1],{v,f1,1}});
+					dist[v][f1][1] = d+cost-cost;
+					S.insert({dist[v][f1][1],{v,f1,1}});
+    			}
+    		}
+    		if((f1==0) && (f2==0))
+    		{
+    			if(dist[v][1][1] > d+cost)
+	    		{
+	    			S.erase({dist[v][1][1],{v,1,1}});
+	    			dist[v][1][1] = d+cost;
+	    			S.insert({dist[v][1][1],{v,1,1}});
+	    		}
+    		}
+    	}
+    }
+    for(int i=1;i<n;i++)
+    {
+    	cout<<dist[i][1][1]<<" ";
+    }
+    cout<<endl;
+    return;
 }
 
 /*
@@ -135,7 +183,7 @@ int main()
 {
     fast;
     ll tc = 1;
-    IN tc;
+    // IN tc;
     while (tc--)
     {
         solve();

@@ -26,7 +26,7 @@ using namespace std;
 #define forn(i,n) for(int i=n-1;i>=0;i++)
 #define IN cin >>
 #define OUT cout <<
-#define endl "\n"
+// #define endl "\n"
 #define all(a) (a).begin(), (a).end()
 #define allr(a) (a).rbegin(), (a).rend()
 #define pb push_back
@@ -91,54 +91,24 @@ for(int i=0;i<n-1;i++)
 }
 */
 
-void solve()
-{
-	ll n;
-    cin>>n;
-    vector<ll>arr(n);
-    for(int i=0;i<n;i++)cin>>arr[i];
-
-    ll a = count(all(arr),1);
-	ll b=  count(all(arr),2);
-	if(a&1)
-	{
-		cout<<"NO"<<endl;
-		return;
-	}
-	if(b&1)
-	{
-		if(a>0)
-		{
-			cout<<"YES"<<endl;
-			return;
-		}
-		else{
-			cout<<"NO"<<endl;
-			return;
-		}
-	}
-	else{
-		cout<<"YES"<<endl;
-		return;
-	}
-}
-
-/*
-1.check for ll for all variables. 
-2.check brackets in all equation and order of conditions.
-3.check custom compare funtions if any.
-4.check logic carefully.
-5.Dont get stuck on one approch.
-*/
-
-int main()
-{
-    fast;
-    ll tc = 1;
-    IN tc;
-    while (tc--)
-    {
-        solve();
+int n;
+vector <int> a;
+int solve(vector <int> &c, int bit){
+    if(bit < 0) return 0;
+    vector <int> l, r;
+    for(auto &i : c){
+        if(((i >> bit) & 1) == 0) l.push_back(i);
+        else r.push_back(i);
     }
-    return 0;
+    if(l.size() == 0) return solve(r, bit - 1);
+    if(r.size() == 0) return solve(l, bit - 1);
+    return min(solve(l, bit - 1), solve(r, bit - 1)) + (1 << bit);
+}
+int main(){
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cin >> n;
+    a.resize(n);
+    for(auto &i : a) cin >> i;
+    cout << solve(a, 30) << endl;
 }

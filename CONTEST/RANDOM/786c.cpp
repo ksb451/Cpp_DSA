@@ -91,37 +91,76 @@ for(int i=0;i<n-1;i++)
 }
 */
 
+struct
+vector<ll>arr;
+vll ans;
+unordered_map<ll,ll>um;
+ll cnt;
+set<pll>query;
+ll L,R;
+
+ll fit(ll l,ll rc)
+{
+	if(cnt==0)
+	{
+		um.clear();
+		L=l;
+		cnt=1;
+		um[arr[l]]++;
+	}
+	if(l > L)
+	{
+		while(l==L)
+		{
+			um[arr[L]]--;
+			if(um[arr[L]]==0)
+			{
+				cnt--;
+			}
+			L++;
+		}
+	}
+	if(rc < cnt)
+	{
+		while(rc)
+	}
+}
+
 void solve()
 {
 	ll n;
     cin>>n;
-    vector<ll>arr(n);
+    arr.resize(n);
     for(int i=0;i<n;i++)cin>>arr[i];
-
-    ll a = count(all(arr),1);
-	ll b=  count(all(arr),2);
-	if(a&1)
+    um.clear();
+	cnt=0;
+	ans.resize(n+1,0);
+	ans[1]=n;
+	set<pll>query;
+	um[arr[0]]++;
+	cnt=1;
+	for(int i=1;i<n;i++)
 	{
-		cout<<"NO"<<endl;
-		return;
-	}
-	if(b&1)
-	{
-		if(a>0)
+		um[arr[i]]++;
+		if(um[arr[i]]==1)
 		{
-			cout<<"YES"<<endl;
-			return;
-		}
-		else{
-			cout<<"NO"<<endl;
-			return;
+			cnt++;
+			ans[cnt]++;
+			if(i < n-1)
+				query.insert({i+1, cnt});
 		}
 	}
-	else{
-		cout<<"YES"<<endl;
-		return;
+	cnt=0;
+	while(!query.empty())
+	{
+		auto cq = *query.begin();
+		query.erase(query.begin());
+		ll l = cq.first;
+		ll rc = cq.second;
+		fit(l,rc);
 	}
-}
+
+}	
 
 /*
 1.check for ll for all variables. 
@@ -135,10 +174,11 @@ int main()
 {
     fast;
     ll tc = 1;
-    IN tc;
+    // IN tc;
     while (tc--)
     {
         solve();
+        cout.flush();
     }
     return 0;
 }

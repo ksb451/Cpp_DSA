@@ -26,7 +26,7 @@ using namespace std;
 #define forn(i,n) for(int i=n-1;i>=0;i++)
 #define IN cin >>
 #define OUT cout <<
-#define endl "\n"
+// #define endl "\n"
 #define all(a) (a).begin(), (a).end()
 #define allr(a) (a).rbegin(), (a).rend()
 #define pb push_back
@@ -55,12 +55,13 @@ void __print(const T &x) {int f = 0; cerr << '{'; for (auto &i: x) cerr << (f++ 
 template<typename T, typename... Args>
 void __print(T t, Args... args) // recursive variadic function
 {
-    cout << t <<" " ;
+    __print(t);
+    cerr<<" ";
     __print(args...) ;
 }
 void nl()
 {
-    cout<<endl;
+    cerr<<endl;
 }
 
 using ll = long long int;
@@ -93,34 +94,60 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
+	string s;
+	cin>>s;
 	ll n;
     cin>>n;
-    vector<ll>arr(n);
+    vector<string>arr(n);
     for(int i=0;i<n;i++)cin>>arr[i];
-
-    ll a = count(all(arr),1);
-	ll b=  count(all(arr),2);
-	if(a&1)
+    ll nn = s.length();
+	// __print(nn);nl();
+	vector<ll>dp(nn,1);
+	for(int i=0;i<nn;i++)
 	{
-		cout<<"NO"<<endl;
-		return;
-	}
-	if(b&1)
-	{
-		if(a>0)
+		// __print(i);nl();
+		for(auto ss:arr)
 		{
-			cout<<"YES"<<endl;
-			return;
+			// __print(ss);nl();
+			ll kk =i;
+			ll k=0;
+			for(;(k<ss.length())&&(kk<nn);k++,kk++)
+			{
+				// __print(s[kk],ss[k]);nl();
+				if(s[kk]==ss[k])
+				{
+					continue;
+				}
+				else{
+					break;
+				}
+			}
+			// cerr<<"check"<<endl;
+			if(k==ss.length())
+			{
+				// cerr<<"yes"<<endl;
+				for(int k=0;k<ss.length();k++)
+				{
+					dp[i+k]=0;
+				}
+			}
+			// cerr<<"check"<<endl;
 		}
-		else{
-			cout<<"NO"<<endl;
-			return;
+		// cerr<<"check"<<endl;
+	}
+	cerr<<"dp"<<endl;
+	__print(dp);
+	for(int i=nn-2;i>=0;i--)
+	{
+		if(dp[i]==1)
+		{
+			dp[i]+=dp[i+1];
 		}
 	}
-	else{
-		cout<<"YES"<<endl;
-		return;
-	}
+	cerr<<"x"<<endl;
+	auto x = max_element(all(dp));
+	cout<<(*x)<<" "<<(x-dp.begin())<<endl;
+	return;
 }
 
 /*
@@ -135,7 +162,7 @@ int main()
 {
     fast;
     ll tc = 1;
-    IN tc;
+    // IN tc;
     while (tc--)
     {
         solve();

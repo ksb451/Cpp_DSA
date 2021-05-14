@@ -91,38 +91,40 @@ for(int i=0;i<n-1;i++)
 }
 */
 
-void solve()
-{
-	ll n;
-    cin>>n;
-    vector<ll>arr(n);
-    for(int i=0;i<n;i++)cin>>arr[i];
+struct range {unsigned int first; unsigned int last;
+	void print()
+	{
+		cout<<first<<" "<<last<<endl;
+	}
+};
 
-    ll a = count(all(arr),1);
-	ll b=  count(all(arr),2);
-	if(a&1)
-	{
-		cout<<"NO"<<endl;
-		return;
-	}
-	if(b&1)
-	{
-		if(a>0)
-		{
-			cout<<"YES"<<endl;
-			return;
-		}
-		else{
-			cout<<"NO"<<endl;
-			return;
-		}
-	}
-	else{
-		cout<<"YES"<<endl;
-		return;
-	}
+range lexiLeastRev(std::string const &str) {
+    unsigned int len = str.length(), first = 0, last = 0, run = 0, max_run = 0;
+    std::vector<bool> forward(0), reverse(0);
+    bool leading_zeros = true;
+
+    for (unsigned int pos = 0; pos < len; pos++) {
+        bool digit = str[pos] - 'a';
+        if (!digit) {
+            if (leading_zeros) continue;
+            if (++run > max_run || run == max_run && reverse < forward) {
+                max_run = run;
+                last = pos;
+                forward = reverse;
+            }
+        }
+        else {
+            if (leading_zeros) {
+                leading_zeros = false;
+                first = pos;
+            }
+            run = 0;
+        }
+        forward.push_back(digit);
+        reverse.insert(reverse.begin(), digit);
+    }
+    return range {first, last};
 }
-
 /*
 1.check for ll for all variables. 
 2.check brackets in all equation and order of conditions.
@@ -133,12 +135,24 @@ void solve()
 
 int main()
 {
-    fast;
-    ll tc = 1;
-    IN tc;
-    while (tc--)
-    {
-        solve();
-    }
-    return 0;
+	ll t;
+	cin>>t;
+	// while(t--)
+	// {
+	// 	ll n = 10000;
+	// 	string s="";
+	// 	for(int i=0;i<n;i++)
+	// 	{
+	// 		s+=('a'+(rand()%2));
+	// 	}
+	// 	range ans = lexiLeastRev(s);
+	// 	ans.print();
+	// }
+	while(t--)
+	{
+		string s;
+		cin>>s;
+		range ans = lexiLeastRev(s);
+		ans.print();
+	}
 }

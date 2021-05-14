@@ -91,36 +91,30 @@ for(int i=0;i<n-1;i++)
 }
 */
 
-void solve()
+ll rec(vector<ll>&arr, vector<ll>&dp, ll i, ll k)
 {
-	ll n;
-    cin>>n;
-    vector<ll>arr(n);
-    for(int i=0;i<n;i++)cin>>arr[i];
-
-    ll a = count(all(arr),1);
-	ll b=  count(all(arr),2);
-	if(a&1)
+	if(i>=k)
 	{
-		cout<<"NO"<<endl;
-		return;
+		return 0;
 	}
-	if(b&1)
+	else if(dp[i]!=-1)
 	{
-		if(a>0)
-		{
-			cout<<"YES"<<endl;
-			return;
-		}
-		else{
-			cout<<"NO"<<endl;
-			return;
-		}
+		return dp[i];
 	}
 	else{
-		cout<<"YES"<<endl;
-		return;
+		ll ans=0;
+		for(int j=i+1;j<=k;j++)
+		{
+			ans = max(ans, arr[j-i-1]+rec(arr,dp,j,k));
+		}
+		return dp[i]=ans;
 	}
+}
+
+ll solve(vector<ll>arr, ll k)
+{
+	vector<ll>dp(k+1,-1);
+	return rec(arr,dp,0,k);
 }
 
 /*
@@ -138,7 +132,14 @@ int main()
     IN tc;
     while (tc--)
     {
-        solve();
+    	ll n;
+    	cin>>n;
+    	vll arr(n);
+    	for(int i=0;i<n;i++)
+    	{
+    		cin>>arr[i];
+    	}
+        cout<<solve(arr,n)<<endl;
     }
     return 0;
 }

@@ -78,7 +78,7 @@ const ll INF  = INT_MAX;
 const int dir8[8][2]={{1,0},{0,1},{-1,0},{0,-1},{1,1},{1,-1},{-1,1},{-1,-1}};
 const int dir4[4][2]={{1,0},{0,1},{-1,0},{0,-1}};
 
-const ll MAXN = 200005;
+const ll MAXN = 10005;
 
 /*
 for(int i=0;i<n-1;i++)
@@ -90,37 +90,87 @@ for(int i=0;i<n-1;i++)
     adj[b].push_back(a);
 }
 */
+ll dp[MAXN][4];
+string s;
+ll rec(ll i, ll val, set<string>&us)
+{
+	ll n = s.length();
+	if(i==n)
+	{
+		return 1;
+	}
+	if(dp[i][val]!=-1)
+	{
+		return dp[i][val];
+	}
+	else{
+		if(val==2)
+		{
+			if(n-i <2)
+			{
+				return dp[i][val]=0;
+			}
+			ll x=0;
+			if(n-i>=4)
+			{
+				if(s.substr(i,2) == s.substr(i+2,2))
+				{
+
+				}
+				else{
+					x = rec(i+2,2,us);
+				}
+			}
+			x = max(x,rec(i+2,3,us));
+			if(x>0)
+			{
+				us.insert(s.substr(i,2));
+			}
+			return dp[i][val]=x;
+		}
+		else{
+			if(n-i <3)
+			{
+				return dp[i][val]=0;
+			}
+			ll x=0;
+			if(n-i>=6)
+			{
+				if(s.substr(i,3) == s.substr(i+2,3))
+				{
+
+				}
+				else{
+					x = rec(i+3,3,us);
+				}
+			}
+			x = max(x,rec(i+3,2,us));
+			if(x>0)
+			{
+				us.insert(s.substr(i,3));
+			}
+			return dp[i][val]=x;
+		}
+	}
+}
 
 void solve()
 {
-	ll n;
-    cin>>n;
-    vector<ll>arr(n);
-    for(int i=0;i<n;i++)cin>>arr[i];
-
-    ll a = count(all(arr),1);
-	ll b=  count(all(arr),2);
-	if(a&1)
+	cin>>s;
+	ll n = s.length();
+	set<string>us;
+	memset(dp,-1,sizeof(dp));
+	for(int i=5;i<n;i++)
 	{
-		cout<<"NO"<<endl;
-		return;
+		rec(i,2,us);
+		rec(i,3,us);
 	}
-	if(b&1)
+	cout<<us.size()<<endl;
+	for(auto i:us)
 	{
-		if(a>0)
-		{
-			cout<<"YES"<<endl;
-			return;
-		}
-		else{
-			cout<<"NO"<<endl;
-			return;
-		}
+		cout<<i<<endl;
 	}
-	else{
-		cout<<"YES"<<endl;
-		return;
-	}
+	return;
 }
 
 /*
@@ -135,7 +185,7 @@ int main()
 {
     fast;
     ll tc = 1;
-    IN tc;
+    // IN tc;
     while (tc--)
     {
         solve();

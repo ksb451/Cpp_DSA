@@ -91,36 +91,65 @@ for(int i=0;i<n-1;i++)
 }
 */
 
+bool check(const string &a, const string &b, ll la, ll ra, ll lb, ll rb)
+{
+	// __print(la,ra,lb,rb);nl();
+	if(la>ra && lb>rb){
+		return true;
+	}
+	else{
+		for(;la<=ra;)
+		{
+			// cout<<a[la]<<" "<<b[lb]<<endl;
+			if(a[la]==b[lb])
+			{
+				la++;
+				lb++;
+			}
+			else{
+				return false;
+			}
+		}
+		return true;
+	}
+	return false;
+}
+
 void solve()
 {
 	ll n;
-    cin>>n;
-    vector<ll>arr(n);
-    for(int i=0;i<n;i++)cin>>arr[i];
-
-    ll a = count(all(arr),1);
-	ll b=  count(all(arr),2);
-	if(a&1)
+	cin>>n;
+	string s,t;
+	cin>>s>>t;
+	ll ls=0,rs=n-1,lt=0,rt=n-1;
+	for(int i=0;i<n;i++)
 	{
-		cout<<"NO"<<endl;
-		return;
-	}
-	if(b&1)
-	{
-		if(a>0)
+		if(s[i]==t[i])
 		{
-			cout<<"YES"<<endl;
-			return;
+			ls++;
+			lt++;
 		}
 		else{
-			cout<<"NO"<<endl;
-			return;
+			break;
 		}
 	}
-	else{
-		cout<<"YES"<<endl;
-		return;
+	for(int i=n-1;i>=0;i--)
+	{
+		if(s[i]==t[i])
+		{
+			rs--;
+			rt--;
+		}
+		else{
+			break;
+		}
 	}
+	ll ans=0;
+	if(check(s,t,ls+1,rs, lt, rt-1))
+		ans++;
+	if(check(s,t,ls,rs-1, lt+1, rt))
+		ans++;
+	cout<<ans<<endl;
 }
 
 /*
@@ -135,7 +164,7 @@ int main()
 {
     fast;
     ll tc = 1;
-    IN tc;
+    // IN tc;
     while (tc--)
     {
         solve();
