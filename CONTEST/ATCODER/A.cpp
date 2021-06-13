@@ -73,12 +73,12 @@ using vi = vector<int>;
 
 const ll MOD = (ll)(1e9) + 7LL;
 const ll MM = 998244353LL;
-const ll INF  = ll(1e16);
+const ll INF  = INT_MAX;
 
 const int dir8[8][2]={{1,0},{0,1},{-1,0},{0,-1},{1,1},{1,-1},{-1,1},{-1,-1}};
 const int dir4[4][2]={{1,0},{0,1},{-1,0},{0,-1}};
 
-const ll MAXN = 200005;
+const ll MAXN = 2005;
 
 /*
 for(int i=0;i<n-1;i++)
@@ -91,59 +91,46 @@ for(int i=0;i<n-1;i++)
 }
 */
 
+vll adj[MAXN];
+
+ll dfs(ll node, vll&vis)
+{
+	vis[node]++;
+	ll x=1;
+	for(auto u:adj[node])
+	{
+		if(!vis[u])
+		{
+			x+=dfs(u,vis);
+		}
+	}
+	return x;
+}
+
 void solve()
 {
-	ll n,k;
-    cin>>n>>k;
-    vector<ll>arr(n);
-    for(ll i=0;i<n;i++)cin>>arr[i];
-
-    //reverse(all(arr));
-	vector<vll>dp(n,vector<ll>(k+1,-INF));
-	for(ll j=0;j<=k;j++)
+	ll n,m;
+    cin>>n>>m;
+	for(int i=0;i<m;i++)
 	{
-		for(ll i=0;i<n;i++)
-		{
-			if(j==0)
-			{
-				dp[i][j]=0;
-			}
-			if(j>0)
-			{
-				if(i==0)
-				{
-					if(j==1)
-					{
-						dp[i][j] = max(dp[i][j], arr[i]);
-					}
-				}
-				else{
-					if(arr[i]>=0)
-					{
-						dp[i][j] = max(dp[i-1][j],dp[i][j]);
-						dp[i][j] = max(dp[i][j],dp[i-1][j-1]+(arr[i]*j));
-						if(arr[i-1]>=0)
-						{
-							dp[i][j] = max(dp[i][j], dp[i-1][j]+(arr[i]*j));
-						}
-					}
-					if(arr[i]<=0)
-					{
-						dp[i][j] = max(dp[i-1][j],dp[i][j]);
-						dp[i][j] = max(dp[i][j], dp[i-1][j-1]+(arr[i]*j));
-					}
-				}
-			}
-			cout<<dp[i][j]<<" ";
-		}
-		cout<<endl;
+	    int a,b;
+	    cin>>a>>b;
+	    a--,b--;
+	    adj[a].push_back(b);
 	}
-	cout<<dp[n-1][k]<<endl;
+	ll ans=0;
+	for(int i=0;i<n;i++)
+	{
+		vll vis(n,0);
+		ll x = dfs(i,vis);
+		ans+=(x);
+	}
+	cout<<ans<<endl;
 }
 
 /*
-1.check for long long for all variables. 
-2.check for return satement in correct places.
+1.check for ll for all variables. 
+2.chec for return satement in correct places.
 3.check brackets in all equation and order of conditions.
 4.check custom compare funtions if any.
 5.check logic carefully.
@@ -154,7 +141,7 @@ int main()
 {
     fast;
     ll tc = 1;
-    IN tc;
+    // IN tc;
     while (tc--)
     {
         solve();

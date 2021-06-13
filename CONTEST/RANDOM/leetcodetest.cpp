@@ -73,7 +73,7 @@ using vi = vector<int>;
 
 const ll MOD = (ll)(1e9) + 7LL;
 const ll MM = 998244353LL;
-const ll INF  = ll(1e16);
+const ll INF  = INT_MAX;
 
 const int dir8[8][2]={{1,0},{0,1},{-1,0},{0,-1},{1,1},{1,-1},{-1,1},{-1,-1}};
 const int dir4[4][2]={{1,0},{0,1},{-1,0},{0,-1}};
@@ -91,59 +91,90 @@ for(int i=0;i<n-1;i++)
 }
 */
 
-void solve()
-{
-	ll n,k;
-    cin>>n>>k;
-    vector<ll>arr(n);
-    for(ll i=0;i<n;i++)cin>>arr[i];
+class Solution {
+public:
+    void print(int mask)
+    {
+        for(int i=0;i<nn;i++)
+        {
+            cout<< ((mask&(1<<i))==0 ? 0: 1);
+        }
+        cout<<endl;
+    }
+    void rec(int prevl, int prevr, int fP, int sP,int round, int mask)
+    {
+        int nextl = prevl+1;
+        while((nextl<nn) && (((1<<nextl)&mask) == 0))
+        {
+            nextl++;
+        }
+        int nextr = prevr-1;
+        while((nextr >=0) && (((1<<nextr)&mask) == 0) )
+        {
+            nextr--;
+        }
+        // print(mask);
+        // cout<<nextl<<" "<<nextr<<" "<<round<<endl;
+        if(round > 20)
+        {
+            return;
+        }
+        if(nextl > nextr)
+        {
+            rec(-1, nn, fP, sP,round+1, mask);
+            return;
+        }
+        if(nextl == nextr)
+        {
+            rec(-1, nn, fP, sP,round+1, mask);
+            return;
+        }
+        if((nextl == fP) && (nextr == sP))
+        {
+            mn = min(mn, round);
+            mx = max(mx, round);
+            return;
+        }
+        else if(nextl == fP)
+        {
+            mask = mask^(1<<nextr);
+            rec(nextl, nextr, fP,sP, round, mask);
+        }
+        else if(nextr == sP)
+        {
+            
+            mask = mask^(1<<nextl);
+            //print(mask);
+            rec(nextl, nextr, fP,sP, round, mask);
+        }
+        else{
+            mask = mask^(1<<nextr);
+            rec(nextl, nextr, fP,sP, round, mask);
+            mask = mask^(1<<nextr);
+            mask = mask^(1<<nextl);
+            rec(nextl, nextr, fP,sP, round, mask);
+        }
+        return;
+    }
+    
+    vector<int> earliestAndLatest(int n, int fP, int sP) {
+        int mask = (1<<n)-1;
+        nn=n;
+        mn = INT_MAX;
+        mx = 0;
+        rec(-1, n, fP-1, sP-1, 1, mask);
+        return {mn,mx};
+    }
+    int nn;
+    int mn;
+    int mx;
+};
 
-    //reverse(all(arr));
-	vector<vll>dp(n,vector<ll>(k+1,-INF));
-	for(ll j=0;j<=k;j++)
-	{
-		for(ll i=0;i<n;i++)
-		{
-			if(j==0)
-			{
-				dp[i][j]=0;
-			}
-			if(j>0)
-			{
-				if(i==0)
-				{
-					if(j==1)
-					{
-						dp[i][j] = max(dp[i][j], arr[i]);
-					}
-				}
-				else{
-					if(arr[i]>=0)
-					{
-						dp[i][j] = max(dp[i-1][j],dp[i][j]);
-						dp[i][j] = max(dp[i][j],dp[i-1][j-1]+(arr[i]*j));
-						if(arr[i-1]>=0)
-						{
-							dp[i][j] = max(dp[i][j], dp[i-1][j]+(arr[i]*j));
-						}
-					}
-					if(arr[i]<=0)
-					{
-						dp[i][j] = max(dp[i-1][j],dp[i][j]);
-						dp[i][j] = max(dp[i][j], dp[i-1][j-1]+(arr[i]*j));
-					}
-				}
-			}
-			cout<<dp[i][j]<<" ";
-		}
-		cout<<endl;
-	}
-	cout<<dp[n-1][k]<<endl;
-}
+
 
 /*
-1.check for long long for all variables. 
-2.check for return satement in correct places.
+1.check for ll for all variables. 
+2.chec for return satement in correct places.
 3.check brackets in all equation and order of conditions.
 4.check custom compare funtions if any.
 5.check logic carefully.
@@ -152,13 +183,8 @@ void solve()
 
 int main()
 {
-    fast;
-    ll tc = 1;
-    IN tc;
-    while (tc--)
-    {
-        solve();
-        cout.flush();
-    }
+    Solution S;
+    __print(S.earliestAndLatest(28,26,27));
     return 0;
 }
+

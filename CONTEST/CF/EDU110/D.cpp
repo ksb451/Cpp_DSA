@@ -73,7 +73,7 @@ using vi = vector<int>;
 
 const ll MOD = (ll)(1e9) + 7LL;
 const ll MM = 998244353LL;
-const ll INF  = ll(1e16);
+const ll INF  = INT_MAX;
 
 const int dir8[8][2]={{1,0},{0,1},{-1,0},{0,-1},{1,1},{1,-1},{-1,1},{-1,-1}};
 const int dir4[4][2]={{1,0},{0,1},{-1,0},{0,-1}};
@@ -91,59 +91,107 @@ for(int i=0;i<n-1;i++)
 }
 */
 
+ll k, n;
+string s;
+vll arr;
+vector<pll>child;
+ll dfs(ll curr)
+{
+	ll lx=1,rx=1;
+	ll left = curr*2+1;
+	ll right = curr*2+2;
+	if(left<n)
+	{
+		lx=dfs(left);
+	}
+	if(right<n){
+		rx=dfs(right);
+	}
+	child[curr].first = lx;
+	child[curr].second = rx;
+	if(s[curr]=='0')
+	{
+		return arr[curr]=rx;
+	}
+	else if(s[curr]=='1')
+	{
+		return arr[curr]=lx;
+	}
+	else{
+		return arr[curr] = lx+rx;
+	}
+}
+
 void solve()
 {
-	ll n,k;
-    cin>>n>>k;
-    vector<ll>arr(n);
-    for(ll i=0;i<n;i++)cin>>arr[i];
+    cin>>k;
+    cin>>s;
+    reverse(all(s));
+    ll q;
+    cin>>q;
+    n = s.length();
+    arr = vll(n,0);
+    child = vector<pll>(n);
+    dfs(0);
+        // write(arr);
+    // cout<<arr[2]<<endl;
+    while(q--)
+    {
+    	ll p;
+    	char c;
+    	cin>>p>>c;
+    	s[n-p]=c;
+    	// cout<<s<<endl;
+    	ll curr = n-p;
+    	while(true)
+    	{
+    		ll fi = 1;
+    		ll se = 1;
+    		ll left = 2*curr+1;
+    		ll right = 2*curr+2;
+    		if(left < n)
+    		{
+    			fi = arr[left];
+    		}
+    		if(right < n)
+    		{
+    			se = arr[right];
+    		}
+    		if(s[curr]=='0')
+    		{
+    			arr[curr] = se;
+    		}
+    		else if(s[curr]=='1')
+    		{
+    			arr[curr] = fi;
+    		}
+    		else{
+    			arr[curr] = fi+se;
+    		}
 
-    //reverse(all(arr));
-	vector<vll>dp(n,vector<ll>(k+1,-INF));
-	for(ll j=0;j<=k;j++)
-	{
-		for(ll i=0;i<n;i++)
-		{
-			if(j==0)
-			{
-				dp[i][j]=0;
-			}
-			if(j>0)
-			{
-				if(i==0)
-				{
-					if(j==1)
-					{
-						dp[i][j] = max(dp[i][j], arr[i]);
-					}
-				}
-				else{
-					if(arr[i]>=0)
-					{
-						dp[i][j] = max(dp[i-1][j],dp[i][j]);
-						dp[i][j] = max(dp[i][j],dp[i-1][j-1]+(arr[i]*j));
-						if(arr[i-1]>=0)
-						{
-							dp[i][j] = max(dp[i][j], dp[i-1][j]+(arr[i]*j));
-						}
-					}
-					if(arr[i]<=0)
-					{
-						dp[i][j] = max(dp[i-1][j],dp[i][j]);
-						dp[i][j] = max(dp[i][j], dp[i-1][j-1]+(arr[i]*j));
-					}
-				}
-			}
-			cout<<dp[i][j]<<" ";
-		}
-		cout<<endl;
-	}
-	cout<<dp[n-1][k]<<endl;
+    		// cout<<curr<<" "<<arr[curr]<<endl;
+    		if(curr == 0)
+    		{
+    			cout<<arr[curr]<<endl;
+    			break;
+    		}
+    		if(curr&1)
+    		{
+    			curr/=2;
+    		}
+    		else{
+    			curr/=2;
+    			curr--;
+    		}
+    	}
+    	// write(arr);
+    }
+    
 }
 
 /*
-1.check for long long for all variables. 
-2.check for return satement in correct places.
+1.check for ll for all variables. 
+2.chec for return satement in correct places.
 3.check brackets in all equation and order of conditions.
 4.check custom compare funtions if any.
 5.check logic carefully.
@@ -154,7 +202,7 @@ int main()
 {
     fast;
     ll tc = 1;
-    IN tc;
+    // IN tc;
     while (tc--)
     {
         solve();

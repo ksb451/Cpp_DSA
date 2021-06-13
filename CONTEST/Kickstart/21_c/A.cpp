@@ -73,7 +73,7 @@ using vi = vector<int>;
 
 const ll MOD = (ll)(1e9) + 7LL;
 const ll MM = 998244353LL;
-const ll INF  = ll(1e16);
+const ll INF  = INT_MAX;
 
 const int dir8[8][2]={{1,0},{0,1},{-1,0},{0,-1},{1,1},{1,-1},{-1,1},{-1,-1}};
 const int dir4[4][2]={{1,0},{0,1},{-1,0},{0,-1}};
@@ -90,75 +90,70 @@ for(int i=0;i<n-1;i++)
     adj[b].push_back(a);
 }
 */
+long long binpow(long long a, long long b, long long m) {
+    a %= m;
+    long long res = 1;
+    while (b > 0) {
+        if (b & 1)
+            res = res * a % m;
+        a = a * a % m;
+        b >>= 1;
+    }
+    return res;
+}
 
 void solve()
 {
-	ll n,k;
+    ll n,k;
     cin>>n>>k;
-    vector<ll>arr(n);
-    for(ll i=0;i<n;i++)cin>>arr[i];
 
-    //reverse(all(arr));
-	vector<vll>dp(n,vector<ll>(k+1,-INF));
-	for(ll j=0;j<=k;j++)
-	{
-		for(ll i=0;i<n;i++)
-		{
-			if(j==0)
-			{
-				dp[i][j]=0;
-			}
-			if(j>0)
-			{
-				if(i==0)
-				{
-					if(j==1)
-					{
-						dp[i][j] = max(dp[i][j], arr[i]);
-					}
-				}
-				else{
-					if(arr[i]>=0)
-					{
-						dp[i][j] = max(dp[i-1][j],dp[i][j]);
-						dp[i][j] = max(dp[i][j],dp[i-1][j-1]+(arr[i]*j));
-						if(arr[i-1]>=0)
-						{
-							dp[i][j] = max(dp[i][j], dp[i-1][j]+(arr[i]*j));
-						}
-					}
-					if(arr[i]<=0)
-					{
-						dp[i][j] = max(dp[i-1][j],dp[i][j]);
-						dp[i][j] = max(dp[i][j], dp[i-1][j-1]+(arr[i]*j));
-					}
-				}
-			}
-			cout<<dp[i][j]<<" ";
-		}
-		cout<<endl;
-	}
-	cout<<dp[n-1][k]<<endl;
+    string s;
+    cin>>s;
+    ll x = (n+1)/2;
+    ll ans=0;
+    for(int i=0;i<x;i++)
+    {
+    	char curr = s[i];
+    	ll y = curr-'a';
+    	ans+= y * binpow(k, x-i-1,MOD);
+    	ans%=MOD;
+    }
+    string b=s;
+    ll i=0;
+    ll j=n-1;
+    while(i<j)
+    {
+    	b[j]=b[i];
+    	i++;
+    	j--;
+    }
+    if(b < s)
+    {
+    	ans++;
+    }
+    ans%=MOD;
+  	cout<<ans<<endl;
 }
 
 /*
-1.check for long long for all variables. 
-2.check for return satement in correct places.
-3.check brackets in all equation and order of conditions.
-4.check custom compare funtions if any.
-5.check logic carefully.
-6.Dont get stuck on one approch.
+1.check for ll for all variables. 
+2.check brackets in all equation and order of conditions.
+3.check custom compare funtions if any.
+4.check logic carefully.
+5.Dont get stuck on one approch.
 */
 
 int main()
 {
-    fast;
+    ios_base::sync_with_stdio(false); 
+    cout.tie(NULL);
+    cin.tie(NULL);
     ll tc = 1;
     IN tc;
-    while (tc--)
+    for (int i = 1; i <= tc; i++)
     {
+        cout << "Case #" << i << ": ";
         solve();
-        cout.flush();
     }
     return 0;
 }

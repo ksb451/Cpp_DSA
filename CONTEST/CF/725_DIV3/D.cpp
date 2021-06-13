@@ -73,7 +73,7 @@ using vi = vector<int>;
 
 const ll MOD = (ll)(1e9) + 7LL;
 const ll MM = 998244353LL;
-const ll INF  = ll(1e16);
+const ll INF  = INT_MAX;
 
 const int dir8[8][2]={{1,0},{0,1},{-1,0},{0,-1},{1,1},{1,-1},{-1,1},{-1,-1}};
 const int dir4[4][2]={{1,0},{0,1},{-1,0},{0,-1}};
@@ -91,59 +91,78 @@ for(int i=0;i<n-1;i++)
 }
 */
 
+ll fun(ll a)
+{
+	ll ans=0;
+	for(int i = 2;i<=sqrt(a);i++)
+	{
+		while((a%i) == 0)
+		{
+			a/=i;
+			ans++;
+		}
+	}
+	if(a>=2)
+	{
+		ans++;
+	}
+	return ans;
+}
+
 void solve()
 {
-	ll n,k;
-    cin>>n>>k;
-    vector<ll>arr(n);
-    for(ll i=0;i<n;i++)cin>>arr[i];
+	ll a,b,k;
+    cin>>a>>b>>k;
 
-    //reverse(all(arr));
-	vector<vll>dp(n,vector<ll>(k+1,-INF));
-	for(ll j=0;j<=k;j++)
+    ll x = __gcd(a,b);
+	ll cnt_a = fun(a/x);
+	ll cnt_b = fun(b/x);
+	ll cnt_gcd =fun(x);
+	ll need=0;
+	if(cnt_a)
 	{
-		for(ll i=0;i<n;i++)
-		{
-			if(j==0)
-			{
-				dp[i][j]=0;
-			}
-			if(j>0)
-			{
-				if(i==0)
-				{
-					if(j==1)
-					{
-						dp[i][j] = max(dp[i][j], arr[i]);
-					}
-				}
-				else{
-					if(arr[i]>=0)
-					{
-						dp[i][j] = max(dp[i-1][j],dp[i][j]);
-						dp[i][j] = max(dp[i][j],dp[i-1][j-1]+(arr[i]*j));
-						if(arr[i-1]>=0)
-						{
-							dp[i][j] = max(dp[i][j], dp[i-1][j]+(arr[i]*j));
-						}
-					}
-					if(arr[i]<=0)
-					{
-						dp[i][j] = max(dp[i-1][j],dp[i][j]);
-						dp[i][j] = max(dp[i][j], dp[i-1][j-1]+(arr[i]*j));
-					}
-				}
-			}
-			cout<<dp[i][j]<<" ";
-		}
-		cout<<endl;
+		need++;
+		cnt_a--;
 	}
-	cout<<dp[n-1][k]<<endl;
+	if(cnt_b)
+	{
+		need++;
+		cnt_b--;
+	}
+	if(k < need)
+	{
+		cout<<"NO"<<endl;
+		return;
+	}
+	else
+	{
+		k-=need;
+		if(k <= (cnt_a+cnt_b))
+		{
+			cout<<"YES"<<endl;
+			return;
+		}
+		else{
+			k-=(cnt_b+cnt_a);
+			if(k&1){
+				if(cnt_b+cnt_a)
+				{
+					k++;
+				}
+			}
+			if((k>1) &&(k%2==0)&&(k<=(cnt_gcd*2)))
+			{
+				cout<<"YES"<<endl;
+				return;
+			}
+		}
+	}
+	cout<<"NO"<<endl;
 }
 
 /*
-1.check for long long for all variables. 
-2.check for return satement in correct places.
+1.check for ll for all variables. 
+2.chec for return satement in correct places.
 3.check brackets in all equation and order of conditions.
 4.check custom compare funtions if any.
 5.check logic carefully.

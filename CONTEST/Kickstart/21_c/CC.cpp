@@ -73,7 +73,7 @@ using vi = vector<int>;
 
 const ll MOD = (ll)(1e9) + 7LL;
 const ll MM = 998244353LL;
-const ll INF  = ll(1e16);
+const ll INF  = INT_MAX;
 
 const int dir8[8][2]={{1,0},{0,1},{-1,0},{0,-1},{1,1},{1,-1},{-1,1},{-1,-1}};
 const int dir4[4][2]={{1,0},{0,1},{-1,0},{0,-1}};
@@ -90,75 +90,131 @@ for(int i=0;i<n-1;i++)
     adj[b].push_back(a);
 }
 */
+ll w,e;
 
-void solve()
+ll exp(ll cc, ll ri, ll pi, ll si)
 {
-	ll n,k;
-    cin>>n>>k;
-    vector<ll>arr(n);
-    for(ll i=0;i<n;i++)cin>>arr[i];
-
-    //reverse(all(arr));
-	vector<vll>dp(n,vector<ll>(k+1,-INF));
-	for(ll j=0;j<=k;j++)
+	if(cc==1)
 	{
-		for(ll i=0;i<n;i++)
-		{
-			if(j==0)
-			{
-				dp[i][j]=0;
-			}
-			if(j>0)
-			{
-				if(i==0)
-				{
-					if(j==1)
-					{
-						dp[i][j] = max(dp[i][j], arr[i]);
-					}
-				}
-				else{
-					if(arr[i]>=0)
-					{
-						dp[i][j] = max(dp[i-1][j],dp[i][j]);
-						dp[i][j] = max(dp[i][j],dp[i-1][j-1]+(arr[i]*j));
-						if(arr[i-1]>=0)
-						{
-							dp[i][j] = max(dp[i][j], dp[i-1][j]+(arr[i]*j));
-						}
-					}
-					if(arr[i]<=0)
-					{
-						dp[i][j] = max(dp[i-1][j],dp[i][j]);
-						dp[i][j] = max(dp[i][j], dp[i-1][j-1]+(arr[i]*j));
-					}
-				}
-			}
-			cout<<dp[i][j]<<" ";
-		}
-		cout<<endl;
+		return ((e*ri) + (0*pi) + (w*si));
 	}
-	cout<<dp[n-1][k]<<endl;
+	if(cc==2)
+	{
+		return ((w*ri) + (e*pi) + (0*si));
+	}
+	if(cc==3)
+	{
+		return ((0*ri) + (w*pi) + (e*si));
+	}
+}
+
+ld cal(string &s)
+{
+	ll pi=0,ri=0,si=0;
+	ld ans= (ld)(w+e)/(ld)3 ;
+	ll cnt=1;
+	for(auto i:s)
+	{
+		if(i=='R')
+		{
+			ll q=exp(1,ri,pi,si);
+			ans+=(ld)(q)/(ld)cnt;
+			pi++;
+		}
+		if(i=='S')
+		{
+			ll q=exp(3,ri,pi,si);
+			ans+=(ld)(q)/(ld)cnt;
+			ri++;
+		}
+		if(i=='P')
+		{
+			ll q=exp(2,ri,pi,si);
+			ans+=(ld)(q)/(ld)cnt;
+			si++;
+		}
+		cnt++;
+	}
+	return ans;
+}
+
+void solve(ll XX, ll day)
+{
+    cin>>w>>e;
+    ll q = (day%3) +1;
+    string ans = "";
+	ll si=0, ri=0, pi=0;
+    if(q==1)
+	{
+		ans+='R';
+		pi++;
+	}
+	else if(q==2)
+	{
+		ans+='P';
+		si++;
+	}
+	else if(q==3)
+	{
+		ans+='S';
+		ri++;
+	}
+	
+	for(int i=1;i<60;i++)
+	{
+		set<pll>S;
+		S.insert({exp(1,ri,pi,si),1});
+		S.insert({exp(2,ri,pi,si),2});
+		S.insert({exp(3,ri,pi,si),3});
+		// for(auto q: S)
+		// {
+		// 	cout<<q.second<<" "<<q.first<<endl;
+		// }
+		// cout<<endl;
+		ll x = S.rbegin()->second;
+		S.erase(prev(S.end()));
+		ll y = S.rbegin()->second;
+		if(x==1)
+		{
+			ans+='R';
+			pi++;
+		}
+		else if(x==2)
+		{
+			ans+='P';
+			si++;
+		}
+		else if(x==3)
+		{
+			ans+='S';
+			ri++;
+		}
+	}
+	cout<<cal(ans)<<endl;
+	cout<<ans<<endl;
 }
 
 /*
-1.check for long long for all variables. 
-2.check for return satement in correct places.
-3.check brackets in all equation and order of conditions.
-4.check custom compare funtions if any.
-5.check logic carefully.
-6.Dont get stuck on one approch.
+1.check for ll for all variables. 
+2.check brackets in all equation and order of conditions.
+3.check custom compare funtions if any.
+4.check logic carefully.
+5.Dont get stuck on one approch.
 */
 
 int main()
 {
-    fast;
+    ios_base::sync_with_stdio(false); 
+    cout.tie(NULL);
+    cin.tie(NULL);
     ll tc = 1;
+    ll x;
     IN tc;
-    while (tc--)
+    cin>>x;
+    for (int i = 1; i <= tc; i++)
     {
-        solve();
-        cout.flush();
+        cout << "Case #" << i << ": ";
+        solve(x, i);
     }
     return 0;
 }

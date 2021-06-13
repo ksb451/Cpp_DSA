@@ -73,7 +73,7 @@ using vi = vector<int>;
 
 const ll MOD = (ll)(1e9) + 7LL;
 const ll MM = 998244353LL;
-const ll INF  = ll(1e16);
+const ll INF  = INT_MAX;
 
 const int dir8[8][2]={{1,0},{0,1},{-1,0},{0,-1},{1,1},{1,-1},{-1,1},{-1,-1}};
 const int dir4[4][2]={{1,0},{0,1},{-1,0},{0,-1}};
@@ -90,60 +90,84 @@ for(int i=0;i<n-1;i++)
     adj[b].push_back(a);
 }
 */
+ll fun(string s)
+{
+	ll n = s.length();
+	ll res=0;
+	    for(int i=0;i<=n-4;i++)
+	    {
+	    	if(s.substr(i,4) == "haha")
+	    	{
+	    		res++;
+	    	}
+	    }
+    return res;
+}
+
+void print(tuple<string, int ,string>a)
+{
+	cout<<get<0>(a)<<" "<<get<1>(a)<<" "<<get<2>(a)<<endl;
+}
 
 void solve()
 {
-	ll n,k;
-    cin>>n>>k;
-    vector<ll>arr(n);
-    for(ll i=0;i<n;i++)cin>>arr[i];
+	ll n;
+    cin>>n;
+    // unordered_map<string ,string>um;
+    unordered_map<string ,tuple<string,ll,string>>um;
+    tuple<string,ll,string> ans;
+    while(n--)
+    {
+    	string curr_var;
+    	cin>>curr_var;
+    	string op;
+    	cin>>op;
+    	// cout<<curr_var<<" "<<op<<endl;
+    	if(op == ":=")
+    	{
+    		string val;
+    		cin>>val;
+    		string beg = val.substr(0, min(3LL, (ll)val.size()));
+    		string en = val.substr(max(0LL, (ll)val.size()- 3));
+    		ll x = fun(val);
+    		um[curr_var]={beg, x, en};
+    		ans = um[curr_var];
+    		// print(ans);
+    	}
+    	else{
+    		string ff,ss;
+    		cin>>ff>>op>>ss;
+    		auto fir = um[ff];
+    		auto sec = um[ss];
+    		// print(fir);
+    		// print(sec);
+    		ll x = fun(get<2>(fir)+get<0>(sec));
+    		string beg = get<0>(fir);
+    		if(beg.length() <3)
+    		{
+    			beg+= get<0>(sec);
+    			beg = beg.substr(0,min((ll)beg.length(), 3LL));
+    		}
+    		string en = get<2>(sec);
+    		if(en.length()<3)
+    		{
+    			en+= get<2>(fir);
+    			en = en.substr(max(0LL, (ll)en.size()- 3));
+    		}
+    		x+= (get<1>(fir)+get<1>(sec));
+    		um[curr_var]={beg, x, en};
+    		ans = um[curr_var];
+    		// print(ans);
+    	}
 
-    //reverse(all(arr));
-	vector<vll>dp(n,vector<ll>(k+1,-INF));
-	for(ll j=0;j<=k;j++)
-	{
-		for(ll i=0;i<n;i++)
-		{
-			if(j==0)
-			{
-				dp[i][j]=0;
-			}
-			if(j>0)
-			{
-				if(i==0)
-				{
-					if(j==1)
-					{
-						dp[i][j] = max(dp[i][j], arr[i]);
-					}
-				}
-				else{
-					if(arr[i]>=0)
-					{
-						dp[i][j] = max(dp[i-1][j],dp[i][j]);
-						dp[i][j] = max(dp[i][j],dp[i-1][j-1]+(arr[i]*j));
-						if(arr[i-1]>=0)
-						{
-							dp[i][j] = max(dp[i][j], dp[i-1][j]+(arr[i]*j));
-						}
-					}
-					if(arr[i]<=0)
-					{
-						dp[i][j] = max(dp[i-1][j],dp[i][j]);
-						dp[i][j] = max(dp[i][j], dp[i-1][j-1]+(arr[i]*j));
-					}
-				}
-			}
-			cout<<dp[i][j]<<" ";
-		}
-		cout<<endl;
-	}
-	cout<<dp[n-1][k]<<endl;
+    }
+    cout<<get<1>(ans)<<endl;
+    
 }
 
 /*
-1.check for long long for all variables. 
-2.check for return satement in correct places.
+1.check for ll for all variables. 
+2.chec for return satement in correct places.
 3.check brackets in all equation and order of conditions.
 4.check custom compare funtions if any.
 5.check logic carefully.
