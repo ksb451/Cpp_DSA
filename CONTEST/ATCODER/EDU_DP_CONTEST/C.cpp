@@ -78,7 +78,6 @@ const ll INF  = INT_MAX;
 const int dir8[8][2]={{1,0},{0,1},{-1,0},{0,-1},{1,1},{1,-1},{-1,1},{-1,-1}};
 const int dir4[4][2]={{1,0},{0,1},{-1,0},{0,-1}};
 
-const ll MAXN = 200005;
 
 /*
 for(int i=0;i<n-1;i++)
@@ -90,42 +89,96 @@ for(int i=0;i<n-1;i++)
     adj[b].push_back(a);
 }
 */
+const ll MAXN = 200005;
 
 void solve()
 {
-	ll n,m;
-    cin>>n>>m;
-
-    vector<ll>k_arr(n);
-    vector<pll>left_arr(n);
-    vector<pll>right_arr(n);
-    for(int i=0;i<n;i++){
-        cin>>k_arr[i];
-        cin>>left_arr[i].first>>left_arr[i].second;
-        cin>>right_arr[i].first>>right_arr[i].second;
+	string s;
+	ll n;
+    cin>>s;
+    n = s.length();
+   	vector<vector<int>>dp(n,vector<int>(4,0));
+    for(int i=0;i<n;i++)
+    {
+    	if(i==0)
+    	{
+    		if(s[i]=='X'){
+    			dp[i][0]=1;
+    			dp[i][1]=1;
+    			dp[i][3]=1;
+    		}
+    		else{
+    			if(s[i]=='0')
+    			{
+    				dp[i][0]=1;
+	    			dp[i][1]=0;
+	    			dp[i][3]=0;
+    			}
+    			else if(s[i]=='1')
+    			{
+    				dp[i][0]=0;
+	    			dp[i][1]=1;
+	    			dp[i][3]=0;
+    			}
+    			else if(s[i]=='2')
+    			{
+    				cout<<0<<endl;
+    				return;
+    			}
+    			else if(s[i]=='S')
+    			{
+    				dp[i][0]=0;
+	    			dp[i][1]=0;
+	    			dp[i][3]=1;
+    			}
+    		}
+    	}
+    	else{
+    		if(s[i]=='X')
+    		{
+    			dp[i][3] = dp[i-1][1] + dp[i-1][3];
+    			dp[i][0] = dp[i-1][3] + dp[i-1][0];
+    			dp[i][1] = dp[i-1][3] + dp[i-1][0];
+    		}
+    		else{
+    			if(s[i]=='0')
+    			{
+    				dp[i][0]=dp[i-1][0];
+	    			dp[i][1]=0;
+	    			dp[i][3]=0;
+    			}
+    			else if(s[i]=='1')
+    			{
+    				dp[i][0]=dp[i-1][3];
+	    			dp[i][1]=dp[i-1][0];
+	    			dp[i][3]=0;
+    			}
+    			else if(s[i]=='2')
+    			{
+    				dp[i][0]=0;
+	    			dp[i][1]=dp[i-1][3];
+	    			dp[i][3]=0;
+    			}
+    			else if(s[i]=='S')
+    			{
+    				dp[i][0]=0;
+	    			dp[i][1]=0;
+	    			dp[i][3]=dp[i-1][1];
+    			}
+    		}
+    	}
     }
-    
-    
+    cout<<dp[n-1][0]+dp[n-1][3]<<endl;
 }
 
-/*
-1.check for ll for all variables. 
-2.chec for return satement in correct places.
-3.check brackets in all equation and order of conditions.
-4.check custom compare funtions if any.
-5.check logic carefully.
-6.Dont get stuck on one approch.
-*/
 
 int main()
 {
-    fast;
     ll tc = 1;
-    // IN tc;
+    IN tc;
     while (tc--)
     {
         solve();
-        cout.flush();
     }
     return 0;
 }

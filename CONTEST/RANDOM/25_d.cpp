@@ -91,21 +91,134 @@ for(int i=0;i<n-1;i++)
 }
 */
 
+vector<ll>adj[MAXN];
+
+class DSU
+{
+    ll N;
+    ll total_components;
+    vector<ll> sz;
+    vector<ll> parent;
+
+public:
+    DSU(ll n)
+    {
+        N = n;
+        total_components = n;
+        sz = vector<ll>(n, 1);
+        for (ll i = 0; i < n; i++)
+        {
+            parent.push_back(i);
+        }
+    }
+    ll find_set(ll x)
+    {
+        if(x == parent[x])
+        {
+            return x;
+        }
+        return parent[x] = find_set(parent[x]);
+    }
+
+    ll component_size(int x)
+    {
+        return sz[find_set(x)];
+    }
+
+    ll size()
+    {
+        return N;
+    }
+
+    ll components()
+    {
+        return total_components;
+    }
+
+    void unify(ll p, ll q)
+    {
+        ll a = find_set(p);
+        ll b = find_set(q);
+        if (a != b)
+        {
+            if(sz[a]<sz[b])
+                swap(a,b);
+            parent[b] = a;
+            sz[a]+=sz[b];
+            total_components--;
+        }
+    }
+};
+
+struct FenTree {
+    vector<int> bit;  // binary indexed tree
+    int n;
+
+    FenTree(int n) {
+        this->n = n;
+        bit.assign(n, 0);
+    }
+
+    FenTree(vector<int> a) : FenTree(a.size()) {
+        for (size_t i = 0; i < a.size(); i++)
+            add(i, a[i]);
+    }
+
+    int sum(int r) {
+        int ret = 0;
+        for (; r >= 0; r = (r & (r + 1)) - 1)
+            ret += bit[r];
+        return ret;
+    }
+
+    int sum(int l, int r) {
+    	if(l==0)
+    	{
+    		return sum(r);
+    	}
+        return sum(r) - sum(l - 1);
+    }
+
+    void add(int idx, int delta) {
+        for (; idx < n; idx = idx | (idx + 1))
+            bit[idx] += delta;
+    }
+};
+
 void solve()
 {
-	ll n,m;
-    cin>>n>>m;
-
-    vector<ll>k_arr(n);
-    vector<pll>left_arr(n);
-    vector<pll>right_arr(n);
-    for(int i=0;i<n;i++){
-        cin>>k_arr[i];
-        cin>>left_arr[i].first>>left_arr[i].second;
-        cin>>right_arr[i].first>>right_arr[i].second;
-    }
-    
-    
+	ll n;
+    cin>>n;
+    DSU dsu(n);
+    vector<vll>old;
+	for(int i=0;i<n-1;i++)
+	{
+	    int a,b;
+	    cin>>a>>b;
+	    a--,b--;
+	    if(dsu.find_set(a)==dsu.find_set(b))
+	    {
+	    	old.push_back({a,b});
+	    }
+	    else{
+	    	dsu.unify(a,b);
+	    }
+	}
+	set<int>S;
+	for(int i=0;i<n;i++)
+	{
+		S.insert(dsu.find_set(i));
+	}
+	cout<<S.size()-1<<endl;
+	while(S.size()>1)
+	{
+		int x = *S.begin();
+		S.erase(S.begin());
+		int y = *(S.begin());
+		cout<<old.back()[0]+1<<" "<<old.back()[1]+1<<" "<<x+1<<" "<<y+1<<endl;
+		old.pop_back();
+	}
+	return;
 }
 
 /*

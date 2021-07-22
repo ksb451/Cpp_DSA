@@ -26,7 +26,7 @@ using namespace std;
 #define forn(i,n) for(int i=n-1;i>=0;i++)
 #define IN cin >>
 #define OUT cout <<
-#define endl "\n"
+// #define endl "\n"
 #define all(a) (a).begin(), (a).end()
 #define allr(a) (a).rbegin(), (a).rend()
 #define pb push_back
@@ -91,41 +91,127 @@ for(int i=0;i<n-1;i++)
 }
 */
 
+multimap<ll, ll>M;
+
+void insert_into(ll a, ll b)
+{
+	if(a<=b)
+	{
+		M.insert({a,0});
+		M.insert({b,1});
+	}
+	return;
+}
+
+const ll MX = 10000;
 void solve()
 {
-	ll n,m;
+    ll n,m;
     cin>>n>>m;
-
-    vector<ll>k_arr(n);
-    vector<pll>left_arr(n);
-    vector<pll>right_arr(n);
-    for(int i=0;i<n;i++){
-        cin>>k_arr[i];
-        cin>>left_arr[i].first>>left_arr[i].second;
-        cin>>right_arr[i].first>>right_arr[i].second;
+    vector<vll>arr;
+    M.clear();
+    for(int i=0;i<n;i++)
+    {
+    	ll a,b;
+    	cin>>a>>b;
+    	arr.push_back({a,b});
+    	insert_into(a,b);
     }
-    
-    
+  	vector<ll>ans;
+  	while(m--)
+  	{
+  		ll q;
+  		cin>>q;
+  		auto ptr = M.upper_bound(q);
+  		// cout<<q<<endl;
+  		if(ptr==M.begin())
+  		{
+  			ll rx,ry;
+  			// cout<<1<<endl;
+  			auto ptr_next = next(ptr);
+  			rx = ptr->first;
+  			ry = ptr_next->first;
+  			M.erase(rx);
+  			M.erase(ry);
+  			ans.push_back(rx);
+  			insert_into(rx+1,ry);
+  		}
+  		else if(ptr==M.end()){
+  			// cout<<2<<endl;
+  			auto ptr_prev = prev(ptr);
+  			ll lx,ly;
+  			auto ptr_prev_prev = prev(ptr_prev);
+  			ly = ptr_prev->first;
+  			lx = ptr_prev_prev->first;
+  			M.erase(lx);
+  			M.erase(ly);
+  			ans.push_back(ly);
+  			insert_into(lx,ly-1);
+  		}
+  		else{
+  			if(ptr->second == 1)
+  			{
+  				auto ptr_prev = prev(ptr);
+  				ll lx,ly;
+  				ly = ptr->first;
+  				lx = ptr_prev->first;
+  				ans.push_back(q);
+  				M.erase(lx);
+  				M.erase(ly);
+  				insert_into(lx, q-1);
+  				insert_into(q+1,ly);
+  			}
+  			else{
+  				ll rx,ry,lx,ly;
+  				auto ptr_next = next(ptr);
+				rx = ptr->first;
+				ry = ptr_next->first;
+  				auto ptr_prev = prev(ptr);
+				auto ptr_prev_prev = prev(ptr_prev);
+				lx = ptr_prev_prev->first;
+				ly = ptr_prev->first;
+  				M.erase(lx);
+  				M.erase(ly);
+  				M.erase(rx);
+  				M.erase(ry);
+  				if((rx - q) < (q-ly))
+  				{
+  					ans.push_back(rx);
+  					insert_into(lx,ly);
+  					insert_into(rx+1, ry);
+  				}
+  				else{
+  					ans.push_back(ly);
+  					insert_into(rx,ry);
+  					insert_into(lx,ly-1);
+  				}
+  			}
+  		}
+  		// cout<<endl;
+  	}
+  	write(ans);
+    return;
 }
 
 /*
 1.check for ll for all variables. 
-2.chec for return satement in correct places.
-3.check brackets in all equation and order of conditions.
-4.check custom compare funtions if any.
-5.check logic carefully.
-6.Dont get stuck on one approch.
+2.check brackets in all equation and order of conditions.
+3.check custom compare funtions if any.
+4.check logic carefully.
+5.Dont get stuck on one approch.
 */
 
 int main()
 {
-    fast;
+    ios_base::sync_with_stdio(false); 
+    cout.tie(NULL);
+    cin.tie(NULL);
     ll tc = 1;
-    // IN tc;
-    while (tc--)
+    IN tc;
+    for (int i = 1; i <= tc; i++)
     {
+        cout << "Case #" << i << ": ";
         solve();
-        cout.flush();
     }
     return 0;
 }

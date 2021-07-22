@@ -78,8 +78,13 @@ const ll INF  = INT_MAX;
 const int dir8[8][2]={{1,0},{0,1},{-1,0},{0,-1},{1,1},{1,-1},{-1,1},{-1,-1}};
 const int dir4[4][2]={{1,0},{0,1},{-1,0},{0,-1}};
 
-const ll MAXN = 200005;
-
+const ll MAXN = 123460;
+set<ll>adj[MAXN];
+ll n,m;
+ll degree[MAXN];
+bool monster[MAXN];
+ll dist[MAXN];
+ll dist1[MAXN];
 /*
 for(int i=0;i<n-1;i++)
 {
@@ -91,21 +96,176 @@ for(int i=0;i<n-1;i++)
 }
 */
 
+
+bool hamiltonian(vector<vector<int>>&adj)
+{
+	ll n = adj.size();
+	ll N  = 1<<n;
+	vector<vector<int>>dp(N, vector<int>(n,0));
+	for(int i=0;i<n;i++)
+	{
+		dp[1<<i][i]=1;
+	}
+	for(int i=0;i<(1<<n);i++)
+	{
+		for(int j=0;j<n;j++)
+		{
+			if(i&(1<<j))
+			{
+				for(int k=0;k<n;k++)
+				{
+					if((i&(1<<k)) && (adj[k][j]) && (dp[i^(1<<j)][k]))
+					{
+						dp[i][j]=true;
+						break;
+					}
+				}
+			}
+		}
+	}
+	for(int i=0;i<n;i++)
+	{
+		if(dp[(1<<n)-1][i])
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+
+ll nn;
+void dfs(ll u, ll par)
+{
+	nn++;
+	if(par!=-1)
+	{
+		dist[u]=dist[par]+1;
+	}
+	for(auto v:adj[u])
+	{
+		if(v!=par)
+		{
+			dfs(v,u);
+		}
+	}
+}
+void dfs1(ll u, ll par)
+{
+	if(par!=-1)
+	{
+		dist1[u]=dist1[par]+1;
+	}
+	for(auto v:adj[u])
+	{
+		if(v!=par)
+		{
+			dfs1(v,u);
+		}
+	}
+}
+
 void solve()
 {
-	ll n,m;
+	memset(degree, 0, sizeof(degree));
+	memset(monster, 0 ,sizeof(monster));
     cin>>n>>m;
+    for(int i=0;i<n-1;i++){
+    	int a,b;
+	    cin>>a>>b;
+	    a--,b--;
+	    adj[a].insert(b);
+	    adj[b].insert(a);
+	    degree[a]++;
+	    degree[b]++;
+    }
+    for(int i=0;i<m;i++)
+    {
 
-    vector<ll>k_arr(n);
-    vector<pll>left_arr(n);
-    vector<pll>right_arr(n);
-    for(int i=0;i<n;i++){
-        cin>>k_arr[i];
-        cin>>left_arr[i].first>>left_arr[i].second;
-        cin>>right_arr[i].first>>right_arr[i].second;
+    	ll a;
+    	cin>>a;
+    	if(m==1)
+    	{
+    		cout<<a<<endl;
+    		cout<<0<<endl;
+    		return;
+    	}
+    	a--;
+    	monster[a]=1;
+    }
+    queue<ll>Q;
+    for(int i=0;i<n;i++)
+    {
+    	if(degree[i]==1){
+    		Q.push(i);
+    	}
+    }
+    while(!Q.empty())
+    {
+		ll u =Q.front();
+		Q.pop();
+		if(monster[u]==0)
+		{
+			// cout<<u<<endl;
+			for(auto x:adj[u])
+			{
+				adj[x].erase(u);
+				degree[x]--;
+				if(degree[x]==1){
+					Q.push(x);
+				}
+			}
+			adj[u].clear();
+		}	
+    }
+    // cout<<endl;
+    memset(dist, -1 ,sizeof(dist));
+    nn=0;
+    for(int i=0;i<n;i++)
+    {
+    	if(adj[i].size()>0)
+    	{
+    		dist[i]=0;
+    		dfs(i,-1);
+    		break;
+    	}
+    }
+    // cout<<"NN";
+    // cout<<nn<<endl;
+    memset(dist1, -1 ,sizeof(dist1));
+    ll mx =INT_MIN;
+    ll ans=n;
+    for(int i=0;i<n;i++)
+    {
+    	mx = max(mx,dist[i]);
+    }
+    for(int i=0;i<n;i++)
+    {
+    	if(dist[i]==mx)
+    	{
+    		ans=i;
+    		dist1[i]=0;
+    		dfs1(i,-1);
+    		break;
+    	}
+    }
+    mx =INT_MIN;
+    for(int i=0;i<n;i++)
+    {
+    	mx = max(mx,dist1[i]);
     }
     
-    
+    for(ll i=0;i<n;i++)
+    {
+    	if(dist1[i]==mx)
+    	{
+    		ans = min(ans, i);
+    	}
+    }
+    // cout<<mx<<endl;
+    cout<<ans+1<<endl;
+    cout<< (nn*2)-2-mx <<endl;
+
 }
 
 /*

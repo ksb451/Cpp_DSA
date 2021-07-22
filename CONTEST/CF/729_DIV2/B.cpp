@@ -93,19 +93,32 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll n,m;
-    cin>>n>>m;
-
-    vector<ll>k_arr(n);
-    vector<pll>left_arr(n);
-    vector<pll>right_arr(n);
-    for(int i=0;i<n;i++){
-        cin>>k_arr[i];
-        cin>>left_arr[i].first>>left_arr[i].second;
-        cin>>right_arr[i].first>>right_arr[i].second;
+	ll n,a,b;
+    cin>>n>>a>>b;
+    if(a==1)
+    {
+    	if(((n-1)%b)==0)
+    	{
+    		cout<<"Yes"<<endl;
+    	}
+    	else{
+    		cout<<"No"<<endl;
+    	}
+    	return;
     }
-    
-    
+    else{
+    	ll t=1;
+    	while(t<=n){
+    		if((t%b) == (n%b))
+    		{
+    			cout<<"Yes"<<endl;
+    			return;
+    		}
+    		t*=a;
+    	}
+    	cout<<"No"<<endl;
+    	return;
+    }
 }
 
 /*
@@ -121,7 +134,7 @@ int main()
 {
     fast;
     ll tc = 1;
-    // IN tc;
+    IN tc;
     while (tc--)
     {
         solve();

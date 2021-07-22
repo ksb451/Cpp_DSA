@@ -78,7 +78,6 @@ const ll INF  = INT_MAX;
 const int dir8[8][2]={{1,0},{0,1},{-1,0},{0,-1},{1,1},{1,-1},{-1,1},{-1,-1}};
 const int dir4[4][2]={{1,0},{0,1},{-1,0},{0,-1}};
 
-const ll MAXN = 200005;
 
 /*
 for(int i=0;i<n-1;i++)
@@ -90,40 +89,60 @@ for(int i=0;i<n-1;i++)
     adj[b].push_back(a);
 }
 */
+using ll = long long int;
+const ll MAXN = 2000005;
+const ll SFT = 1000005;
+ll bit[MAXN];
+
+ll sum(ll r) {
+    ll ret = 0;
+    for (; r >= 0; r = (r & (r + 1)) - 1)
+        ret += bit[r];
+    return ret;
+}
+
+
+void add(ll idx, ll delta) {
+    for (; idx < MAXN; idx = idx | (idx + 1))
+        bit[idx] += delta;
+}
 
 void solve()
 {
-	ll n,m;
-    cin>>n>>m;
-
-    vector<ll>k_arr(n);
-    vector<pll>left_arr(n);
-    vector<pll>right_arr(n);
-    for(int i=0;i<n;i++){
-        cin>>k_arr[i];
-        cin>>left_arr[i].first>>left_arr[i].second;
-        cin>>right_arr[i].first>>right_arr[i].second;
-    }
-    
-    
+	string s;
+	cin>>s;
+	memset(bit, 0, sizeof(bit));
+	ll n= s.length();
+	add(0+SFT, 1);
+	ll cnt1=0,cnt0=0;
+	ll ans=0;
+	for(int i=0;i<n;i++)
+	{
+		if(s[i]=='1')
+		{
+			cnt1++;
+		}
+		else{
+			cnt0++;
+		}
+		ll x = cnt1-cnt0;
+		ll q = sum(x-1+SFT);
+		ans+=q;
+		add(x+SFT,1);
+	}
+	cout<<ans<<endl;
+	return;
 }
 
-/*
-1.check for ll for all variables. 
-2.chec for return satement in correct places.
-3.check brackets in all equation and order of conditions.
-4.check custom compare funtions if any.
-5.check logic carefully.
-6.Dont get stuck on one approch.
-*/
 
 int main()
 {
     fast;
     ll tc = 1;
-    // IN tc;
+    IN tc;
     while (tc--)
     {
+    	
         solve();
         cout.flush();
     }

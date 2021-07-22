@@ -90,42 +90,73 @@ for(int i=0;i<n-1;i++)
     adj[b].push_back(a);
 }
 */
+long long binpow(long long a, long long b) {
+    if (b == 0)
+        return 1;
+    long long res = binpow(a, b / 2);
+    if (b % 2)
+        return res * res * a;
+    else
+        return res * res;
+}
 
 void solve()
 {
-	ll n,m;
-    cin>>n>>m;
+	ll n,q,p;
+    cin>>n>>q>>p;
+    vector<ll>arr(n);
+    for(int i=0;i<n;i++)cin>>arr[i];
 
-    vector<ll>k_arr(n);
-    vector<pll>left_arr(n);
-    vector<pll>right_arr(n);
-    for(int i=0;i<n;i++){
-        cin>>k_arr[i];
-        cin>>left_arr[i].first>>left_arr[i].second;
-        cin>>right_arr[i].first>>right_arr[i].second;
+    while(q--)
+    {
+    	// cout<<q<<endl;
+    	ll type;
+    	cin>>type;
+    	if(type==1)
+    	{
+    		ll pos, val;
+    		cin>>pos>>val;
+    		arr[pos-1]=val;
+    	}
+    	else{
+    		ll S,L,R;
+    		cin>>S>>L>>R;
+    		ll ans=0;
+    		for(int i=(L-1);i<=(R-1);i++)
+    		{
+    			ll xx=(binpow(arr[i],S)- binpow(arr[i]%p, S));
+    			while((xx>0) && ((xx%p)==0))
+	    		{
+	    			ans++;
+	    			xx/=p;
+	    		}
+    		}
+    		cout<<ans<<" ";
+    	}
     }
-    
-    
+    cout<<endl;
+    return;
 }
 
 /*
 1.check for ll for all variables. 
-2.chec for return satement in correct places.
-3.check brackets in all equation and order of conditions.
-4.check custom compare funtions if any.
-5.check logic carefully.
-6.Dont get stuck on one approch.
+2.check brackets in all equation and order of conditions.
+3.check custom compare funtions if any.
+4.check logic carefully.
+5.Dont get stuck on one approch.
 */
 
 int main()
 {
-    fast;
+    ios_base::sync_with_stdio(false); 
+    cout.tie(NULL);
+    cin.tie(NULL);
     ll tc = 1;
-    // IN tc;
-    while (tc--)
+    IN tc;
+    for (int i = 1; i <= tc; i++)
     {
+        cout << "Case #" << i << ": ";
         solve();
-        cout.flush();
     }
     return 0;
 }

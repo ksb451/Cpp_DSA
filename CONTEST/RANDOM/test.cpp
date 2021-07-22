@@ -26,7 +26,7 @@ using namespace std;
 #define forn(i,n) for(int i=n-1;i>=0;i++)
 #define IN cin >>
 #define OUT cout <<
-#define endl "\n"
+// #define endl "\n"
 #define all(a) (a).begin(), (a).end()
 #define allr(a) (a).rbegin(), (a).rend()
 #define pb push_back
@@ -91,21 +91,95 @@ for(int i=0;i<n-1;i++)
 }
 */
 
-void solve()
-{
-	ll n,m;
-    cin>>n>>m;
 
-    vector<ll>k_arr(n);
-    vector<pll>left_arr(n);
-    vector<pll>right_arr(n);
-    for(int i=0;i<n;i++){
-        cin>>k_arr[i];
-        cin>>left_arr[i].first>>left_arr[i].second;
-        cin>>right_arr[i].first>>right_arr[i].second;
+int solve() {
+	int A;
+	vector<vector<int>> B;
+	int C, D;
+	vector<vector<int>>E;
+	cin>>A;
+	int x;
+	cin>>x;
+	for(int i=0;i<x;i++)
+	{
+		int a,b,c;
+		cin>>a>>b>>c;
+		B.push_back({a,b,c});
+	}
+	cin>>C>>D;
+	cin>>x;
+	for(int i=0;i<x;i++)
+	{
+		int a,b,c;
+		cin>>a>>b>>c;
+		E.push_back({a,b,c});
+	}
+    vector<vector<pair<int,int>>>adj(A);
+    vector<vector<pair<int,int>>>extra(A);
+    for(auto i:B)
+    {
+        adj[i[0]-1].push_back({i[1]-1,i[2]});
     }
-    
-    
+    for(auto i:E)
+    {
+        extra[i[0]-1].push_back({i[1]-1,i[2]});
+    }
+    multiset<array<int,3>>M;
+    vector<vector<int>>dist(A,vector<int>(2,INT_MAX));
+    dist[C-1][0]=0;
+    dist[C-1][1]=0;
+    M.insert({0,C-1,0});
+    M.insert({0,C-1,1});
+    //cout<<"start"<<endl;
+    //cout<<M.size()<<endl;
+    while(!M.empty())
+    {
+        auto curr = *M.begin();
+        M.erase(M.begin());
+        int u = curr[1];
+        int d = curr[0];
+        int use = curr[2];
+        //cout<<u<<" "<<d<<" "<<use<<endl;
+        for(auto edge:adj[u])
+        {
+            int v = edge.first;
+            int dd = edge.second;
+            cout<<v<<" "<<dd<<endl;
+            if((d+dd) < dist[v][use])
+            {
+                cout<<"yes"<<endl;
+                int temp = dist[v][use];
+                cout<<temp<<endl;
+                M.erase({temp,v,use});
+                cout<<"erase"<<endl;
+                dist[v][use] = d+dd;
+                cout<<"d1"<<endl;
+                temp = dist[v][use];
+                M.insert({temp,v,use});
+                cout<<"f1"<<endl;
+                cout<<"yes2"<<endl;
+            }
+            cout<<"done"<<endl;
+        }
+        cout<<use<<endl;
+        if(use==0){
+            for(auto edge:extra[u])
+            {
+
+                int v = edge.first;
+                int dd = edge.second;
+                cout<<v<<" "<<dd<<endl;
+                if((d+dd)<dist[v][1])
+                {
+                    M.erase({dist[v][1],v,1});
+                    dist[v][1] = d+dd;
+                    M.insert({dist[v][1],v,1});
+                }
+            }
+        }
+    }
+    cout<<min(dist[D-1][0], dist[D-1][1])<<endl;
+    return min(dist[D-1][0], dist[D-1][1]);
 }
 
 /*
@@ -121,10 +195,10 @@ int main()
 {
     fast;
     ll tc = 1;
-    // IN tc;
+    //IN tc;
     while (tc--)
     {
-        solve();
+        cout<<solve()<<endl;
         cout.flush();
     }
     return 0;

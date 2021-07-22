@@ -93,39 +93,93 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll n,m;
-    cin>>n>>m;
+    vector<vll>arr(3,vll(3));
+    cin>>arr[0][0]>>arr[0][1]>>arr[0][2];
+    cin>>arr[1][0]>>arr[1][2];
+    cin>>arr[2][0]>>arr[2][1]>>arr[2][2];
 
-    vector<ll>k_arr(n);
-    vector<pll>left_arr(n);
-    vector<pll>right_arr(n);
-    for(int i=0;i<n;i++){
-        cin>>k_arr[i];
-        cin>>left_arr[i].first>>left_arr[i].second;
-        cin>>right_arr[i].first>>right_arr[i].second;
+
+    ll ans=0;
+    // cout<<(arr[1][2]-arr[0][2])<<" "<<(arr[2][2]-arr[1][2])<<endl;
+    if((arr[0][1]-arr[0][0]) == (arr[0][2]-arr[0][1]))
+    {
+    	ans++;
     }
-    
-    
+    if((arr[2][1]-arr[2][0]) == (arr[2][2]-arr[2][1]))
+    {
+    	ans++;
+    }
+    if((arr[1][0]-arr[0][0]) == (arr[2][0]-arr[1][0]))
+    {
+    	ans++;
+    }
+    if((arr[1][2]-arr[0][2]) == (arr[2][2]-arr[1][2]))
+    {
+    	ans++;
+    }
+    // cout<<ans<<endl;
+
+    ll x=0;
+    for(int i=0;i<4;i++)
+    {
+    	if(i==1)
+    	{
+    		arr[1][1] = (arr[0][0]+arr[2][2])/2;
+    	}
+    	else if(i==2)
+    	{
+    		arr[1][1] = (arr[2][0]+arr[0][2])/2;
+    	}
+    	else if(i==3)
+    	{
+    		arr[1][1] = (arr[1][0]+arr[1][2])/2;
+    	}
+    	else if(i==0)
+    	{
+    		arr[1][1] = (arr[0][1]+arr[2][1])/2;
+    	}
+
+    	ll y = 0;
+    	if(arr[1][2]-arr[1][1] == arr[1][1]-arr[1][0])
+    	{
+    		y++;
+    	}
+    	if(arr[2][1]-arr[1][1] == arr[1][1]-arr[0][1])
+    	{
+    		y++;
+    	}
+    	if(arr[0][2]-arr[1][1] == arr[1][1]-arr[2][0])
+    	{
+    		y++;
+    	}
+    	if(arr[2][2]-arr[1][1] == arr[1][1]-arr[0][0])
+    	{
+    		y++;
+    	}
+    	x = max(x,y);
+    }
+    cout<<ans+x<<endl;
 }
 
 /*
 1.check for ll for all variables. 
-2.chec for return satement in correct places.
-3.check brackets in all equation and order of conditions.
-4.check custom compare funtions if any.
-5.check logic carefully.
-6.Dont get stuck on one approch.
+2.check brackets in all equation and order of conditions.
+3.check custom compare funtions if any.
+4.check logic carefully.
+5.Dont get stuck on one approch.
 */
 
 int main()
 {
-    fast;
+    ios_base::sync_with_stdio(false); 
+    cout.tie(NULL);
+    cin.tie(NULL);
     ll tc = 1;
-    // IN tc;
-    while (tc--)
+    IN tc;
+    for (int i = 1; i <= tc; i++)
     {
+        cout << "Case #" << i << ": ";
         solve();
-        cout.flush();
     }
     return 0;
 }

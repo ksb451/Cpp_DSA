@@ -90,22 +90,68 @@ for(int i=0;i<n-1;i++)
     adj[b].push_back(a);
 }
 */
+ll n;
+ll dp[MAXN][MAXN];
+ll arr[MAXN];
+ll brr[MAXN];
+vll adj[MAXN];
+int dfs(int u, int flipped, int par=-1)
+{
+	if(dp[u][flipped]!=-1)
+		return dp[u][flipped];
+
+	int curr = arr[u]^flipped;
+	ll ans=INT_MAX;
+	if(curr==brr[u])
+	{
+		ll temp=2;
+		for(auto v:adj[u])
+		{
+			if(v!=par)
+			{
+				temp+= dfs(v,flipped^1,u);
+			}
+		}
+		ans = min(ans,temp);
+		temp=0;
+		for(auto v:adj[u])
+		{
+			if(v!=par)
+			{
+				temp+= dfs(v,flipped,u);
+			}
+		}
+		ans= min(ans,temp);
+	}
+	else{
+		ll temp=1;
+		for(auto v:adj[u])
+		{
+			if(v!=par)
+			{
+				temp+= dfs(v,flipped^1,u);
+			}
+		}
+		ans = min(ans,temp);
+		temp=1;
+		for(auto v:adj[u])
+		{
+			if(v!=par)
+			{
+				temp+= dfs(v,flipped,u);
+			}
+		}
+		ans= min(ans,temp);
+	}
+	return dp[u][flipped]=ans;
+}
 
 void solve()
 {
-	ll n,m;
-    cin>>n>>m;
-
-    vector<ll>k_arr(n);
-    vector<pll>left_arr(n);
-    vector<pll>right_arr(n);
-    for(int i=0;i<n;i++){
-        cin>>k_arr[i];
-        cin>>left_arr[i].first>>left_arr[i].second;
-        cin>>right_arr[i].first>>right_arr[i].second;
-    }
-    
-    
+	ll n;
+    cin>>n;
+    vector<ll>arr(n);
+    for(int i=0;i<n;i++)cin>>arr[i];
 }
 
 /*
@@ -121,7 +167,7 @@ int main()
 {
     fast;
     ll tc = 1;
-    // IN tc;
+    IN tc;
     while (tc--)
     {
         solve();

@@ -93,19 +93,10 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll n,m;
-    cin>>n>>m;
-
-    vector<ll>k_arr(n);
-    vector<pll>left_arr(n);
-    vector<pll>right_arr(n);
-    for(int i=0;i<n;i++){
-        cin>>k_arr[i];
-        cin>>left_arr[i].first>>left_arr[i].second;
-        cin>>right_arr[i].first>>right_arr[i].second;
-    }
-    
-    
+	ll n;
+    cin>>n;
+    vector<ll>arr(n);
+    for(int i=0;i<n;i++)cin>>arr[i];
 }
 
 /*
@@ -121,7 +112,7 @@ int main()
 {
     fast;
     ll tc = 1;
-    // IN tc;
+    IN tc;
     while (tc--)
     {
         solve();

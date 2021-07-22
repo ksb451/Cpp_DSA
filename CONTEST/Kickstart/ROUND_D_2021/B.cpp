@@ -93,39 +93,64 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll n,m;
-    cin>>n>>m;
+    ll n,C;
+    cin>>n>>C;
+    vector<vll>arr(n,vll(2));
+    for(int i=0;i<n;i++)cin>>arr[i][0]>>arr[i][1];
 
-    vector<ll>k_arr(n);
-    vector<pll>left_arr(n);
-    vector<pll>right_arr(n);
-    for(int i=0;i<n;i++){
-        cin>>k_arr[i];
-        cin>>left_arr[i].first>>left_arr[i].second;
-        cin>>right_arr[i].first>>right_arr[i].second;
+    ll mx=0;
+    for(auto i:arr)
+    {
+    	mx = max(mx,i[1]);
     }
-    
-    
+    vll cnt(mx+1, 0);
+    for(int i=0;i<=mx;i++)
+    {
+    	for(auto interval:arr)
+    	{
+    		if((i> interval[0]) && (i<interval[1]))
+    		{
+    			cnt[i]++;
+    		}
+    	}
+    }
+    multiset<pll>M;
+    for(int i=0;i<=mx;i++)
+    {
+    	M.insert({cnt[i],i});
+    }
+    ll ans = n;
+    while(C--)
+    {
+    	if(M.empty())break;
+    	auto x = prev(M.end());
+    	auto curr = *x;
+    	M.erase(x);
+    	ans+=curr.first;
+    	cnt[curr.second]=0;
+    }
+    cout<<ans<<endl;
 }
 
 /*
 1.check for ll for all variables. 
-2.chec for return satement in correct places.
-3.check brackets in all equation and order of conditions.
-4.check custom compare funtions if any.
-5.check logic carefully.
-6.Dont get stuck on one approch.
+2.check brackets in all equation and order of conditions.
+3.check custom compare funtions if any.
+4.check logic carefully.
+5.Dont get stuck on one approch.
 */
 
 int main()
 {
-    fast;
+    ios_base::sync_with_stdio(false); 
+    cout.tie(NULL);
+    cin.tie(NULL);
     ll tc = 1;
-    // IN tc;
-    while (tc--)
+    IN tc;
+    for (int i = 1; i <= tc; i++)
     {
+        cout << "Case #" << i << ": ";
         solve();
-        cout.flush();
     }
     return 0;
 }

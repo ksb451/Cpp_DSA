@@ -91,21 +91,56 @@ for(int i=0;i<n-1;i++)
 }
 */
 
+using ll = long long int;
 void solve()
 {
-	ll n,m;
-    cin>>n>>m;
-
-    vector<ll>k_arr(n);
-    vector<pll>left_arr(n);
-    vector<pll>right_arr(n);
+	ll n;
+    cin>>n;
+    vector<ll>rub(n);
+    vector<pll>arr(n);
     for(int i=0;i<n;i++){
-        cin>>k_arr[i];
-        cin>>left_arr[i].first>>left_arr[i].second;
-        cin>>right_arr[i].first>>right_arr[i].second;
+    	cin>>rub[i];
+    	arr[i].first=rub[i];
+    	arr[i].second=i;
     }
-    
-    
+    sort(arr.rbegin(), arr.rend());
+    vector<ll>mark(n,0);
+    ll tok = n+1/2;
+    for(int i=0;i<tok;i++)
+    {
+    	mark[arr[i].second]=1;
+    }
+    multiset<ll>M;
+    for(int i=0;i<n;i++)
+    {
+    	if(mark[i]==1)
+    	{
+    		M.insert(rub[i]);
+    	}
+    	cout<<i<<" "<<M.size()<<endl;
+    	while(M.size() > ((i+2)/2))
+    	{
+    		M.erase(M.begin());
+    		while(tok<n)
+    		{
+    			if(mark[arr[tok].second]==0)
+    			{
+    				mark[arr[tok].second]=1;
+    				break;
+    			}
+    			tok++;
+    		}
+    	}
+    	mark[i]=1;
+    }
+    ll sum=0;
+    for(auto i:M)
+    {
+    	sum+=i;
+    }
+    ll S = accumulate(rub.begin(), rub.end(),0LL);
+    cout<<sum<<" "<<S-sum<<endl;
+
 }
 
 /*
@@ -121,7 +156,7 @@ int main()
 {
     fast;
     ll tc = 1;
-    // IN tc;
+    IN tc;
     while (tc--)
     {
         solve();

@@ -78,7 +78,7 @@ const ll INF  = INT_MAX;
 const int dir8[8][2]={{1,0},{0,1},{-1,0},{0,-1},{1,1},{1,-1},{-1,1},{-1,-1}};
 const int dir4[4][2]={{1,0},{0,1},{-1,0},{0,-1}};
 
-const ll MAXN = 200005;
+const ll MAXN = 100005;
 
 /*
 for(int i=0;i<n-1;i++)
@@ -90,22 +90,123 @@ for(int i=0;i<n-1;i++)
     adj[b].push_back(a);
 }
 */
+vll adj[MAXN];
 
 void solve()
 {
-	ll n,m;
-    cin>>n>>m;
+	ll n,q;
+    cin>>n>>q;
+    for(int i=0;i<n-1;i++)
+	{
+	    ll a,b;
+	    cin>>a>>b;
+	    a--,b--;
+	    adj[a].push_back(b);
+	    adj[b].push_back(a);
+	}
+	ll par[n][20];
+	vll height(n);
+	height[0]=0;
+	memset(par,-1,sizeof(par));
+	queue<int>Q;
+	Q.push(0);
+	par[0][0]=-1;
+	while(Q.empty()==false)
+	{
+		ll curr = Q.front();
+		Q.pop();
+		for(auto i:adj[curr])
+		{
+			if(i!=par[curr][0])
+			{
+				height[i]=height[curr]+1;
+				par[i][0]=curr;
+				Q.push(i);
+			}
+		}
+	}
 
-    vector<ll>k_arr(n);
-    vector<pll>left_arr(n);
-    vector<pll>right_arr(n);
-    for(int i=0;i<n;i++){
-        cin>>k_arr[i];
-        cin>>left_arr[i].first>>left_arr[i].second;
-        cin>>right_arr[i].first>>right_arr[i].second;
-    }
-    
-    
+	for(int k=1;k<20;k++)
+	{
+		for(int i=0;i<n;i++)
+		{
+			if(par[i][k-1]!=-1)
+				par[i][k] = par[par[i][k-1]][k-1];
+		}
+	}
+	// for(int k=0;k<20;k++)
+	// {
+	// 	for(int i=0;i<n;i++)
+	// 	{
+	// 		cout<<par[i][k]<<" ";
+	// 	}
+	// 	cout<<endl;
+	// }
+
+	while(q--)
+	{
+		ll a,b;
+		cin>>a>>b;
+		a--,b--;
+		ll ans=0;
+		if(height[a]!=height[b])
+		{
+
+			ll node,dist;
+			if(height[a]>height[b])
+			{
+				node=a;
+				dist = height[a]-height[b];
+			}
+			else{
+				node=b;
+				dist = height[b]-height[a];
+			}
+			ans+=dist;
+			for(int i=0;i<20;i++)
+			{
+				if((dist&(1<<i)))
+				{
+					node= par[node][i];
+				}
+			}
+			if(height[a]>height[b])
+			{
+				a=node;
+			}
+			else{
+				b=node;
+			}
+		}
+		ll temp = height[a];
+		// cout<<a<<" "<<b<<endl;
+		for(int i=19;i>=0;i--)
+		{
+			if(par[a][i] == par[b][i])
+			{
+				continue;
+			}
+			else{
+				a=par[a][i];
+				b=par[b][i];
+			}
+		}
+		while(a!=b)
+		{
+			a = par[a][0];
+			b= par[b][0];
+		}
+		ans += ((temp-(height[a]))*2);
+		if(ans&1)
+		{
+			cout<<"Road"<<endl;
+		}
+		else{
+			cout<<"Town"<<endl;
+		}
+	}
+	return;
+
 }
 
 /*

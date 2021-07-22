@@ -93,19 +93,50 @@ for(int i=0;i<n-1;i++)
 
 void solve()
 {
-	ll n,m;
-    cin>>n>>m;
-
-    vector<ll>k_arr(n);
-    vector<pll>left_arr(n);
-    vector<pll>right_arr(n);
+	ll n;
+    cin>>n;
+    vector<pll>arr(n);
     for(int i=0;i<n;i++){
-        cin>>k_arr[i];
-        cin>>left_arr[i].first>>left_arr[i].second;
-        cin>>right_arr[i].first>>right_arr[i].second;
+    	int t;
+    	cin>>t>>arr[i].first>>arr[i].second;
+    	if(t==2)
+    	{
+    		arr[i].second--;
+    	}
+    	else if(t==3)
+    	{
+    		arr[i].first++;
+    	}
+    	else if(t==4){
+    		arr[i].second--;
+    		arr[i].first++;
+    	}
     }
-    
-    
+    sort(all(arr), [](pair<ll,ll>&a, pair<ll,ll>&b){
+    	if(a.first<b.first)
+    	{
+    		return true;
+    	}
+    	else if(a.first== b.first)
+    	{
+    		return a.second < b.second;
+    	}	
+    	return false;
+    });
+    ll ans=0;
+    for(int i=0;i<n;i++)
+    {
+    	for(int j=i+1;j<n;j++){
+    		if(arr[j].first <= arr[i].second)
+    		{
+    			ans++;
+    		}
+    		else{
+    			break;
+    		}
+    	}
+    }
+    cout<<ans<<endl;
 }
 
 /*
